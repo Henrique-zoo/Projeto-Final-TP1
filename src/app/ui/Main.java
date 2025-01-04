@@ -4,15 +4,23 @@
  */
 package app.ui;
 
+import app.model.Cliente;
+import app.model.Funcionario;
+import java.util.ArrayList;
+
 /**
  *
  * @author henri
  */
 public class Main extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Main
      */
+    
+    public static ArrayList<Funcionario> funcionarios = new ArrayList<>();
+    public static ArrayList<Cliente> clientes = new ArrayList<>();
+    
     public Main() {
         initComponents();
     }
