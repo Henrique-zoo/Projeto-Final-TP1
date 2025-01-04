@@ -19,6 +19,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         initComponents();
         jTFid.setEnabled(false);
         jTFid.setText(String.valueOf(Main.funcionarios.size()));
+        //Os IDs são o gerados automaticamente pelo índice do array, então o text field está desativado para preenchimento
     }
     
     /**
@@ -234,8 +235,9 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  )9    -    ") || senha.isEmpty() || confirmaSenha.isEmpty())){
             for (Funcionario funcionario : Main.funcionarios){
                 if (funcionario.getCpf().equals(cpf)){
-                    javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
-                    cadastrado = true;
+                    javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");  //O If mais externo verifica se há campos vazios levando em conta as máscaras dos formated text fields
+                                                                                            //Se tudo estiver preenchido, verifica se o CPF já está no sistema
+                    cadastrado = true;                                                      //Senão, verifica se as senhas são iguais, se forem cria o perfil do usuário (o salário pode ou não ser informado)
                 }
             }
             

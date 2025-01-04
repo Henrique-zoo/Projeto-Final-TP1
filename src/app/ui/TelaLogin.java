@@ -139,7 +139,7 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void jLabelCliqueAquiMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCliqueAquiMouseReleased
         // TODO add your handling code here:
-        CadastroFuncionario cadastroFuncionario = new CadastroFuncionario();
+        CadastroFuncionario cadastroFuncionario = new CadastroFuncionario(); //Se o usuário clicar no link de primeiro acesso, abre a página de cadastro de funcionário
     
         // Torna a janela CadastroCliente visível
         cadastroFuncionario.setVisible(true);
@@ -151,11 +151,11 @@ public class TelaLogin extends javax.swing.JFrame {
         String senhaInformada = String.copyValueOf(jPasswordField1.getPassword());
         boolean cpfEncontrado = false;
         
-        for (Funcionario funcionario : Main.funcionarios) {
-            if (funcionario.getCpf().equals(cpfInformado)){
+        for (Funcionario funcionario : Main.funcionarios) { 
+            if (funcionario.getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
                 if (funcionario.getSenha().equals(senhaInformada)){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + funcionario.getNome() + ".");
-                    this.dispose();
+                    javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + funcionario.getNome() + "."); //
+                    this.dispose(); //Adicionar a flag de admin pra poder editar os dados?
                 }
                 else{
                     javax.swing.JOptionPane.showMessageDialog(this, "Senha inválida.");
