@@ -264,19 +264,21 @@ public class CadastroPeca extends javax.swing.JFrame {
                 pack();
                 setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
-	
+
 	// nongenerated attributes
 	Peca currentPeca;
-	enum Editmode {EDITING, NEW};
+
+	enum Editmode {
+		EDITING, NEW
+	};
 	Editmode mode;
-	
+
 	// funcoes de estado da tela para gerenciar botoes e campos ativos etc
-	
 	// loadTable: atualiza a tabela
 	private void loadTable()
 	{
 		DefaultTableModel newTable = new DefaultTableModel(new Object[]{"Código", "Tipo", "Marca", "Preço"}, 0);
-		
+
 		for (int i = 0; i < Peca.pecasCadastradas.size(); i++) {
 			Object line[] = new Object[]{
 				Peca.pecasCadastradas.get(i).getId(),
@@ -285,12 +287,12 @@ public class CadastroPeca extends javax.swing.JFrame {
 				String.format("%.2f", Peca.pecasCadastradas.get(i).getPreco())};
 			newTable.addRow(line);
 		}
-		
+
 		tblTable.setModel(newTable);
-		
+
 		tblTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 	}
-	
+
 	// limpa campos de texto
 	private void clearTextFields()
 	{
@@ -299,7 +301,7 @@ public class CadastroPeca extends javax.swing.JFrame {
 		txtMarca.setText("");
 		txtPrice.setText("");
 	}
-	
+
 	private void enterMainState()
 	{
 		btnCancel.setEnabled(false);
@@ -309,16 +311,16 @@ public class CadastroPeca extends javax.swing.JFrame {
 		btnSearchC.setEnabled(true);
 		btnRegister.setEnabled(true);
 		btnRemove.setEnabled(false);
-		
+
 		txtId.setEnabled(true);
 		txtTipo.setEnabled(true);
 		txtMarca.setEnabled(true);
 		txtPrice.setEnabled(false);
 		clearTextFields();
-		
+
 		loadTable();
 	}
-	
+
 	private void enterEditState()
 	{
 		btnSearchTM.setEnabled(false);
@@ -328,13 +330,13 @@ public class CadastroPeca extends javax.swing.JFrame {
 		btnSave.setEnabled(true);
 		btnCancel.setEnabled(true);
 		btnRemove.setEnabled(false);
-		
+
 		txtId.setEnabled(false);
 		txtTipo.setEnabled(true);
 		txtMarca.setEnabled(true);
 		txtPrice.setEnabled(true);
 	}
-	
+
 	private void enterViewState()
 	{
 		btnRemove.setEnabled(true);
@@ -343,30 +345,30 @@ public class CadastroPeca extends javax.swing.JFrame {
 		btnSearchTM.setEnabled(false);
 		btnSearchC.setEnabled(false);
 		btnCancel.setEnabled(true);
-		
+
 		txtId.setEnabled(false);
 		txtTipo.setEnabled(false);
 		txtMarca.setEnabled(false);
 		txtPrice.setEnabled(false);
-		
+
 		txtId.setText(String.valueOf(currentPeca.getId()));
 		txtTipo.setText(currentPeca.getTipo());
 		txtMarca.setText(currentPeca.getMarca());
 		txtPrice.setText(String.format("%.2f", currentPeca.getPreco()));
 	}
-	
+
 	// funcoes de eventos
-	
+
         private void btnSearchTMActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchTMActionPerformed
         {//GEN-HEADEREND:event_btnSearchTMActionPerformed
 		boolean search_successful = false;
 		String tipo;
 		String marca;
-		
+
 		if (txtTipo.getText().equals("") || txtMarca.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Preencha os campos de tipo e marca!", "Erro", JOptionPane.ERROR_MESSAGE);
 		} else {
-		
+
 			tipo = txtTipo.getText();
 			marca = txtMarca.getText();
 
@@ -391,13 +393,13 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnSearchCActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchCActionPerformed
         {//GEN-HEADEREND:event_btnSearchCActionPerformed
-                boolean search_successful = false;
+		boolean search_successful = false;
 		int id;
-		
+
 		if (txtId.getText().equals("")) {
 			JOptionPane.showMessageDialog(null, "Preencha o campo de código!", "Erro", JOptionPane.ERROR_MESSAGE);
 		} else {
-		
+
 			id = Integer.parseInt(txtId.getText());
 
 			for (int i = 0; i < Peca.pecasCadastradas.size(); i++) {
@@ -421,27 +423,27 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnEditActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEditActionPerformed
         {//GEN-HEADEREND:event_btnEditActionPerformed
-                enterEditState();
+		enterEditState();
         }//GEN-LAST:event_btnEditActionPerformed
 
         private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRegisterActionPerformed
         {//GEN-HEADEREND:event_btnRegisterActionPerformed
-                clearTextFields();
+		clearTextFields();
 		mode = Editmode.NEW;
 		enterEditState();
         }//GEN-LAST:event_btnRegisterActionPerformed
 
         private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRemoveActionPerformed
         {//GEN-HEADEREND:event_btnRemoveActionPerformed
-                Peca.removerCadastro(currentPeca);
+		Peca.removerCadastro(currentPeca);
 		enterMainState();
         }//GEN-LAST:event_btnRemoveActionPerformed
 
         private void btnSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSaveActionPerformed
         {//GEN-HEADEREND:event_btnSaveActionPerformed
-                if (mode == Editmode.NEW)
+		if (mode == Editmode.NEW) {
 			currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
-		else if (mode == Editmode.EDITING) {
+		} else if (mode == Editmode.EDITING) {
 			currentPeca.setMarca(txtMarca.getText());
 			currentPeca.setTipo(txtTipo.getText());
 			currentPeca.setPreco(Double.valueOf(txtPrice.getText()));
@@ -451,14 +453,14 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
         {//GEN-HEADEREND:event_btnCancelActionPerformed
-                // cancelamento de qualquer acao
+		// cancelamento de qualquer acao
 		currentPeca = null;
 		enterMainState();
         }//GEN-LAST:event_btnCancelActionPerformed
 
         private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
         {//GEN-HEADEREND:event_tblTableMouseClicked
-                // handling de clique na tabela
+		// handling de clique na tabela
 		currentPeca = Peca.pecasCadastradas.get(tblTable.getSelectedRow());
 		mode = Editmode.EDITING;
 		enterViewState();
@@ -475,12 +477,7 @@ public class CadastroPeca extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
 		 */
 		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
+			javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
 		} catch (ClassNotFoundException ex) {
 			java.util.logging.Logger.getLogger(CadastroPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
