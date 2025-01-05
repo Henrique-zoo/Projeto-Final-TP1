@@ -464,6 +464,7 @@ public class CadastroPeca extends javax.swing.JFrame {
         private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
         {//GEN-HEADEREND:event_tblTableMouseClicked
                 currentPeca = Peca.pecasCadastradas.get(tblTable.getSelectedRow());
+		mode = Editmode.EDITING;
 		enterViewState();
         }//GEN-LAST:event_tblTableMouseClicked
 
