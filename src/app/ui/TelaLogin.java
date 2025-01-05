@@ -131,6 +131,7 @@ public class TelaLogin extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
@@ -156,6 +157,8 @@ public class TelaLogin extends javax.swing.JFrame {
                 if (funcionario.getSenha().equals(senhaInformada)){
                     javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + funcionario.getNome() + ".");
                     Main.isAdmin = true; //dá os privilégios de adm pra alterar/excluir dados
+                    Main main = new Main();
+                    main.setVisible(true);
                     this.dispose();
                 }
                 else{
