@@ -54,7 +54,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 jPasswordField2 = new javax.swing.JPasswordField();
                 jTFSalario = new javax.swing.JTextField();
 
-                setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
                 setFocusTraversalPolicyProvider(true);
                 setResizable(false);
 
