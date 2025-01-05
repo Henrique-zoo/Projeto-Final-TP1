@@ -84,13 +84,6 @@ public class CadastroPeca extends javax.swing.JFrame {
                 lblPrice.setText("Preço");
 
                 txtPrice.setEnabled(false);
-                txtPrice.addActionListener(new java.awt.event.ActionListener()
-                {
-                        public void actionPerformed(java.awt.event.ActionEvent evt)
-                        {
-                                txtPriceActionPerformed(evt);
-                        }
-                });
 
                 javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
                 pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -277,25 +270,9 @@ public class CadastroPeca extends javax.swing.JFrame {
 	enum Editmode {EDITING, NEW};
 	Editmode mode;
 	
-	private void enterMainState()
-	{
-		btnCancel.setEnabled(false);
-		btnSave.setEnabled(false);
-		btnEdit.setEnabled(false);
-		btnSearchTM.setEnabled(true);
-		btnSearchC.setEnabled(true);
-		btnRegister.setEnabled(true);
-		btnRemove.setEnabled(false);
-		
-		txtId.setEnabled(true);
-		txtTipo.setEnabled(true);
-		txtMarca.setEnabled(true);
-		txtPrice.setEnabled(false);
-		clearTextFields();
-		
-		loadTable();
-	}
+	// funcoes de estado da tela para gerenciar botoes e campos ativos etc
 	
+	// loadTable: atualiza a tabela
 	private void loadTable()
 	{
 		DefaultTableModel newTable = new DefaultTableModel(new Object[]{"Código", "Tipo", "Marca", "Preço"}, 0);
@@ -314,12 +291,32 @@ public class CadastroPeca extends javax.swing.JFrame {
 		tblTable.getColumnModel().getColumn(0).setPreferredWidth(5);
 	}
 	
+	// limpa campos de texto
 	private void clearTextFields()
 	{
 		txtId.setText("");
 		txtTipo.setText("");
 		txtMarca.setText("");
 		txtPrice.setText("");
+	}
+	
+	private void enterMainState()
+	{
+		btnCancel.setEnabled(false);
+		btnSave.setEnabled(false);
+		btnEdit.setEnabled(false);
+		btnSearchTM.setEnabled(true);
+		btnSearchC.setEnabled(true);
+		btnRegister.setEnabled(true);
+		btnRemove.setEnabled(false);
+		
+		txtId.setEnabled(true);
+		txtTipo.setEnabled(true);
+		txtMarca.setEnabled(true);
+		txtPrice.setEnabled(false);
+		clearTextFields();
+		
+		loadTable();
 	}
 	
 	private void enterEditState()
@@ -357,6 +354,8 @@ public class CadastroPeca extends javax.swing.JFrame {
 		txtMarca.setText(currentPeca.getMarca());
 		txtPrice.setText(String.format("%.2f", currentPeca.getPreco()));
 	}
+	
+	// funcoes de eventos
 	
         private void btnSearchTMActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchTMActionPerformed
         {//GEN-HEADEREND:event_btnSearchTMActionPerformed
@@ -420,11 +419,6 @@ public class CadastroPeca extends javax.swing.JFrame {
 		}
         }//GEN-LAST:event_btnSearchCActionPerformed
 
-        private void txtPriceActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_txtPriceActionPerformed
-        {//GEN-HEADEREND:event_txtPriceActionPerformed
-                // TODO add your handling code here:
-        }//GEN-LAST:event_txtPriceActionPerformed
-
         private void btnEditActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnEditActionPerformed
         {//GEN-HEADEREND:event_btnEditActionPerformed
                 enterEditState();
@@ -457,13 +451,15 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
         {//GEN-HEADEREND:event_btnCancelActionPerformed
-                currentPeca = null;
+                // cancelamento de qualquer acao
+		currentPeca = null;
 		enterMainState();
         }//GEN-LAST:event_btnCancelActionPerformed
 
         private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
         {//GEN-HEADEREND:event_tblTableMouseClicked
-                currentPeca = Peca.pecasCadastradas.get(tblTable.getSelectedRow());
+                // handling de clique na tabela
+		currentPeca = Peca.pecasCadastradas.get(tblTable.getSelectedRow());
 		mode = Editmode.EDITING;
 		enterViewState();
         }//GEN-LAST:event_tblTableMouseClicked
