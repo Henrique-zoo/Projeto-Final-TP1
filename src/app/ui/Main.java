@@ -20,11 +20,12 @@ public class Main extends javax.swing.JFrame {
     
     public static ArrayList<Funcionario> funcionarios = new ArrayList<>();
     public static ArrayList<Cliente> clientes = new ArrayList<>();
+    public static boolean isAdmin = true; //pra dar os privilégios de excluir/editar dados definida como true pra teste
     
     public Main() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

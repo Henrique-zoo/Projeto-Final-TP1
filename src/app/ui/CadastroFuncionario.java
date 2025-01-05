@@ -32,6 +32,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -52,6 +53,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPasswordField2 = new javax.swing.JPasswordField();
         jTFSalario = new javax.swing.JTextField();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFocusTraversalPolicyProvider(true);
@@ -259,6 +262,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         else {
             javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
         }  
+        
+        
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     /**
@@ -310,6 +315,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
