@@ -19,6 +19,11 @@ public class Par {
 		this.peca = peca;
 	}
 
+	// methods
+	
+	
+	
+	// setters and getters
 	public Peca getPeca()
 	{
 		return peca;
