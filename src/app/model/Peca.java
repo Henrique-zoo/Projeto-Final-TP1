@@ -47,6 +47,31 @@ public class Peca {
 	
 	// static methods
 	
+	// removerCadastro: remove a peca cadastrada de acordo com o id
+	public static void removerCadastro(Peca pecaCadastrada)
+	{
+		free_ids.add(pecaCadastrada.getId());
+		pecasCadastradas.remove(pecaCadastrada);
+	}
+	
+	// removerCadastro: remove a peca cadastrada de acordo com tipo e marca
+	public static void removerCadastro(String tipo, String marca) {
+		int id = -1;
+		Peca aux = null;
+		for (Peca pecaCadastrada : pecasCadastradas) {
+			if (pecaCadastrada.getMarca().equals(marca) && pecaCadastrada.getTipo().equals(tipo)) {
+				id = pecaCadastrada.id;
+				aux = pecaCadastrada;
+				break;
+			}
+		}
+		
+		if (id >= 0 && aux != null) {
+			pecasCadastradas.remove(aux);
+			free_ids.add(id);
+		}
+	}
+	
 	// getters
 
 	public int getId()

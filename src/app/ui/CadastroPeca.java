@@ -439,7 +439,7 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRemoveActionPerformed
         {//GEN-HEADEREND:event_btnRemoveActionPerformed
-                Peca.pecasCadastradas.remove(currentPeca);
+                Peca.removerCadastro(currentPeca);
 		enterMainState();
         }//GEN-LAST:event_btnRemoveActionPerformed
 
