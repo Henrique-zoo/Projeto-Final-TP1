@@ -20,7 +20,7 @@ public class Servico {
     private Funcionario funcionario;
 
     public Servico(Cliente cliente, Veiculo veiculo, Funcionario funcionario) {
-        this.id = IDGenerator.generateID();
+        this.id = IDGenerator.generateServicoID();
         this.pago = false;
         this.consertado = false;
         this.cliente = cliente;
