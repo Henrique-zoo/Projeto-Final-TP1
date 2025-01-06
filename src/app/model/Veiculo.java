@@ -4,10 +4,61 @@
  */
 package app.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author derickandrade
  */
-class Veiculo {
-    
+public class Veiculo {
+    private int id, ano;
+    private String tipo, modelo, cor;
+    private final ArrayList<Par> pecasComProblema;
+
+    public Veiculo(int id, int ano, String tipo, String modelo, String cor) {
+        this.id = id;
+        this.ano = ano;
+        this.tipo = tipo;
+        this.modelo = modelo;
+        this.cor = cor;
+        this.pecasComProblema = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getAno() {
+        return ano;
+    }
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    public String getModelo() {
+        return modelo;
+    }
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+    public String getCor() {
+        return cor;
+    }
+    public void setCor(String cor) {
+        this.cor = cor;
+    }
+    public ArrayList<Par> getPecasComProblema() {
+        return pecasComProblema;
+    }
+    public void setPecasComProblema(ArrayList<Par> pecasComProblema) {
+        for (Par par : pecasComProblema)
+            this.pecasComProblema.add(par);
+    }
 }
