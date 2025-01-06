@@ -457,13 +457,28 @@ public class CadastroPeca extends javax.swing.JFrame {
         private void btnSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSaveActionPerformed
         {//GEN-HEADEREND:event_btnSaveActionPerformed
 		if (mode == Editmode.NEW) {
-			currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
+			boolean already_exists = false;
+			for (Peca peca : Peca.pecasCadastradas)
+				if (peca.getTipo().equals(txtTipo.getText()) && peca.getMarca().equals(txtMarca.getText())) {
+					already_exists = true;
+					currentPeca = peca;
+				}
+				
+			if (!already_exists) {
+				currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
+				enterMainState();
+			} else {
+				int selection = JOptionPane.showOptionDialog(null, "Esse cadastro já existe! Editar?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (selection == 0)
+					mode = Editmode.EDITING;
+				enterEditState();
+			}
 		} else if (mode == Editmode.EDITING) {
 			currentPeca.setMarca(txtMarca.getText());
 			currentPeca.setTipo(txtTipo.getText());
 			currentPeca.setPreco(Double.valueOf(txtPrice.getText()));
+			enterMainState();
 		}
-		enterMainState();
         }//GEN-LAST:event_btnSaveActionPerformed
 
         private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
