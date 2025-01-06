@@ -64,7 +64,9 @@ public class Funcionario extends Pessoa {
     }
     
     public void completaSevico(Servico servico) {
-        servicosAtivos.remove(servico.getId());
-        servicosFeitos++;
+        if (servico.isPago()) {
+            servicosAtivos.remove(servico.getId());
+            servicosFeitos++;
+        }
     }
 }
