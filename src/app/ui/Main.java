@@ -20,7 +20,7 @@ public class Main extends javax.swing.JFrame {
     
     public static ArrayList<Funcionario> funcionarios = new ArrayList<>();
     public static ArrayList<Cliente> clientes = new ArrayList<>();
-    public static boolean isAdmin = true; //pra dar os privilégios de excluir/editar dados definida como true pra teste
+    public static boolean isAdmin = false; //pra dar os privilégios de excluir/editar dados definida como true pra teste
     
     public Main() {
         initComponents();
@@ -37,38 +37,86 @@ public class Main extends javax.swing.JFrame {
         {
 
                 jLabel1 = new javax.swing.JLabel();
-                jPanel1 = new javax.swing.JPanel();
-                jPanel2 = new javax.swing.JPanel();
+                jPanel3 = new javax.swing.JPanel();
+                btnGerenciarPcs = new javax.swing.JButton();
+                btnGerenciarFuncs = new javax.swing.JButton();
+                btnGetAdmin = new javax.swing.JButton();
+                btnLeave = new javax.swing.JButton();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
                 jLabel1.setFont(new java.awt.Font("Noto Sans Mono", 1, 36)); // NOI18N
                 jLabel1.setText("Tonhão Autopeças");
 
-                jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+                jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Gerenciamento"));
 
-                javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-                jPanel1.setLayout(jPanel1Layout);
-                jPanel1Layout.setHorizontalGroup(
-                        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
-                );
-                jPanel1Layout.setVerticalGroup(
-                        jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 170, Short.MAX_VALUE)
-                );
+                btnGerenciarPcs.setText("Gerenciar Registro de Peças Automotivas");
+                btnGerenciarPcs.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnGerenciarPcsActionPerformed(evt);
+                        }
+                });
 
-                jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+                btnGerenciarFuncs.setText("Gerenciar Funcionários");
+                btnGerenciarFuncs.setEnabled(false);
+                btnGerenciarFuncs.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnGerenciarFuncsActionPerformed(evt);
+                        }
+                });
 
-                javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-                jPanel2.setLayout(jPanel2Layout);
-                jPanel2Layout.setHorizontalGroup(
-                        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 0, Short.MAX_VALUE)
+                btnGetAdmin.setText("Admin");
+                btnGetAdmin.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnGetAdminActionPerformed(evt);
+                        }
+                });
+
+                btnLeave.setText("Sair");
+                btnLeave.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnLeaveActionPerformed(evt);
+                        }
+                });
+
+                javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+                jPanel3.setLayout(jPanel3Layout);
+                jPanel3Layout.setHorizontalGroup(
+                        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(btnGetAdmin)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnLeave))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(btnGerenciarPcs)
+                                                        .addComponent(btnGerenciarFuncs))
+                                                .addGap(0, 160, Short.MAX_VALUE)))
+                                .addContainerGap())
                 );
-                jPanel2Layout.setVerticalGroup(
-                        jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 212, Short.MAX_VALUE)
+                jPanel3Layout.setVerticalGroup(
+                        jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(btnGerenciarPcs)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnGerenciarFuncs)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnGetAdmin)
+                                        .addComponent(btnLeave))
+                                .addContainerGap())
                 );
 
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -76,17 +124,12 @@ public class Main extends javax.swing.JFrame {
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addGap(96, 96, 96)
-                                                .addComponent(jLabel1)
-                                                .addGap(0, 94, Short.MAX_VALUE))
-                                        .addGroup(layout.createSequentialGroup()
-                                                .addContainerGap()
-                                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addGap(96, 96, 96)
+                                .addComponent(jLabel1)
+                                .addContainerGap(100, Short.MAX_VALUE))
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
                 );
                 layout.setVerticalGroup(
@@ -95,14 +138,38 @@ public class Main extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addContainerGap())
                 );
 
                 pack();
+                setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
+
+        private void btnGerenciarPcsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGerenciarPcsActionPerformed
+        {//GEN-HEADEREND:event_btnGerenciarPcsActionPerformed
+                CadastroPeca telaGerenciamentoPecas = new CadastroPeca();
+		telaGerenciamentoPecas.setVisible(true);
+        }//GEN-LAST:event_btnGerenciarPcsActionPerformed
+
+        private void btnGerenciarFuncsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGerenciarFuncsActionPerformed
+        {//GEN-HEADEREND:event_btnGerenciarFuncsActionPerformed
+                GerenciarFuncionarios telaGerFuncionario = new GerenciarFuncionarios();
+		telaGerFuncionario.setVisible(true);
+        }//GEN-LAST:event_btnGerenciarFuncsActionPerformed
+
+        private void btnGetAdminActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGetAdminActionPerformed
+        {//GEN-HEADEREND:event_btnGetAdminActionPerformed
+		isAdmin = true;
+		btnGerenciarFuncs.setEnabled(true);
+        }//GEN-LAST:event_btnGetAdminActionPerformed
+
+        private void btnLeaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLeaveActionPerformed
+        {//GEN-HEADEREND:event_btnLeaveActionPerformed
+                this.dispose();
+		TelaLogin novoLogin = new TelaLogin();
+		novoLogin.setVisible(true);
+        }//GEN-LAST:event_btnLeaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -135,8 +202,11 @@ public class Main extends javax.swing.JFrame {
     }
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JButton btnGerenciarFuncs;
+        private javax.swing.JButton btnGerenciarPcs;
+        private javax.swing.JButton btnGetAdmin;
+        private javax.swing.JButton btnLeave;
         private javax.swing.JLabel jLabel1;
-        private javax.swing.JPanel jPanel1;
-        private javax.swing.JPanel jPanel2;
+        private javax.swing.JPanel jPanel3;
         // End of variables declaration//GEN-END:variables
 }
