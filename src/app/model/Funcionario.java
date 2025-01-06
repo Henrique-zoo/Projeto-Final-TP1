@@ -30,7 +30,7 @@ public class Funcionario extends Pessoa {
         this.senha = senha;
         this.servicosAtivos = new HashMap<>();
     }
-
+    
     public double getSalario() {
         return salario;
     }
@@ -63,8 +63,17 @@ public class Funcionario extends Pessoa {
         servicosAtivos.put(servico.getId(), servico);
     }
     
+    // Outros métodos da classe
     public void completaSevico(Servico servico) {
-        servicosAtivos.remove(servico.getId());
-        servicosFeitos++;
+        if (servico.isPago()) {
+            servicosAtivos.remove(servico.getId());
+            servicosFeitos++;
+        }
     }
+    
+    /* criar método que adiciona à lista de peças com problema do veículo de um serviço 
+    ativo algumas peças com problema (chamar o método setValor da classe serviços no final)*/
+    
+    /* criar o método que procura as peças necessárias (chamar ele no método anterior),
+    caso não haja no estoque, gerar um pedido de compra*/
 }

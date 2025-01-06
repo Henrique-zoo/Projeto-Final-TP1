@@ -11,7 +11,7 @@ import app.utils.IDGenerator;
  * @author henri
  */
 public class Servico {
-    private int id;
+    private final int id;
     private double valor;
     private boolean pago, consertado;
     private String metodoPagamento;
@@ -29,6 +29,7 @@ public class Servico {
         this.funcionario = funcionario;
     }
     
+    // Métodos especiais (getters e setters)
     public int getId() {
         return id;
     }
@@ -43,6 +44,8 @@ public class Servico {
     }
     public void setPago(boolean pago) {
         this.pago = pago;
+        if (pago)
+            funcionario.completaSevico(this);
     }
     public boolean isConsertado() {
         return consertado;
@@ -75,6 +78,7 @@ public class Servico {
         this.funcionario = funcionario;
     }
     
+    // Outros métodos da classe
     public double calculaValor() {
         double total = 0.0;
         for (Par par : veiculo.getPecasComProblema())
