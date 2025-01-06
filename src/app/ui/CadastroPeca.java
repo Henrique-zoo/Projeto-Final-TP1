@@ -20,6 +20,7 @@ public class CadastroPeca extends javax.swing.JFrame {
 	public CadastroPeca()
 	{
 		initComponents();
+		loadTable();
 	}
 
 	/**
@@ -50,6 +51,7 @@ public class CadastroPeca extends javax.swing.JFrame {
                 btnRegister = new javax.swing.JButton();
                 btnSave = new javax.swing.JButton();
                 btnCancel = new javax.swing.JButton();
+                btnReturn = new javax.swing.JButton();
 
                 setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
                 setTitle("Cadastro e Gerenciamento de Peças");
@@ -220,6 +222,15 @@ public class CadastroPeca extends javax.swing.JFrame {
                         }
                 });
 
+                btnReturn.setText("Voltar");
+                btnReturn.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnReturnActionPerformed(evt);
+                        }
+                });
+
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                 getContentPane().setLayout(layout);
                 layout.setHorizontalGroup(
@@ -237,11 +248,14 @@ public class CadastroPeca extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(btnSave)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(btnCancel))
+                                                .addComponent(btnCancel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(btnReturn))
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
                 layout.setVerticalGroup(
@@ -257,7 +271,8 @@ public class CadastroPeca extends javax.swing.JFrame {
                                         .addComponent(btnRegister)
                                         .addComponent(btnRemove)
                                         .addComponent(btnSave)
-                                        .addComponent(btnCancel))
+                                        .addComponent(btnCancel)
+                                        .addComponent(btnReturn))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 );
 
@@ -442,13 +457,28 @@ public class CadastroPeca extends javax.swing.JFrame {
         private void btnSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSaveActionPerformed
         {//GEN-HEADEREND:event_btnSaveActionPerformed
 		if (mode == Editmode.NEW) {
-			currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
+			boolean already_exists = false;
+			for (Peca peca : Peca.pecasCadastradas)
+				if (peca.getTipo().equals(txtTipo.getText()) && peca.getMarca().equals(txtMarca.getText())) {
+					already_exists = true;
+					currentPeca = peca;
+				}
+				
+			if (!already_exists) {
+				currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
+				enterMainState();
+			} else {
+				int selection = JOptionPane.showOptionDialog(null, "Esse cadastro já existe! Editar?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if (selection == 0)
+					mode = Editmode.EDITING;
+				enterEditState();
+			}
 		} else if (mode == Editmode.EDITING) {
 			currentPeca.setMarca(txtMarca.getText());
 			currentPeca.setTipo(txtTipo.getText());
 			currentPeca.setPreco(Double.valueOf(txtPrice.getText()));
+			enterMainState();
 		}
-		enterMainState();
         }//GEN-LAST:event_btnSaveActionPerformed
 
         private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
@@ -465,6 +495,11 @@ public class CadastroPeca extends javax.swing.JFrame {
 		mode = Editmode.EDITING;
 		enterViewState();
         }//GEN-LAST:event_tblTableMouseClicked
+
+        private void btnReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReturnActionPerformed
+        {//GEN-HEADEREND:event_btnReturnActionPerformed
+                this.dispose();
+        }//GEN-LAST:event_btnReturnActionPerformed
 
 	/**
 	 * @param args the command line arguments
@@ -503,6 +538,7 @@ public class CadastroPeca extends javax.swing.JFrame {
         private javax.swing.JButton btnEdit;
         private javax.swing.JButton btnRegister;
         private javax.swing.JButton btnRemove;
+        private javax.swing.JButton btnReturn;
         private javax.swing.JButton btnSave;
         private javax.swing.JButton btnSearchC;
         private javax.swing.JButton btnSearchTM;

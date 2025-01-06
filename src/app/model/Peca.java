@@ -55,6 +55,8 @@ public class Peca {
 	}
 	
 	// removerCadastro: remove a peca cadastrada de acordo com tipo e marca
+	// obsoleto pois a pesquisa no cadastro ja tem a opcao de remocao
+	/*
 	public static void removerCadastro(String tipo, String marca) {
 		int id = -1;
 		Peca aux = null;
@@ -71,6 +73,7 @@ public class Peca {
 			free_ids.add(id);
 		}
 	}
+	*/
 	
 	// getters
 
