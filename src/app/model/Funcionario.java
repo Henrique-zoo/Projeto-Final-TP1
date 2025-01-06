@@ -4,6 +4,8 @@
  */
 package app.model;
 
+import java.util.HashMap;
+
 /**
  *
  * @author derickandrade
@@ -14,20 +16,19 @@ public class Funcionario extends Pessoa {
     private int servicosFeitos;
     private boolean admin;
     private String senha;
-    
-    public Funcionario(int id, String nome, String cpf, String email, String telefone) {
-        super(id, nome, cpf, email, telefone);
-    }
+    private final HashMap<Integer, Servico> servicosAtivos;
 
     public Funcionario(double salario, String senha, int id, String nome, String cpf, String email, String telefone) {
         super(id, nome, cpf, email, telefone);
         this.salario = salario;
         this.senha = senha;
+        this.servicosAtivos = new HashMap<>();
     }
 
     public Funcionario(String senha, int id, String nome, String cpf, String email, String telefone) {
         super(id, nome, cpf, email, telefone);
         this.senha = senha;
+        this.servicosAtivos = new HashMap<>();
     }
 
     public double getSalario() {
@@ -54,5 +55,16 @@ public class Funcionario extends Pessoa {
         this.senha = senha;
     }
     
+    public HashMap<Integer, Servico> getServicosAtivos() {
+        return servicosAtivos;
+    }
     
+    public void setServicosAtivos(Servico servico) {
+        servicosAtivos.put(servico.getId(), servico);
+    }
+    
+    public void completaSevico(Servico servico) {
+        servicosAtivos.remove(servico.getId());
+        servicosFeitos++;
+    }
 }
