@@ -24,7 +24,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -338,7 +338,7 @@
                                       <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jTFAno" alignment="0" pref="80" max="32767" attributes="0"/>
+                                          <Component id="jTFAno" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jTFModelo" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jTFTipo" alignment="0" max="32767" attributes="0"/>
                                       </Group>

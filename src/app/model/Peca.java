@@ -15,12 +15,12 @@ public class Peca {
 	
 	// static
 	// Array of registered parts
-	private static ArrayList<Peca> pecasCadastradas = new ArrayList<>();
+	private static final ArrayList<Peca> pecasCadastradas = new ArrayList<>();
 	
 	// id management
 	private static int id_generator = 0;
 	// this is a simple queue wherein new parts use the oldest free id and new free ids get added to its end.
-	private static ArrayList<Integer> free_ids = new ArrayList<>();
+	private static final ArrayList<Integer> free_ids = new ArrayList<>();
 	
 	// attributes
 	private final int id;
