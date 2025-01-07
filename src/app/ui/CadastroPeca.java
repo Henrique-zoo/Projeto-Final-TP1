@@ -443,7 +443,8 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRegisterActionPerformed
         {//GEN-HEADEREND:event_btnRegisterActionPerformed
-		clearTextFields();
+		txtId.setText("");
+		txtPrice.setText("");
 		mode = Editmode.NEW;
 		enterEditState();
         }//GEN-LAST:event_btnRegisterActionPerformed
