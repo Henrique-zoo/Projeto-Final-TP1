@@ -15,7 +15,7 @@ public class Peca {
 	
 	// static
 	// Array of registered parts
-	public static ArrayList<Peca> pecasCadastradas = new ArrayList<>();
+	private static ArrayList<Peca> pecasCadastradas = new ArrayList<>();
 	
 	// id management
 	private static int id_generator = 0;
@@ -54,26 +54,51 @@ public class Peca {
 		pecasCadastradas.remove(pecaCadastrada);
 	}
 	
-	// removerCadastro: remove a peca cadastrada de acordo com tipo e marca
-	// obsoleto pois a pesquisa no cadastro ja tem a opcao de remocao
-	/*
-	public static void removerCadastro(String tipo, String marca) {
-		int id = -1;
-		Peca aux = null;
+	/**
+	 * Searches for an already existing part according to the given Type and Brand
+	 * @param tipo 
+	 * @param marca
+	 * @return Reference to an existing Peca object
+	 */
+	public static Peca searchPeca(String tipo, String marca) {
 		for (Peca pecaCadastrada : pecasCadastradas) {
 			if (pecaCadastrada.getMarca().equals(marca) && pecaCadastrada.getTipo().equals(tipo)) {
-				id = pecaCadastrada.id;
-				aux = pecaCadastrada;
-				break;
+				return pecaCadastrada;
 			}
 		}
-		
-		if (id >= 0 && aux != null) {
-			pecasCadastradas.remove(aux);
-			free_ids.add(id);
-		}
+		return null;
 	}
-	*/
+	
+	/**
+	 * Searches for an already existing part according to the given Id
+	 * @param id
+	 * @return Reference to an existing Peca object
+	 */
+	public static Peca searchPeca(int id) {
+		for (Peca pecaCadastrada : pecasCadastradas) {
+			if (pecaCadastrada.getId() == id) {
+				return pecaCadastrada;
+			}
+		}
+		return null;
+	}
+	
+	public static int getPecaQuantity()
+	{
+		return pecasCadastradas.size();
+	}
+	
+	/**
+	 * Returns a reference to Part according to position in the static object array.
+	 * Useful for iterating through every existing part.
+	 * Use in conjunction with getPecaQuantity().
+	 * @param i
+	 * @return reference to Part according to position in the static object array.
+	 */
+	public static Peca searchPecaPosition(int i)
+	{
+		return pecasCadastradas.get(i);
+	}
 	
 	// getters
 

@@ -10,8 +10,8 @@ package app.model;
  */
 
 public class Par {
-	Peca peca;
-	int qtd;
+	private Peca peca;
+	private int qtd;
 	
 	// constructor
 	public Par(int qtd, Peca peca) {

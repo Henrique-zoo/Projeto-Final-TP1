@@ -294,12 +294,12 @@ public class CadastroPeca extends javax.swing.JFrame {
 	{
 		DefaultTableModel newTable = new DefaultTableModel(new Object[]{"Código", "Tipo", "Marca", "Preço"}, 0);
 
-		for (int i = 0; i < Peca.pecasCadastradas.size(); i++) {
+		for (int i = 0; i < Peca.getPecaQuantity(); i++) {
 			Object line[] = new Object[]{
-				Peca.pecasCadastradas.get(i).getId(),
-				Peca.pecasCadastradas.get(i).getTipo(),
-				Peca.pecasCadastradas.get(i).getMarca(),
-				String.format("%.2f", Peca.pecasCadastradas.get(i).getPreco())};
+				Peca.searchPecaPosition(i).getId(),
+				Peca.searchPecaPosition(i).getTipo(),
+				Peca.searchPecaPosition(i).getMarca(),
+				String.format("%.2f", Peca.searchPecaPosition(i).getPreco())};
 			newTable.addRow(line);
 		}
 
@@ -376,7 +376,6 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnSearchTMActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchTMActionPerformed
         {//GEN-HEADEREND:event_btnSearchTMActionPerformed
-		boolean search_successful = false;
 		String tipo;
 		String marca;
 
@@ -387,19 +386,10 @@ public class CadastroPeca extends javax.swing.JFrame {
 			tipo = txtTipo.getText();
 			marca = txtMarca.getText();
 
-			for (int i = 0; i < Peca.pecasCadastradas.size(); i++) {
-				if (Peca.pecasCadastradas.get(i).getTipo().equals(tipo) && Peca.pecasCadastradas.get(i).getMarca().equals(marca)) {
-					currentPeca = Peca.pecasCadastradas.get(i);
-					search_successful = true;
-					break;
-				}
-			}
-
-			if (search_successful) {
+			if ((currentPeca = Peca.searchPeca(tipo, marca)) != null) {
 				mode = Editmode.EDITING;
 				enterViewState();
 			} else {
-				currentPeca = null;
 				JOptionPane.showMessageDialog(null, "Não encontramos essa peça", "Erro", JOptionPane.ERROR_MESSAGE);
 				enterMainState();
 			}
@@ -408,7 +398,6 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnSearchCActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchCActionPerformed
         {//GEN-HEADEREND:event_btnSearchCActionPerformed
-		boolean search_successful = false;
 		int id;
 
 		if (txtId.getText().equals("")) {
@@ -417,19 +406,10 @@ public class CadastroPeca extends javax.swing.JFrame {
 
 			id = Integer.parseInt(txtId.getText());
 
-			for (int i = 0; i < Peca.pecasCadastradas.size(); i++) {
-				if (Peca.pecasCadastradas.get(i).getId() == id) {
-					currentPeca = Peca.pecasCadastradas.get(i);
-					search_successful = true;
-					break;
-				}
-			}
-
-			if (search_successful) {
+			if ((currentPeca = Peca.searchPeca(id)) != null) {
 				mode = Editmode.EDITING;
 				enterViewState();
 			} else {
-				currentPeca = null;
 				JOptionPane.showMessageDialog(null, "Não encontramos essa peça", "Erro", JOptionPane.ERROR_MESSAGE);
 				enterMainState();
 			}
@@ -457,16 +437,12 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSaveActionPerformed
         {//GEN-HEADEREND:event_btnSaveActionPerformed
-		if (mode == Editmode.NEW) {
-			boolean already_exists = false;
-			for (Peca peca : Peca.pecasCadastradas)
-				if (peca.getTipo().equals(txtTipo.getText()) && peca.getMarca().equals(txtMarca.getText())) {
-					already_exists = true;
-					currentPeca = peca;
-				}
-				
-			if (!already_exists) {
-				currentPeca = new Peca(txtTipo.getText(), txtMarca.getText(), Double.valueOf(txtPrice.getText()));
+		String tipo = txtTipo.getText();
+		String marca = txtMarca.getText();
+		
+		if (mode == Editmode.NEW) {	
+			if ((currentPeca = Peca.searchPeca(tipo, marca)) == null) {
+				currentPeca = new Peca(tipo, marca, Double.valueOf(txtPrice.getText()));
 				enterMainState();
 			} else {
 				int selection = JOptionPane.showOptionDialog(null, "Esse cadastro já existe! Editar?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -492,7 +468,7 @@ public class CadastroPeca extends javax.swing.JFrame {
         private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
         {//GEN-HEADEREND:event_tblTableMouseClicked
 		// handling de clique na tabela
-		currentPeca = Peca.pecasCadastradas.get(tblTable.getSelectedRow());
+		currentPeca = Peca.searchPecaPosition(tblTable.getSelectedRow());
 		mode = Editmode.EDITING;
 		enterViewState();
         }//GEN-LAST:event_tblTableMouseClicked

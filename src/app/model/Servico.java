@@ -82,7 +82,7 @@ public class Servico {
     public double calculaValor() {
         double total = 0.0;
         for (Par par : veiculo.getPecasComProblema())
-            total += par.qtd * par.peca.getPreco();
+            total += par.getQtd() * par.getPeca().getPreco();
         return total;
     }
 }
