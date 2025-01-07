@@ -5,19 +5,19 @@
 package app.ui;
 
 import javax.swing.JOptionPane;
-import app.model.Peca;
+import app.model.TipoDePeca;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author nirva
  */
-public class CadastroPeca extends javax.swing.JFrame {
+public class CadastroTipoPeca extends javax.swing.JFrame {
 
 	/**
 	 * Creates new form CadastroPeca
 	 */
-	public CadastroPeca()
+	public CadastroTipoPeca()
 	{
 		initComponents();
 		loadTable();
@@ -281,7 +281,7 @@ public class CadastroPeca extends javax.swing.JFrame {
         }// </editor-fold>//GEN-END:initComponents
 
 	// nongenerated attributes
-	Peca currentPeca;
+	TipoDePeca currentTPeca;
 
 	enum Editmode {
 		EDITING, NEW
@@ -294,12 +294,12 @@ public class CadastroPeca extends javax.swing.JFrame {
 	{
 		DefaultTableModel newTable = new DefaultTableModel(new Object[]{"Código", "Tipo", "Marca", "Preço"}, 0);
 
-		for (int i = 0; i < Peca.getPecaQuantity(); i++) {
+		for (int i = 0; i < TipoDePeca.getTPecaQuantity(); i++) {
 			Object line[] = new Object[]{
-				Peca.searchPecaPosition(i).getId(),
-				Peca.searchPecaPosition(i).getTipo(),
-				Peca.searchPecaPosition(i).getMarca(),
-				String.format("%.2f", Peca.searchPecaPosition(i).getPreco())};
+				TipoDePeca.searchTPecaPosition(i).getId(),
+				TipoDePeca.searchTPecaPosition(i).getTipo(),
+				TipoDePeca.searchTPecaPosition(i).getMarca(),
+				String.format("%.2f", TipoDePeca.searchTPecaPosition(i).getPreco())};
 			newTable.addRow(line);
 		}
 
@@ -366,10 +366,10 @@ public class CadastroPeca extends javax.swing.JFrame {
 		txtMarca.setEnabled(false);
 		txtPrice.setEnabled(false);
 
-		txtId.setText(String.valueOf(currentPeca.getId()));
-		txtTipo.setText(currentPeca.getTipo());
-		txtMarca.setText(currentPeca.getMarca());
-		txtPrice.setText(String.format("%.2f", currentPeca.getPreco()));
+		txtId.setText(String.valueOf(currentTPeca.getId()));
+		txtTipo.setText(currentTPeca.getTipo());
+		txtMarca.setText(currentTPeca.getMarca());
+		txtPrice.setText(String.format("%.2f", currentTPeca.getPreco()));
 	}
 
 	// funcoes de eventos
@@ -386,11 +386,11 @@ public class CadastroPeca extends javax.swing.JFrame {
 			tipo = txtTipo.getText();
 			marca = txtMarca.getText();
 
-			if ((currentPeca = Peca.searchPeca(tipo, marca)) != null) {
+			if ((currentTPeca = TipoDePeca.searchTPeca(tipo, marca)) != null) {
 				mode = Editmode.EDITING;
 				enterViewState();
 			} else {
-				JOptionPane.showMessageDialog(null, "Não encontramos essa peça", "Erro", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Não encontramos esse tipo de peça", "Erro", JOptionPane.ERROR_MESSAGE);
 				enterMainState();
 			}
 		}
@@ -406,11 +406,11 @@ public class CadastroPeca extends javax.swing.JFrame {
 
 			id = Integer.parseInt(txtId.getText());
 
-			if ((currentPeca = Peca.searchPeca(id)) != null) {
+			if ((currentTPeca = TipoDePeca.searchTPeca(id)) != null) {
 				mode = Editmode.EDITING;
 				enterViewState();
 			} else {
-				JOptionPane.showMessageDialog(null, "Não encontramos essa peça", "Erro", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Não encontramos esse tipo de peça", "Erro", JOptionPane.ERROR_MESSAGE);
 				enterMainState();
 			}
 		}
@@ -431,7 +431,7 @@ public class CadastroPeca extends javax.swing.JFrame {
 
         private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRemoveActionPerformed
         {//GEN-HEADEREND:event_btnRemoveActionPerformed
-		Peca.removerCadastro(currentPeca);
+		TipoDePeca.removerCadastro(currentTPeca);
 		enterMainState();
         }//GEN-LAST:event_btnRemoveActionPerformed
 
@@ -441,8 +441,8 @@ public class CadastroPeca extends javax.swing.JFrame {
 		String marca = txtMarca.getText();
 		
 		if (mode == Editmode.NEW) {	
-			if ((currentPeca = Peca.searchPeca(tipo, marca)) == null) {
-				currentPeca = new Peca(tipo, marca, Double.valueOf(txtPrice.getText()));
+			if ((currentTPeca = TipoDePeca.searchTPeca(tipo, marca)) == null) {
+				currentTPeca = new TipoDePeca(tipo, marca, Double.valueOf(txtPrice.getText()));
 				enterMainState();
 			} else {
 				int selection = JOptionPane.showOptionDialog(null, "Esse cadastro já existe! Editar?", "Aviso", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
@@ -451,9 +451,9 @@ public class CadastroPeca extends javax.swing.JFrame {
 				enterEditState();
 			}
 		} else if (mode == Editmode.EDITING) {
-			currentPeca.setMarca(txtMarca.getText());
-			currentPeca.setTipo(txtTipo.getText());
-			currentPeca.setPreco(Double.valueOf(txtPrice.getText()));
+			currentTPeca.setMarca(txtMarca.getText());
+			currentTPeca.setTipo(txtTipo.getText());
+			currentTPeca.setPreco(Double.valueOf(txtPrice.getText()));
 			enterMainState();
 		}
         }//GEN-LAST:event_btnSaveActionPerformed
@@ -461,14 +461,14 @@ public class CadastroPeca extends javax.swing.JFrame {
         private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
         {//GEN-HEADEREND:event_btnCancelActionPerformed
 		// cancelamento de qualquer acao
-		currentPeca = null;
+		currentTPeca = null;
 		enterMainState();
         }//GEN-LAST:event_btnCancelActionPerformed
 
         private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
         {//GEN-HEADEREND:event_tblTableMouseClicked
 		// handling de clique na tabela
-		currentPeca = Peca.searchPecaPosition(tblTable.getSelectedRow());
+		currentTPeca = TipoDePeca.searchTPecaPosition(tblTable.getSelectedRow());
 		mode = Editmode.EDITING;
 		enterViewState();
         }//GEN-LAST:event_tblTableMouseClicked
@@ -491,21 +491,22 @@ public class CadastroPeca extends javax.swing.JFrame {
 		try {
 			javax.swing.UIManager.setLookAndFeel("com.formdev.flatlaf.FlatDarkLaf");
 		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(CadastroPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CadastroTipoPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(CadastroPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CadastroTipoPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(CadastroPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CadastroTipoPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(CadastroPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			java.util.logging.Logger.getLogger(CadastroTipoPeca.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
+		//</editor-fold>
 		//</editor-fold>
 
 		/* Create and display the form */
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run()
 			{
-				new CadastroPeca().setVisible(true);
+				new CadastroTipoPeca().setVisible(true);
 			}
 		});
 	}

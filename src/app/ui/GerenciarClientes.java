@@ -5,7 +5,7 @@
 package app.ui;
 
 import app.model.Cliente;
-import app.model.Par;
+import app.model.Peca;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -475,8 +475,8 @@ public class GerenciarClientes extends javax.swing.JFrame {
         DefaultListModel<String> model = new DefaultListModel<>();
         String idPecaString;
         
-        for (Par par : veiculoEscolhido.getPecasComProblema()) {
-            idPecaString = Integer.toString(par.getPeca().getId());
+        for (Peca par : veiculoEscolhido.getPecasComProblema()) {
+            idPecaString = Integer.toString(par.getTipoPeca().getId());
             model.addElement(idPecaString);
         }
         jList1.setModel((ListModel<String>) model);
