@@ -57,4 +57,18 @@ public class Peca {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 
+	 * @param qtd
+	 * @return -1 if failure, 0 otherwise
+	 */
+	public int setQtd(int qtd)
+	{
+		if(qtd >= 0) {
+			this.qtd = qtd;
+			return 0;
+		}
+		return -1;
+	}
 }
