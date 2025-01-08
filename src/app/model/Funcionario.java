@@ -4,6 +4,7 @@
  */
 package app.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -70,10 +71,28 @@ public class Funcionario extends Pessoa {
             servicosFeitos++;
         }
     }
+
+    public void adicionaPecasComProblema(Servico servico, ArrayList<Peca> pecasComProblema) {
+        servico.getVeiculo().setPecasComProblema(pecasComProblema);
+        servico.setValor();
+    }
     
-    /* criar método que adiciona à lista de peças com problema do veículo de um serviço 
-    ativo algumas peças com problema (chamar o método setValor da classe serviços no final)*/
+    public ArrayList<Peca> pegarPecasNoEstoque(Servico servico) {
+        ArrayList<Peca> pecasFaltantes = new ArrayList<>();
+        for (Peca peca : servico.getVeiculo().getPecasComProblema()) {
+            for (int i = 0; i < peca.getQtd(); i++) {
+                if (Estoque.findPeca(peca.getTipoPeca()) == null)
+                    pecasFaltantes.add(peca);
+                else
+                    Estoque.removerPeca(peca.getTipoPeca(), 1);
+            }
+        }
+        return pecasFaltantes;
+    }
     
-    /* criar o método que procura as peças necessárias (chamar ele no método anterior),
-    caso não haja no estoque, gerar um pedido de compra*/
+    public void consertarVeiculo(Servico servico) {
+        servico.calculaValor();
+        servico.getVeiculo().esvaziarPecasComProblema();
+        servico.setConsertado(true);
+    }
 }
