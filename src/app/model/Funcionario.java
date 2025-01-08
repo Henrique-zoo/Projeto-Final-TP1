@@ -76,4 +76,10 @@ public class Funcionario extends Pessoa {
     
     /* criar o método que procura as peças necessárias (chamar ele no método anterior),
     caso não haja no estoque, gerar um pedido de compra*/
+    
+    public void consertarVeiculo(Servico servico) {
+        servico.calculaValor();
+        servico.getVeiculo().esvaziarPecasComProblema();
+        servico.setConsertado(true);
+    }
 }

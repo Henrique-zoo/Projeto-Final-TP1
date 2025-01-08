@@ -61,4 +61,8 @@ public class Veiculo {
         for (Par par : pecasComProblema)
             this.pecasComProblema.add(par);
     }
+    
+    public void esvaziarPecasComProblema() {
+        pecasComProblema.clear();
+    }
 }
