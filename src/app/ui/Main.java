@@ -148,7 +148,7 @@ public class Main extends javax.swing.JFrame {
 
         private void btnGerenciarPcsActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGerenciarPcsActionPerformed
         {//GEN-HEADEREND:event_btnGerenciarPcsActionPerformed
-                CadastroPeca telaGerenciamentoPecas = new CadastroPeca();
+                CadastroTipoPeca telaGerenciamentoPecas = new CadastroTipoPeca();
 		telaGerenciamentoPecas.setVisible(true);
         }//GEN-LAST:event_btnGerenciarPcsActionPerformed
 

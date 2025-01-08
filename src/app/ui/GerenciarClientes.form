@@ -24,7 +24,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -58,8 +58,8 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jPanel3" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" max="32767" attributes="0"/>
+                      <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -263,6 +263,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -335,7 +338,7 @@
                                       <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel12" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                          <Component id="jTFAno" alignment="0" pref="80" max="32767" attributes="0"/>
+                                          <Component id="jTFAno" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jTFModelo" alignment="0" max="32767" attributes="0"/>
                                           <Component id="jTFTipo" alignment="0" max="32767" attributes="0"/>
                                       </Group>
@@ -347,7 +350,7 @@
                                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                                       <Component id="jTFidVeiculo" min="-2" pref="80" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="18" max="32767" attributes="0"/>
+                                  <EmptySpace pref="28" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                       <Component id="jTFCor" min="-2" pref="78" max="-2" attributes="0"/>

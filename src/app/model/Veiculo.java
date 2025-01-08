@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Veiculo {
     private int id, ano;
     private String tipo, modelo, cor;
-    private final ArrayList<Par> pecasComProblema;
+    private final ArrayList<Peca> pecasComProblema;
 
     public Veiculo(int id, int ano, String tipo, String modelo, String cor) {
         this.id = id;
@@ -54,11 +54,11 @@ public class Veiculo {
     public void setCor(String cor) {
         this.cor = cor;
     }
-    public ArrayList<Par> getPecasComProblema() {
+    public ArrayList<Peca> getPecasComProblema() {
         return pecasComProblema;
     }
-    public void setPecasComProblema(ArrayList<Par> pecasComProblema) {
-        for (Par par : pecasComProblema)
+    public void setPecasComProblema(ArrayList<Peca> pecasComProblema) {
+        for (Peca par : pecasComProblema)
             this.pecasComProblema.add(par);
     }
     

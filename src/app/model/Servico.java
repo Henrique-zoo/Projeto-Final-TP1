@@ -81,8 +81,8 @@ public class Servico {
     // Outros métodos da classe
     public double calculaValor() {
         double total = 0.0;
-        for (Par par : veiculo.getPecasComProblema())
-            total += par.qtd * par.peca.getPreco();
+        for (Peca par : veiculo.getPecasComProblema())
+            total += par.getQtd() * par.getTipoPeca().getPreco();
         return total;
     }
 }

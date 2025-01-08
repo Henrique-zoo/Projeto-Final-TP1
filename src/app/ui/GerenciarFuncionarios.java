@@ -5,7 +5,11 @@
 package app.ui;
 
 import app.model.Funcionario;
+import app.model.Servico;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,7 +32,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jFTFTelefone.setEnabled(false);
         jFTFSalario.setEnabled(false);
         jTable1.setEnabled(false);          //é preciso fazer uma busca antes de poder editar
-        
+        //carregarTabelaServicos();
         jTFid.setText(Integer.toString(Main.funcionarios.size())); //o id é o índice no array
     }
 
@@ -257,6 +261,28 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                 setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
+    private void carregarTabelaServicos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Valor","Consertado","Pago", "Cliente", "Veículo"},0);
+        int indice = Integer.parseInt(jTFid.getText());
+        Funcionario funcionario = Main.funcionarios.get(indice);
+        
+        HashMap<Integer, Servico> servicosFuncionario = funcionario.getServicosAtivos();
+        
+        for(Map.Entry<Integer, Servico> entry : servicosFuncionario.entrySet()){
+            Integer id = entry.getKey();
+            Servico servico = entry.getValue();
+            Object linha[] = new Object[]{  id,
+                                            servico.getValor(),
+                                            servico.isConsertado() ? "Sim" : "Não",
+                                            servico.isPago() ? "Sim" : "Não",
+                                            servico.getCliente().getCpf(),
+                                            servico.getVeiculo().getId()
+                                            };
+            modelo.addRow(linha);
+        }
+        jTable1.setModel(modelo);
+    }    
+        
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         // TODO add your handling code here:
         String cpf = jFTFCPF.getText();
@@ -273,6 +299,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                    jFTFTelefone.setText(funcionario.getTelefone());
                    jTFid.setText(Integer.toString(funcionario.getId()));
                    jFTFSalario.setText(Double.toString(funcionario.getSalario()));                   
+                   carregarTabelaServicos();
                    
                    if (Main.isAdmin){
                        jButtonExcluir.setEnabled(true);
