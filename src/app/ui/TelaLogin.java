@@ -38,6 +38,7 @@ public class TelaLogin extends javax.swing.JFrame {
         jLabelCliqueAqui = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
         setResizable(false);
 
         jLabel1.setText("CPF");

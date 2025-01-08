@@ -85,7 +85,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             ex.printStackTrace();
         }
 
-        jLabel7.setText("Salário");
+        jLabel7.setText("Salário (opcional)");
 
         jButtonCadastrar.setText("Cadastrar");
         jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {

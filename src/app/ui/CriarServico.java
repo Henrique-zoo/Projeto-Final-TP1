@@ -45,7 +45,8 @@ public class CriarServico extends javax.swing.JFrame {
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         btnCadastrar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Criar Serviço");
 
         painelDadosServico.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Dados do Serviço", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 18))); // NOI18N
         painelDadosServico.setLayout(new javax.swing.BoxLayout(painelDadosServico, javax.swing.BoxLayout.Y_AXIS));
@@ -139,7 +140,7 @@ public class CriarServico extends javax.swing.JFrame {
         painelDadosServico.add(jSeparator1);
 
         campoButtons.setPreferredSize(new java.awt.Dimension(307, 29));
-        campoButtons.setLayout(new java.awt.GridLayout());
+        campoButtons.setLayout(new java.awt.GridLayout(1, 0));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +179,7 @@ public class CriarServico extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
