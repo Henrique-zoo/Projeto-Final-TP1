@@ -17,8 +17,8 @@ public class CadastroCliente extends javax.swing.JFrame {
      */
     public CadastroCliente() {
         initComponents();
-        jTFid.setText(String.valueOf(Main.clientes.size()));
         jTFid.setEnabled(false);
+        jTFid.setText(Integer.toString(Main.clientes.size()));
         //Os IDs são definidos automaticamente pelo tamanho do array, então o text field está desativado
     }
 
@@ -200,16 +200,17 @@ public class CadastroCliente extends javax.swing.JFrame {
                 Cliente cliente = new Cliente(id, nome, cpf, email, telefone);
                 Main.clientes.add(cliente);
                 javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+                
+                jFTFCPF.setText("");
+                jTFNome.setText("");
+                jTFEmail.setText("");
+                jFTFTelefone.setText("");          
             }
         }
         else {
             javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
         }
-        jTFid.setText(String.valueOf(Main.clientes.size())); //atualiza o ID com base no tamanho do array de clientes
-        GerenciarClientes gerenciarClientes = new GerenciarClientes();
-        gerenciarClientes.setVisible(true);
-            
-        
+        jTFid.setText(String.valueOf(Main.clientes.size())); //atualiza o ID com base no tamanho do array de clientes   
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     /**

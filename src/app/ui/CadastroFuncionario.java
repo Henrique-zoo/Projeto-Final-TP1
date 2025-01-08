@@ -53,6 +53,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jPasswordField2 = new javax.swing.JPasswordField();
         jTFSalario = new javax.swing.JTextField();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         jMenuItem1.setText("jMenuItem1");
 
@@ -105,6 +106,13 @@ public class CadastroFuncionario extends javax.swing.JFrame {
 
         jLabel9.setText("Confirmar senha");
 
+        jCheckBox1.setText("Administrador");
+        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -121,7 +129,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jCheckBox1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonCancelar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonCadastrar))
@@ -195,7 +204,8 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCadastrar)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jCheckBox1))
                 .addContainerGap())
         );
 
@@ -206,7 +216,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,6 +261,9 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             }
             else if ((!cadastrado) && salario.isEmpty()){
                 Funcionario funcionario = new Funcionario(senha, id, nome, cpf, email, telefone);
+                if (jCheckBox1.isSelected()){
+                    funcionario.setAdmin(true);
+                }
                 Main.funcionarios.add(funcionario);
                 javax.swing.JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
@@ -258,6 +271,9 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             else {
                 double salarioDouble = Double.parseDouble(salario);
                 Funcionario funcionario = new Funcionario(salarioDouble, senha, id, nome, cpf, email, telefone);
+                if (jCheckBox1.isSelected()){
+                    funcionario.setAdmin(true);
+                }
                 Main.funcionarios.add(funcionario);
                 javax.swing.JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
@@ -267,6 +283,10 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
         }                  
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
+
+    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -301,6 +321,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCadastrar;
     private javax.swing.JButton jButtonCancelar;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JFormattedTextField jFTFCPF;
     private javax.swing.JFormattedTextField jFTFTelefone;
     private javax.swing.JLabel jLabel1;

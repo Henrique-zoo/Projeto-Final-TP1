@@ -48,6 +48,14 @@ public class Funcionario extends Pessoa {
         this.servicosFeitos = servicosFeitos;
     }
 
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public String getSenha() {
         return senha;
     }

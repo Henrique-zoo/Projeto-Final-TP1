@@ -17,6 +17,7 @@ public class Cliente extends Pessoa {
 
     public Cliente(int id, String nome, String cpf, String email, String telefone) {
         super(id, nome, cpf, email, telefone);
+        this.veiculos = new ArrayList<>();
     }
 
     public double getDebito() {
@@ -33,6 +34,14 @@ public class Cliente extends Pessoa {
 
     public void setVeiculos(ArrayList<Veiculo> veiculos) {
         this.veiculos = veiculos;
+    }
+    
+    public void setVeiculo(Veiculo veiculo){
+        this.veiculos.add(veiculo);
+    }
+    
+    public Veiculo getVeiculoByID(int i){
+        return this.veiculos.get(i);
     }
 
     public double getTotalPago() {

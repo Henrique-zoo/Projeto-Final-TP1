@@ -5,6 +5,7 @@
 package app.ui;
 
 import app.model.Funcionario;
+import app.utils.MapFuncionarios;
 
 /**
  *
@@ -17,6 +18,9 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        Funcionario funcionario = new Funcionario("1", 0, "1", "111.111.111-11", "1", "1");
+        funcionario.setAdmin(true);
+        Main.funcionarios.add(funcionario);
     }
 
     /**

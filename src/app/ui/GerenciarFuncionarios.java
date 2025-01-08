@@ -24,6 +24,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
     
     public GerenciarFuncionarios() {
         initComponents();
+        
+        jTFNome.setEnabled(false);
+        jTFEmail.setEnabled(false);
         jTFid.setEnabled(false);
         jButtonCancelar.setEnabled(false);
         jButtonExcluir.setEnabled(false);
@@ -31,9 +34,12 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jButtonConfirmar.setEnabled(false);
         jFTFTelefone.setEnabled(false);
         jFTFSalario.setEnabled(false);
+        
+        jCheckBox1.setEnabled(false);
+        
         jTable1.setEnabled(false);          //é preciso fazer uma busca antes de poder editar
         //carregarTabelaServicos();
-        jTFid.setText(Integer.toString(Main.funcionarios.size())); //o id é o índice no array
+        
     }
 
     /**
@@ -66,6 +72,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jButtonCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Funcionários");
@@ -119,7 +126,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                             .addComponent(jFTFTelefone)
                             .addComponent(jLabel6)
                             .addComponent(jFTFSalario))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(53, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -195,16 +202,27 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Valor", "Consertado", "Pago", "Cliente", "Veículo"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+
+        jCheckBox1.setText("Administrador");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,8 +230,15 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jCheckBox1)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -222,25 +247,25 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                         .addComponent(jButtonConfirmar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonCancelar)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonExcluir)
-                            .addComponent(jButtonEditar)
-                            .addComponent(jButtonConfirmar)
-                            .addComponent(jButtonCancelar))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBox1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonEditar)
+                    .addComponent(jButtonConfirmar)
+                    .addComponent(jButtonCancelar))
+                .addContainerGap())
         );
 
         pack();
@@ -286,7 +311,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                    jTFid.setText(Integer.toString(funcionario.getId()));
                    jFTFSalario.setText(Double.toString(funcionario.getSalario()));                   
                    carregarTabelaServicos();
-                   
+                   jCheckBox1.setSelected(funcionario.isAdmin());
                    if (Main.isAdmin){
                        jButtonExcluir.setEnabled(true);
                        jButtonEditar.setEnabled(true);
@@ -312,6 +337,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jFTFTelefone.setEnabled(true);
         jFTFSalario.setEnabled(true);
         jTable1.setEnabled(true);
+        jCheckBox1.setEnabled(true);
         //habilita os campos e os botões para edição
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
@@ -330,6 +356,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             Main.funcionarios.get(idInt).setEmail(email);
             Main.funcionarios.get(idInt).setTelefone(telefone);
             Main.funcionarios.get(idInt).setSalario(salarioDouble);
+            Main.funcionarios.get(idInt).setAdmin(jCheckBox1.isSelected());
             
             javax.swing.JOptionPane.showMessageDialog(this, "Dados alterados com sucesso.");
             jButtonConfirmar.setEnabled(false);
@@ -370,6 +397,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jFTFSalario.setText("");
         
         jTable1.setEnabled(false);
+       
+        jCheckBox1.setSelected(false);
+        jCheckBox1.setEnabled(false);
         //Limpa todos os campos e desativa a flag de pesquisa e os botões
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
@@ -409,6 +439,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEditar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonPesquisar;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JFormattedTextField jFTFCPF;
     private javax.swing.JFormattedTextField jFTFSalario;
     private javax.swing.JFormattedTextField jFTFTelefone;
