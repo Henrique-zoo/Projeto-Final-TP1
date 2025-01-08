@@ -16,11 +16,19 @@ public class Estoque {
 	// methods
 	public static void adicionarPeca(TipoDePeca tPeca, int qty)
 	{
-		
+		Peca storageParts;
+		if ((storageParts = findPeca(tPeca)) != null) {
+			storageParts.addQtd(qty);
+		} else {
+			storageParts = new Peca(qty, tPeca);
+			estoque.add(storageParts);
+		}
 	}
 	
 	/**
-	 * remove part from stock using part type and quantity
+	 * remove part from storage using part type and quantity
+	 * @param tPeca Part type
+	 * @param qtyToRemove Amount to remove
 	 * @return Returns 0 if successful, -1 if insufficient parts
 	 */
 	public static int removerPeca(TipoDePeca tPeca, int qtyToRemove)
@@ -41,7 +49,8 @@ public class Estoque {
 	}
 	
 	/**
-	 * remove part from stock using already existing Part instance
+	 * remove part from storage using already existing Part instance
+	 * @param peca Part instance
 	 * @return Returns 0 if successful, -1 if insufficient parts
 	 */
 	public static int removerPeca(Peca peca)
@@ -51,6 +60,7 @@ public class Estoque {
 	
 	/**
 	 * 
+	 * @param tPeca Part type
 	 * @return Returns reference to storage object if part found, else null
 	 */
 	public static Peca findPeca(TipoDePeca tPeca)
