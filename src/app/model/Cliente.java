@@ -59,6 +59,4 @@ public class Cliente extends Pessoa {
     public void setTotalPago(double totalPago) {
         this.totalPago = totalPago;
     }
-    
-    
 }

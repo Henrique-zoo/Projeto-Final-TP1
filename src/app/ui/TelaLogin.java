@@ -5,7 +5,7 @@
 package app.ui;
 
 import app.model.Funcionario;
-import app.utils.MapFuncionarios;
+import app.utils.Objetos;
 
 /**
  *
@@ -70,6 +70,7 @@ public class TelaLogin extends javax.swing.JFrame {
         }
 
         jLabelCliqueAqui.setText("Clique aqui");
+        jLabelCliqueAqui.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabelCliqueAqui.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 jLabelCliqueAquiMouseReleased(evt);

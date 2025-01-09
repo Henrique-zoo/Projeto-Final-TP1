@@ -180,10 +180,15 @@ public class GerenciarClientes extends javax.swing.JFrame {
         jLabel5.setText("Telefone");
 
         try {
-            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)9####-####")));
+            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) 9####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFTFTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFTFTelefoneActionPerformed(evt);
+            }
+        });
 
         jLabel6.setText("Débito");
 
@@ -334,6 +339,11 @@ public class GerenciarClientes extends javax.swing.JFrame {
         }
 
         jFTFAno.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jFTFAno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFTFAnoActionPerformed(evt);
+            }
+        });
 
         jLabel17.setText("Peça c/ problema");
 
@@ -1113,6 +1123,14 @@ public class GerenciarClientes extends javax.swing.JFrame {
             carregaVeiculos();
         }
     }//GEN-LAST:event_jButtonExcluirVeiculoActionPerformed
+
+    private void jFTFTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTFTelefoneActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFTFTelefoneActionPerformed
+
+    private void jFTFAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFTFAnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFTFAnoActionPerformed
 
     /**
      * @param args the command line arguments
