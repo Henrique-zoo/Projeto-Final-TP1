@@ -13,7 +13,11 @@ import javax.swing.table.DefaultTableModel;
 import app.model.Veiculo;
 import app.utils.IDGeneratorCarro;
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
@@ -32,6 +36,31 @@ public class GerenciarClientes extends javax.swing.JFrame {
     public GerenciarClientes() {
         initComponents();
         carregarTabelaClientes();
+        
+        excluirPecaComProblema();
+        
+        jComboBox1.setRenderer(new javax.swing.DefaultListCellRenderer() { 
+                    @Override //Altera a forma que o objeto é exibido na combo box
+                    public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                            if (value instanceof Veiculo) {            
+                                setText(((Veiculo) value).getId() + " " + ((Veiculo) value).getModelo() + " " + ((Veiculo) value).getAno());  
+                            }
+                        return this;
+                    }
+        });
+        
+        jComboBoxPeca.setRenderer(new javax.swing.DefaultListCellRenderer() {
+            @Override //Altera a forma que o objeto é exibido na combo box
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof TipoDePeca) {
+                        //Peca peca = (Peca) value;
+                        setText(((TipoDePeca) value).getTipo() + " " + ((TipoDePeca) value).getMarca()); 
+                    }
+                return this;
+            }
+        });        
         carregaComboBoxPecas();
         
         arrayPeca.clear();
@@ -284,13 +313,22 @@ public class GerenciarClientes extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
+        jTablePecas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTablePecas);
         if (jTablePecas.getColumnModel().getColumnCount() > 0) {
+            jTablePecas.getColumnModel().getColumn(0).setResizable(false);
             jTablePecas.getColumnModel().getColumn(1).setResizable(false);
             jTablePecas.getColumnModel().getColumn(2).setResizable(false);
         }
@@ -548,6 +586,65 @@ public class GerenciarClientes extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void excluirPecaComProblema(){
+        // 1. Criar menu de contexto
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem deleteItem = new JMenuItem("Excluir");
+        popupMenu.add(deleteItem);
+
+        jTablePecas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    showPopup(e);
+                }
+            }
+            private void showPopup(MouseEvent e) {
+                int row = jTablePecas.rowAtPoint(e.getPoint());
+                if (row >= 0 && row < jTablePecas.getRowCount()) {
+                    jTablePecas.setRowSelectionInterval(row, row);
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+        
+        deleteItem.addActionListener(e -> {
+            int selectedRow = jTablePecas.getSelectedRow();
+            if (selectedRow != -1) {
+                // Verifica o conteúdo da primeira coluna
+                String valorPrimeiraColuna = (String) jTablePecas.getValueAt(selectedRow, 0);
+                if (!"Sem dados".equals(valorPrimeiraColuna)) {
+                    Veiculo veiculo = (Veiculo) jComboBox1.getSelectedItem();
+                    Peca pecaRemover;
+
+                    // Verifica se a flagEditarVeiculo é verdadeira
+                    if (flagEditarVeiculo) {
+                        if (selectedRow < arrayPeca.size()) {
+                            pecaRemover = arrayPeca.get(selectedRow);
+                            arrayPeca.remove(pecaRemover);  // Remove do arrayPeca
+                        }
+                    } else {
+                        if (veiculo != null && selectedRow < veiculo.getPecasComProblema().size()) {
+                            pecaRemover = veiculo.getPecasComProblema().get(selectedRow);
+                            veiculo.getPecasComProblema().remove(pecaRemover);  // Remove do Veículo
+                        }
+                    }
+
+                    // Atualizar a exibição removendo a linha da tabela
+                    DefaultTableModel model = (DefaultTableModel) jTablePecas.getModel();
+                    model.removeRow(selectedRow);
+                }
+            }
+        });
+
+    }
+    
     private void carregarTabelaClientes(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome","E-Mail", "Telefone", "Débito", "Total Pago"},0);
         for(int i=0;i<Main.clientes.size();i++){
@@ -566,19 +663,7 @@ public class GerenciarClientes extends javax.swing.JFrame {
     private void carregaComboBoxPecas(){
         for (int i = 0; i < TipoDePeca.getTPecaQuantity(); i++){
             jComboBoxPeca.addItem(TipoDePeca.searchTPecaPosition(i));
-        }
-        
-        jComboBoxPeca.setRenderer(new javax.swing.DefaultListCellRenderer() {
-            @Override //Altera a forma que o objeto é exibido na combo box
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value instanceof TipoDePeca) {
-                        //Peca peca = (Peca) value;
-                        setText(((TipoDePeca) value).getTipo() + " " + ((TipoDePeca) value).getMarca()); 
-                    }
-                return this;
-            }
-        });
+        }                
     }
     
     public void carregarTabelaPecas(){
@@ -613,29 +698,24 @@ public class GerenciarClientes extends javax.swing.JFrame {
         }
     }
     
-    public void carregaVeiculos(){
-        Cliente cliente = Main.clientes.get(Integer.parseInt(jTFid.getText()));
-        ArrayList<Veiculo> veiculos = cliente.getVeiculos();
-        jComboBox1.setRenderer(new javax.swing.DefaultListCellRenderer() { 
-            @Override //Altera a forma que o objeto é exibido na combo box
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                    if (value instanceof Veiculo) {            
-                        setText(((Veiculo) value).getId() + " " + ((Veiculo) value).getModelo() + " " + ((Veiculo) value).getAno());  
-                    }
-                return this;
+    public void carregaVeiculos(){       
+        //Verifica se o índice está nos limites do array e se o array de veículos do cliente está vazio
+        if ((Integer.parseInt(jTFid.getText())) < (Main.clientes.size())){
+            Cliente cliente = Main.clientes.get(Integer.parseInt(jTFid.getText()));                        
+            if (!cliente.getVeiculos().isEmpty()){
+                ArrayList<Veiculo> veiculos = cliente.getVeiculos();                
+                //Se tiver algum veículo, carrega as informações dele
+                for (Veiculo veiculo : veiculos) { 
+                    jComboBox1.addItem(veiculo);
+                }
+                //Se tiver algum veículo cadastrado, os botões de editar e excluir veículo ficam disponíveis  
+                if (!veiculos.isEmpty()) {                        
+                    jButtonEditarVeiculo.setEnabled(true);
+                    jButtonExcluirVeiculo.setEnabled(true);
+                    jComboBox1.setEnabled(true);
+                }
             }
-        });
-        //Se tiver algum veículo, carrega as informações dele
-        for (Veiculo veiculo : veiculos) { 
-                jComboBox1.addItem(veiculo);
-         }
-         //Se tiver algum veículo cadastrado, os botões de editar e excluir veículo ficam disponíveis  
-         if (!veiculos.isEmpty()) {                        
-             jButtonEditarVeiculo.setEnabled(true);
-             jButtonExcluirVeiculo.setEnabled(true);
-             jComboBox1.setEnabled(true);
-         }
+        }                
     }
     
     public void resetaCamposCliente(){                
@@ -774,14 +854,11 @@ public class GerenciarClientes extends javax.swing.JFrame {
                        Veiculo veiculo = (Veiculo)jComboBox1.getSelectedItem();
                        if (!veiculo.getPecasComProblema().isEmpty()){
                            carregarTabelaPecas();
-                       }
-                       carregarTabelaPecas();
-                   }
-                   
+                       }                       
+                   }                   
                 break;
                }
-            }
-        
+            }        
             if (!encontrado){
                 javax.swing.JOptionPane.showMessageDialog(this, "Cliente não encontrado!");
             }
@@ -921,74 +998,77 @@ public class GerenciarClientes extends javax.swing.JFrame {
             }
             else {
                 Veiculo novoVeiculo = new Veiculo(id, Integer.parseInt(jFTFAno.getText()), jTFTipo.getText(), jTFModelo.getText(), jTFCor.getText());
-                Cliente clienteAtual = Main.clientes.get(Integer.parseInt(jTFid.getText()));
-                clienteAtual.setVeiculo(novoVeiculo);
-                flagAddVeiculo = false;
-                javax.swing.JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
-                
-                
-                jFTFCPF.setEnabled(true);                
-                jTFTipo.setEnabled(false);
-                jFTFAno.setEnabled(false);
-                jTFCor.setEnabled(false);
-                jTFModelo.setEnabled(false);
-                
-                jButtonExcluir.setEnabled(true);
-                jButtonEditar.setEnabled(true);
-                jButtonAddVeiculo.setEnabled(true);
-                jButtonEditarVeiculo.setEnabled(true);
-                jButtonPesquisar.setEnabled(true);
-                jComboBox1.setEnabled(true);
-                
-                jButtonOkVeiculo.setEnabled(false);
-                jComboBox1.addItem(novoVeiculo);
-                jComboBox1.setSelectedItem(novoVeiculo);
-            }
-        }
-        else if (flagEditarVeiculo){
-            String tipo = jTFTipo.getText();
-            String modelo = jTFModelo.getText();
-            String cor = jTFCor.getText();
-            int ano = Integer.parseInt(jFTFAno.getText());
+                if (Integer.parseInt(jTFid.getText()) < Main.clientes.size()){
+                    Cliente clienteAtual = Main.clientes.get(Integer.parseInt(jTFid.getText()));
+                    clienteAtual.setVeiculo(novoVeiculo);
+                    flagAddVeiculo = false;
+                    javax.swing.JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
 
+                    jFTFCPF.setEnabled(true);                
+                    jTFTipo.setEnabled(false);
+                    jFTFAno.setEnabled(false);
+                    jTFCor.setEnabled(false);
+                    jTFModelo.setEnabled(false);
+
+                    jButtonExcluir.setEnabled(true);
+                    jButtonEditar.setEnabled(true);
+                    jButtonAddVeiculo.setEnabled(true);
+                    jButtonEditarVeiculo.setEnabled(true);
+                    jButtonPesquisar.setEnabled(true);
+                    jComboBox1.setEnabled(true);
+
+                    jButtonOkVeiculo.setEnabled(false);
+                    jButtonExcluirVeiculo.setEnabled(true);
+                    jComboBox1.addItem(novoVeiculo);
+                    jComboBox1.setSelectedItem(novoVeiculo);
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Índice inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            }                
+        }
+        else if (flagEditarVeiculo){           
             if (jFTFAno.getText().isEmpty() || jTFCor.getText().isEmpty() || jTFModelo.getText().isEmpty() || jTFTipo.getText().isEmpty()){
                 javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
             }
             else {                
                 Veiculo veiculo = (Veiculo)jComboBox1.getSelectedItem();
-                veiculo.setAno(ano);
-                veiculo.setCor(cor);
-                veiculo.setTipo(tipo);
-                veiculo.setModelo(modelo);
-                javax.swing.JOptionPane.showMessageDialog(this, "Dados editados com sucesso.");
-                                                
-                flagEditarVeiculo = false;
-                jFTFCPF.setEnabled(true);
-                jButtonPesquisar.setEnabled(true);
-                jButtonExcluir.setEnabled(true);
-                jButtonEditar.setEnabled(true);
-                jButtonExcluirVeiculo.setEnabled(true);
-                jButtonAddVeiculo.setEnabled(true);
-                jButtonEditarVeiculo.setEnabled(true);
-                jButtonOkVeiculo.setEnabled(false);
-                jComboBox1.setEnabled(true);
-                
-                jTFTipo.setEnabled(false);
-                jFTFAno.setEnabled(false);
-                jTFCor.setEnabled(false);
-                jTFModelo.setEnabled(false);
-                jTablePecas.setEnabled(false);
-                jButtonIncluirPeca.setEnabled(false);
-                
-                jFTFQnt.setEnabled(false);
-                jFTFQnt.setText("");
-                
-                jComboBoxPeca.setEnabled(false);
-                
-                veiculo.setPecasComProblema(new ArrayList<>(arrayPeca));                
-                arrayPeca.clear();
-            }
-            carregarTabelaPecas();
+                if (veiculo != null){
+                    veiculo.setAno(Integer.parseInt(jFTFAno.getText()));
+                    veiculo.setCor(jTFCor.getText());
+                    veiculo.setTipo(jTFTipo.getText());
+                    veiculo.setModelo(jTFModelo.getText());
+                    javax.swing.JOptionPane.showMessageDialog(this, "Dados editados com sucesso.");
+
+                    flagEditarVeiculo = false;
+                    jFTFCPF.setEnabled(true);
+                    jButtonPesquisar.setEnabled(true);
+                    jButtonExcluir.setEnabled(true);
+                    jButtonEditar.setEnabled(true);
+                    jButtonExcluirVeiculo.setEnabled(true);
+                    jButtonAddVeiculo.setEnabled(true);
+                    jButtonEditarVeiculo.setEnabled(true);
+                    jButtonOkVeiculo.setEnabled(false);
+                    jComboBox1.setEnabled(true);
+
+                    jTFTipo.setEnabled(false);
+                    jFTFAno.setEnabled(false);
+                    jTFCor.setEnabled(false);
+                    jTFModelo.setEnabled(false);
+                    jTablePecas.setEnabled(false);
+                    jButtonIncluirPeca.setEnabled(false);
+
+                    jFTFQnt.setEnabled(false);
+                    jFTFQnt.setText("");
+
+                    jComboBoxPeca.setEnabled(false);
+
+                    veiculo.setPecasComProblema(new ArrayList<>(arrayPeca));                
+                    arrayPeca.clear();
+
+                    carregarTabelaPecas();
+                }            
+            }                
         }
     }//GEN-LAST:event_jButtonOkVeiculoActionPerformed
 
@@ -1002,9 +1082,11 @@ public class GerenciarClientes extends javax.swing.JFrame {
             arrayPeca.add(novaPeca);
             
             DefaultTableModel modelo = (DefaultTableModel) jTablePecas.getModel();
-            if (jTablePecas.getValueAt(0,0).toString().equals("Sem dados")){
-                modelo.setRowCount(0);
-            }
+            if (jTablePecas.getRowCount() >= 1){ //Se a linha for excluída e tentar incluir Sem dados de novo, não vai dar erro
+                if (jTablePecas.getValueAt(0,0).toString().equals("Sem dados")){
+                    modelo.setRowCount(0);
+                }
+            }            
             modelo.addRow(new Object[]{novaPeca.getTipoPeca().getTipo(),
                                             novaPeca.getTipoPeca().getMarca(),
                                             //peca.getTipoPeca().getQnt()
