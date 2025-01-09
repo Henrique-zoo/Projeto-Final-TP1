@@ -4,6 +4,12 @@
  */
 package app.ui;
 
+import javax.swing.JOptionPane;
+import app.model.TipoDePeca;
+import app.model.Peca;
+import app.model.Estoque;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author nirva
@@ -16,6 +22,7 @@ public class GerenciarEstoque extends javax.swing.JFrame {
 	public GerenciarEstoque()
 	{
 		initComponents();
+		loadTable();
 	}
 
 	/**
@@ -28,23 +35,472 @@ public class GerenciarEstoque extends javax.swing.JFrame {
         private void initComponents()
         {
 
+                btngrpAddRmv = new javax.swing.ButtonGroup();
+                btngrpSelType = new javax.swing.ButtonGroup();
+                pnlPrincipal = new javax.swing.JPanel();
+                lblId = new javax.swing.JLabel();
+                txtId = new javax.swing.JTextField();
+                lblTipo = new javax.swing.JLabel();
+                txtTipo = new javax.swing.JFormattedTextField();
+                lblMarca = new javax.swing.JLabel();
+                txtMarca = new javax.swing.JTextField();
+                btnSearchTM = new javax.swing.JButton();
+                btnSearchC = new javax.swing.JButton();
+                lblPrice = new javax.swing.JLabel();
+                txtCurrentQty = new javax.swing.JTextField();
+                btnCancel = new javax.swing.JButton();
+                btnReturn = new javax.swing.JButton();
+                pnlTabela = new javax.swing.JScrollPane();
+                tblTable = new javax.swing.JTable();
+                pnlAction = new javax.swing.JPanel();
+                chkAdd = new javax.swing.JRadioButton();
+                chkRmv = new javax.swing.JRadioButton();
+                jSeparator1 = new javax.swing.JSeparator();
+                chkSelected = new javax.swing.JRadioButton();
+                chkById = new javax.swing.JRadioButton();
+                chkByTM = new javax.swing.JRadioButton();
+                jSeparator2 = new javax.swing.JSeparator();
+                lblQtyToSet = new javax.swing.JLabel();
+                btnOperate = new javax.swing.JButton();
+                txtNewQty = new javax.swing.JTextField();
+
                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+                pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Peça"));
+
+                lblId.setText("Código");
+
+                lblTipo.setText("Tipo");
+
+                lblMarca.setText("Marca");
+
+                btnSearchTM.setText("Pesquisar por Tipo e Marca");
+                btnSearchTM.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnSearchTMActionPerformed(evt);
+                        }
+                });
+
+                btnSearchC.setText("Pesquisar por Código");
+                btnSearchC.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnSearchCActionPerformed(evt);
+                        }
+                });
+
+                lblPrice.setText("Quantidade disponível no estoque");
+
+                txtCurrentQty.setEnabled(false);
+
+                javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
+                pnlPrincipal.setLayout(pnlPrincipalLayout);
+                pnlPrincipalLayout.setHorizontalGroup(
+                        pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtId)
+                                        .addComponent(txtTipo)
+                                        .addComponent(txtMarca)
+                                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(btnSearchC)
+                                                        .addComponent(lblId)
+                                                        .addComponent(lblPrice)
+                                                        .addComponent(txtCurrentQty, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(lblTipo)
+                                                        .addComponent(lblMarca)
+                                                        .addComponent(btnSearchTM))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
+                );
+                pnlPrincipalLayout.setVerticalGroup(
+                        pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(lblId)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblTipo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblMarca)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSearchTM)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnSearchC)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblPrice)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCurrentQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                );
+
+                btnCancel.setText("Cancelar");
+                btnCancel.setEnabled(false);
+                btnCancel.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnCancelActionPerformed(evt);
+                        }
+                });
+
+                btnReturn.setText("Voltar");
+                btnReturn.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnReturnActionPerformed(evt);
+                        }
+                });
+
+                tblTable.setModel(new javax.swing.table.DefaultTableModel(
+                        new Object [][]
+                        {
+
+                        },
+                        new String []
+                        {
+                                "Código", "Tipo", "Marca", "Quantidade"
+                        }
+                )
+                {
+                        boolean[] canEdit = new boolean []
+                        {
+                                false, false, false, false
+                        };
+
+                        public boolean isCellEditable(int rowIndex, int columnIndex)
+                        {
+                                return canEdit [columnIndex];
+                        }
+                });
+                tblTable.getTableHeader().setReorderingAllowed(false);
+                tblTable.addMouseListener(new java.awt.event.MouseAdapter()
+                {
+                        public void mouseClicked(java.awt.event.MouseEvent evt)
+                        {
+                                tblTableMouseClicked(evt);
+                        }
+                });
+                pnlTabela.setViewportView(tblTable);
+                if (tblTable.getColumnModel().getColumnCount() > 0)
+                {
+                        tblTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+                }
+
+                pnlAction.setBorder(javax.swing.BorderFactory.createTitledBorder("Ações"));
+
+                btngrpAddRmv.add(chkAdd);
+                chkAdd.setSelected(true);
+                chkAdd.setText("Adicionar");
+
+                btngrpAddRmv.add(chkRmv);
+                chkRmv.setText("Remover");
+
+                jSeparator1.setToolTipText("");
+
+                btngrpSelType.add(chkSelected);
+                chkSelected.setText("Selecionada");
+                chkSelected.setEnabled(false);
+
+                btngrpSelType.add(chkById);
+                chkById.setSelected(true);
+                chkById.setText("Por código");
+
+                btngrpSelType.add(chkByTM);
+                chkByTM.setText("Por tipo e marca");
+
+                jSeparator2.setToolTipText("");
+
+                lblQtyToSet.setText("Quantidade:");
+
+                btnOperate.setText("Realizar Operação");
+                btnOperate.addActionListener(new java.awt.event.ActionListener()
+                {
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                                btnOperateActionPerformed(evt);
+                        }
+                });
+
+                javax.swing.GroupLayout pnlActionLayout = new javax.swing.GroupLayout(pnlAction);
+                pnlAction.setLayout(pnlActionLayout);
+                pnlActionLayout.setHorizontalGroup(
+                        pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSeparator1)
+                                        .addComponent(jSeparator2)
+                                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                                .addGroup(pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                                                .addComponent(chkAdd)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(chkRmv))
+                                                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                                                .addComponent(chkSelected)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(chkById)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(chkByTM)))
+                                                .addGap(0, 115, Short.MAX_VALUE))
+                                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                                .addComponent(lblQtyToSet)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtNewQty)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnOperate)))
+                                .addContainerGap())
+                );
+                pnlActionLayout.setVerticalGroup(
+                        pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnlActionLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(chkAdd)
+                                        .addComponent(chkRmv))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(chkById)
+                                        .addComponent(chkSelected)
+                                        .addComponent(chkByTM))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(pnlActionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(lblQtyToSet, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNewQty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnOperate))
+                                .addContainerGap(8, Short.MAX_VALUE))
+                );
 
                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                 getContentPane().setLayout(layout);
                 layout.setHorizontalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 400, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(pnlAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                .addComponent(btnCancel)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnReturn))
+                                        .addComponent(pnlTabela, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap())
                 );
                 layout.setVerticalGroup(
                         layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 300, Short.MAX_VALUE)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(pnlTabela)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                        .addComponent(btnReturn)
+                                                        .addComponent(btnCancel)))
+                                        .addGroup(layout.createSequentialGroup()
+                                                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(pnlAction, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addContainerGap())
                 );
 
                 pack();
                 setLocationRelativeTo(null);
         }// </editor-fold>//GEN-END:initComponents
 
+	// non-generated attrs
+	Peca currentPeca;
+ 
+        private void btnSearchTMActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchTMActionPerformed
+        {//GEN-HEADEREND:event_btnSearchTMActionPerformed
+                String tipo;
+                String marca;
+
+                if (txtTipo.getText().equals("") || txtMarca.getText().equals(""))
+                {
+                        JOptionPane.showMessageDialog(null, "Preencha os campos de tipo e marca!", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else
+                {
+
+                        tipo = txtTipo.getText();
+                        marca = txtMarca.getText();
+			TipoDePeca aux = TipoDePeca.searchTPeca(tipo, marca);
+
+                        if ((currentPeca = Estoque.findPeca(aux)) != null)
+                        {
+                                enterViewState();
+                        } else
+                        {
+                                JOptionPane.showMessageDialog(null, "Não encontramos essa peça no estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                enterMainState();
+                        }
+                }
+        }//GEN-LAST:event_btnSearchTMActionPerformed
+
+        private void btnSearchCActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSearchCActionPerformed
+        {//GEN-HEADEREND:event_btnSearchCActionPerformed
+                int id;
+
+                if (txtId.getText().equals(""))
+                {
+                        JOptionPane.showMessageDialog(null, "Preencha o campo de código!", "Erro", JOptionPane.ERROR_MESSAGE);
+                } else
+                {
+			id = Integer.parseInt(txtId.getText());
+                        TipoDePeca aux = TipoDePeca.searchTPeca(id);
+
+                        if ((currentPeca = Estoque.findPeca(aux)) != null)
+                        {
+                                enterViewState();
+                        } else
+                        {
+                                JOptionPane.showMessageDialog(null, "Não encontramos essa peça no estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+                                enterMainState();
+                        }
+                }
+        }//GEN-LAST:event_btnSearchCActionPerformed
+
+        private void btnCancelActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnCancelActionPerformed
+        {//GEN-HEADEREND:event_btnCancelActionPerformed
+                currentPeca = null;
+		enterMainState();
+        }//GEN-LAST:event_btnCancelActionPerformed
+
+        private void btnReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReturnActionPerformed
+        {//GEN-HEADEREND:event_btnReturnActionPerformed
+                this.dispose();
+        }//GEN-LAST:event_btnReturnActionPerformed
+
+        private void tblTableMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_tblTableMouseClicked
+        {//GEN-HEADEREND:event_tblTableMouseClicked
+                currentPeca = Estoque.getPeca(tblTable.getSelectedRow());
+		enterViewState();
+        }//GEN-LAST:event_tblTableMouseClicked
+
+        private void btnOperateActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnOperateActionPerformed
+        {//GEN-HEADEREND:event_btnOperateActionPerformed
+                boolean add = chkAdd.isSelected();
+		boolean sel = chkSelected.isSelected();
+		boolean byId = chkById.isSelected();
+		int qty;
+		
+		if (!txtNewQty.getText().equals("") && (qty = Integer.parseInt(txtNewQty.getText())) > 0) {
+			if (sel) {
+				if (add)
+					Estoque.adicionarPeca(currentPeca.getTipoPeca(), qty);
+				else if (Estoque.removerPeca(currentPeca.getTipoPeca(), qty) == -1)
+					JOptionPane.showMessageDialog(null, "Essa peça não está em estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+				loadTable();
+			} else if (byId) {
+				TipoDePeca aux;
+				if (!txtId.getText().equals("") && (aux = TipoDePeca.searchTPeca(Integer.parseInt(txtId.getText()))) != null) {
+					if (add)
+						Estoque.adicionarPeca(aux, qty);
+					else if (Estoque.removerPeca(aux, qty) == -1) {
+						JOptionPane.showMessageDialog(null, "Essa peça não está em estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+					loadTable();
+				} else {
+					JOptionPane.showMessageDialog(null, "Essa peça não existe!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			} else {
+				TipoDePeca aux;
+				if (!txtTipo.getText().equals("") && !txtMarca.getText().equals("") && ((aux = TipoDePeca.searchTPeca(txtTipo.getText(), txtMarca.getText()))) != null) {
+					if (add)
+						Estoque.adicionarPeca(aux, qty);
+					else if (Estoque.removerPeca(aux, qty) == -1) {
+						JOptionPane.showMessageDialog(null, "Essa peça não está em estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+					}
+					loadTable();
+				} else {
+					JOptionPane.showMessageDialog(null, "Essa peça não existe!", "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		} else {
+			JOptionPane.showMessageDialog(null, "Insira uma quantidade válida!", "Erro", JOptionPane.ERROR_MESSAGE);
+		}
+        }//GEN-LAST:event_btnOperateActionPerformed
+	
+	// GUI state functions
+	
+	private void enterMainState()
+	{
+		btnCancel.setEnabled(false);
+		chkSelected.setEnabled(false);
+		chkById.setEnabled(true);
+		chkByTM.setEnabled(true);
+		chkById.setSelected(true);
+		btnSearchTM.setEnabled(true);
+		btnSearchC.setEnabled(true);
+		
+		txtTipo.setEnabled(true);
+		txtMarca.setEnabled(true);
+		txtId.setEnabled(true);
+		
+		txtTipo.setText("");
+		txtId.setText("");
+		txtMarca.setText("");
+		txtCurrentQty.setText("");
+	}
+	
+	private void enterViewState()
+	{
+		btnSearchTM.setEnabled(false);
+		btnSearchC.setEnabled(false);
+		btnCancel.setEnabled(true);
+		chkSelected.setEnabled(true);
+		chkSelected.setSelected(true);
+		chkById.setEnabled(false);
+		chkByTM.setEnabled(false);
+		
+		txtTipo.setEnabled(false);
+		txtMarca.setEnabled(false);
+		txtId.setEnabled(false);
+		
+		txtId.setText(String.valueOf(currentPeca.getTipoPeca().getId()));
+		txtTipo.setText(currentPeca.getTipoPeca().getTipo());
+		txtMarca.setText(currentPeca.getTipoPeca().getMarca());
+		txtCurrentQty.setText(String.valueOf(currentPeca.getQtd()));
+		
+	}
+	
+	private void loadTable()
+	{
+		DefaultTableModel newTable = new DefaultTableModel(new Object[]{"Código", "Tipo", "Marca", "Quantidade"}, 0);
+
+		for (int i = 0; i < Estoque.getSize(); i++) {
+			Object line[] = new Object[]{
+				Estoque.getPeca(i).getTipoPeca().getId(),
+				Estoque.getPeca(i).getTipoPeca().getTipo(),
+				Estoque.getPeca(i).getTipoPeca().getMarca(),
+				Estoque.getPeca(i).getQtd()};
+			newTable.addRow(line);
+		}
+
+		tblTable.setModel(newTable);
+
+		tblTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+	}
+	
 	/**
 	 * @param args the command line arguments
 	 */
@@ -78,5 +534,33 @@ public class GerenciarEstoque extends javax.swing.JFrame {
 	}
 
         // Variables declaration - do not modify//GEN-BEGIN:variables
+        private javax.swing.JButton btnCancel;
+        private javax.swing.JButton btnOperate;
+        private javax.swing.JButton btnReturn;
+        private javax.swing.JButton btnSearchC;
+        private javax.swing.JButton btnSearchTM;
+        private javax.swing.ButtonGroup btngrpAddRmv;
+        private javax.swing.ButtonGroup btngrpSelType;
+        private javax.swing.JRadioButton chkAdd;
+        private javax.swing.JRadioButton chkById;
+        private javax.swing.JRadioButton chkByTM;
+        private javax.swing.JRadioButton chkRmv;
+        private javax.swing.JRadioButton chkSelected;
+        private javax.swing.JSeparator jSeparator1;
+        private javax.swing.JSeparator jSeparator2;
+        private javax.swing.JLabel lblId;
+        private javax.swing.JLabel lblMarca;
+        private javax.swing.JLabel lblPrice;
+        private javax.swing.JLabel lblQtyToSet;
+        private javax.swing.JLabel lblTipo;
+        private javax.swing.JPanel pnlAction;
+        private javax.swing.JPanel pnlPrincipal;
+        private javax.swing.JScrollPane pnlTabela;
+        private javax.swing.JTable tblTable;
+        private javax.swing.JTextField txtCurrentQty;
+        private javax.swing.JTextField txtId;
+        private javax.swing.JTextField txtMarca;
+        private javax.swing.JTextField txtNewQty;
+        private javax.swing.JFormattedTextField txtTipo;
         // End of variables declaration//GEN-END:variables
 }

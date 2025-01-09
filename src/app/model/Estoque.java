@@ -40,7 +40,7 @@ public class Estoque {
 		if ((storagePecas = findPeca(tPeca)) != null && qtyToRemove < storagePecas.getQtd()) {
 			storagePecas.remQtd(qtyToRemove);
 			return 0;
-		} else if (qtyToRemove == storagePecas.getQtd()) {
+		} else if (storagePecas != null && qtyToRemove == storagePecas.getQtd()) {
 			estoque.remove(storagePecas);
 			return 0;
 		} else {
@@ -70,5 +70,15 @@ public class Estoque {
 				return peca;
 		}
 		return null;
+	}
+	
+	public static int getSize()
+	{
+		return estoque.size();
+	}
+	
+	public static Peca getPeca(int i)
+	{
+		return estoque.get(i);
 	}
 }
