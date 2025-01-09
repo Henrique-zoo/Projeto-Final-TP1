@@ -43,6 +43,14 @@ public class Cliente extends Pessoa {
     public Veiculo getVeiculoByID(int i){
         return this.veiculos.get(i);
     }
+    
+    public void excluirVeiculo(Veiculo veiculo){
+        this.veiculos.remove(veiculo);
+    }
+    
+    public void excluirVeiculos() {
+        this.veiculos.clear();
+    }
 
     public double getTotalPago() {
         return totalPago;
