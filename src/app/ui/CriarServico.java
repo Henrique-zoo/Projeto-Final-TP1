@@ -4,6 +4,12 @@
  */
 package app.ui;
 
+import app.utils.Objetos;
+import app.model.Cliente;
+import app.model.Funcionario;
+import app.model.Servico;
+import app.model.Veiculo;
+import javax.swing.JOptionPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -168,7 +174,7 @@ public class CriarServico extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(painelDadosServico, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(110, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,7 +193,19 @@ public class CriarServico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        
+        if (!textFuncionario.getText().equals("") && !textCliente.getText().equals("") && !textVeiculo.getText().equals("")) {
+            int idFuncionario = Integer.parseInt(textFuncionario.getText());
+            int idCliente = Integer.parseInt(textCliente.getText());
+            int idVeiculo = Integer.parseInt(textVeiculo.getText());
+            
+            Funcionario funcionario = Objetos.funcionarios.get(idFuncionario);
+            Cliente cliente = Objetos.clientes.get(idCliente);
+            Veiculo veiculo = Objetos.veiculos.get(idVeiculo);
+            
+            Objetos.adicionarServico(new Servico(cliente, veiculo, funcionario));
+        } else {
+            JOptionPane.showMessageDialog(null, "Todos os campos devem ser inseridos!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void textFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFuncionarioActionPerformed
