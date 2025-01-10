@@ -4,6 +4,12 @@
  */
 package app.ui;
 
+import app.model.Funcionario;
+import app.model.Servico;
+import app.utils.Objetos;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author henri
@@ -15,6 +21,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
      */
     public GerenciarServicos() {
         initComponents();
+        carregaTabelaServicos();
     }
 
     /**
@@ -47,6 +54,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
         jTableServicos = new javax.swing.JTable();
         jButtonBuscarID = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
+        jButtonSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Serviços");
@@ -69,6 +77,11 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/zoom.png"))); // NOI18N
         jButtonBusca.setBorderPainted(false);
+        jButtonBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscaActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Método de pagamento");
 
@@ -125,9 +138,9 @@ public class GerenciarServicos extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
@@ -184,9 +197,22 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonBuscarID.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcardsearch.png"))); // NOI18N
         jButtonBuscarID.setText("Buscar por ID");
+        jButtonBuscarID.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonBuscarIDActionPerformed(evt);
+            }
+        });
 
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcard_delete.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
+
+        jButtonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/accept.png"))); // NOI18N
+        jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -196,13 +222,15 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(jButtonBuscarID)
+                        .addGap(22, 22, 22)
+                        .addComponent(jButtonBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluir)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -213,7 +241,8 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonBuscarID)
-                    .addComponent(jButtonExcluir))
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonSalvar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -223,9 +252,61 @@ public class GerenciarServicos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonBuscarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarIDActionPerformed
+        // TODO add your handling code here:
+        jTFId.setEnabled(true);
+        jButtonBusca.setEnabled(true);
+    }//GEN-LAST:event_jButtonBuscarIDActionPerformed
+
+    private void jButtonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscaActionPerformed
+        // TODO add your handling code here:
+        if (jTFId.getText().isEmpty() || jTFId.getText().isBlank()){
+            JOptionPane.showMessageDialog(null, "Insira um ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+        else if (Objetos.servicos.get(Integer.parseInt(jTFId.getText())) != null){
+            Servico servico = Objetos.servicos.get(Integer.parseInt(jTFId.getText()));
+            jTFCliente.setText(servico.getCliente().getNome());
+            jTFFuncionario.setText(servico.getFuncionario().getNome());
+            jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
+        }
+    }//GEN-LAST:event_jButtonBuscaActionPerformed
+
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        // TODO add your handling code here:
+        Servico servico = Objetos.servicos.get(Integer.parseInt(jTFId.getText()));        
+        Funcionario funcionario = Objetos.servicos.get(Integer.parseInt(jTFId.getText())).getFuncionario();
+        if (jCheckBoxConsertado.isSelected()){            
+            funcionario.consertarVeiculo(servico, (String) jComboBox1.getSelectedItem());
+        }
+        if (jCheckBoxPago.isSelected()){
+            servico.setPago(true);
+            double valor = servico.getCliente().getDebito() - Double.parseDouble(jFTFValor.getText());
+            servico.getCliente().setDebito(valor);
+        }
+        funcionario.completaSevico(servico);
+        
+        
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    public void carregaTabelaServicos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Cliente","Veículo", "Funcionário"} ,0);
+        for(int i = 0;i< Objetos.servicos.size() + 1; i++){
+            if (Objetos.servicos.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
+                                            Objetos.servicos.get(i).getCliente(),
+                                            Objetos.servicos.get(i).getVeiculo(),
+                                            Objetos.servicos.get(i).getFuncionario()                                                                                        
+                                            };
+                modelo.addRow(linha);
+            }            
+        }
+        jTableServicos.setModel(modelo);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -262,6 +343,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
     private javax.swing.JButton jButtonBusca;
     private javax.swing.JButton jButtonBuscarID;
     private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonSalvar;
     private javax.swing.JCheckBox jCheckBoxConsertado;
     private javax.swing.JCheckBox jCheckBoxPago;
     private javax.swing.JComboBox<String> jComboBox1;

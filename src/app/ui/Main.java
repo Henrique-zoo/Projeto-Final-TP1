@@ -4,10 +4,8 @@
  */
 package app.ui;
 
-import app.model.Cliente;
 import app.model.Estoque;
-import app.model.Funcionario;
-import java.util.ArrayList;
+import app.utils.Objetos;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,13 +17,10 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
-    public static ArrayList<Funcionario> funcionarios = new ArrayList<>();
-    public static ArrayList<Cliente> clientes = new ArrayList<>();
     public static boolean isAdmin = false; //pra dar os privilégios de excluir/editar dados definida como true pra teste
     
     public Main() {
-        initComponents();
+        initComponents();        
     }
     
     /**
@@ -504,47 +499,52 @@ public class Main extends javax.swing.JFrame {
 		TelaLogin novoLogin = new TelaLogin();
 		novoLogin.setVisible(true);
         }//GEN-LAST:event_btnLeaveActionPerformed
-
+               
     public void carregarTabelaClientes(){
         //Criar o modelo da tabela
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Debito", "Total Pago"},0);
-        for(int i=0;i<Main.clientes.size();i++){
-            Object linha[] = new Object[]{  Main.clientes.get(i).getId(),
-                                            Main.clientes.get(i).getCpf(),
-                                            Main.clientes.get(i).getNome(),
-                                            Main.clientes.get(i).getEmail(),
-                                            Main.clientes.get(i).getTelefone(),
-                                            Main.clientes.get(i).getDebito(),
-                                            Main.clientes.get(i).getTotalPago()                                            
+        for(int i = 1;i<Objetos.clientes.size() + 1;i++){
+            if (Objetos.clientes.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.clientes.get(i).getId(),
+                                            Objetos.clientes.get(i).getCpf(),
+                                            Objetos.clientes.get(i).getNome(),
+                                            Objetos.clientes.get(i).getEmail(),
+                                            Objetos.clientes.get(i).getTelefone(),
+                                            String.format("R$%.2f", Objetos.clientes.get(i).getDebito()),
+                                            String.format("R$%.2f", Objetos.clientes.get(i).getTotalPago())                                            
                                             };
-            modelo.addRow(linha);
+                modelo.addRow(linha);
+            }
+            
         }
         jTableClientes.setModel(modelo);
     } 
     
     private void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Salário", "Serviços Feitos"},0);
-        for(int i=0;i<Main.funcionarios.size();i++){
-            Object linha[] = new Object[]{  Main.funcionarios.get(i).getId(),
-                                            Main.funcionarios.get(i).getCpf(),
-                                            Main.funcionarios.get(i).getNome(),
-                                            Main.funcionarios.get(i).getEmail(),
-                                            Main.funcionarios.get(i).getTelefone(),
-                                            Main.funcionarios.get(i).getSalario(),
-                                            Main.funcionarios.get(i).getServicosFeitos()                                            
+        for(int i = 1; i < Objetos.funcionarios.size() + 1;i++){
+            if (Objetos.funcionarios.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.funcionarios.get(i).getId(),
+                                            Objetos.funcionarios.get(i).getCpf(),
+                                            Objetos.funcionarios.get(i).getNome(),
+                                            Objetos.funcionarios.get(i).getEmail(),
+                                            Objetos.funcionarios.get(i).getTelefone(),
+                                            String.format("R$%.2f", Objetos.funcionarios.get(i).getSalario()),
+                                            Objetos.funcionarios.get(i).getServicosFeitos()                                            
                                             };
-            modelo.addRow(linha);
+                modelo.addRow(linha);
+            }            
         }
         jTableFuncionarios.setModel(modelo);
     }
     
     private void carregarTabelaPecas() {
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Tipo","Marca", "Preço", "Qnt."},0);
-        for(int i=0;i < Estoque.getSize();i++){
+        for(int i = 0; i < Estoque.getSize();i++){
             Object linha[] = new Object[]{  Estoque.getPeca(i).getTipoPeca().getId(),
                                             Estoque.getPeca(i).getTipoPeca().getTipo(),
                                             Estoque.getPeca(i).getTipoPeca().getMarca(),
-                                            Estoque.getPeca(i).getTipoPeca().getPreco(),                                            
+                                            String.format("R$%.2f", Estoque.getPeca(i).getTipoPeca().getPreco()),                                            
                                             Estoque.getPeca(i).getQtd()
                                             };
             modelo.addRow(linha);
@@ -579,6 +579,8 @@ public class Main extends javax.swing.JFrame {
 
     private void jButtonGerenciarServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarServicosActionPerformed
         // TODO add your handling code here:
+        GerenciarServicos novoGerenciarServicos = new GerenciarServicos();
+        novoGerenciarServicos.setVisible(true);
     }//GEN-LAST:event_jButtonGerenciarServicosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

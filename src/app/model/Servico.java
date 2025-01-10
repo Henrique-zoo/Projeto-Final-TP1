@@ -36,8 +36,8 @@ public class Servico {
     public double getValor() {
         return valor;
     }
-    public void setValor() {
-        valor = calculaValor();
+    public void setValor(String metodo) {
+        valor = calculaValor(metodo);
     }
     public boolean isPago() {
         return pago;
@@ -79,10 +79,13 @@ public class Servico {
     }
     
     // Outros métodos da classe
-    public double calculaValor() {
+    public double calculaValor(String metodo) {
         double total = 0.0;
         for (Peca par : veiculo.getPecasComProblema())
             total += par.getQtd() * par.getTipoPeca().getPreco();
+        if (metodo.equals("Dinheiro") || metodo.equals("PIX")){
+            return total * 0.95;
+        }
         return total;
     }
 }
