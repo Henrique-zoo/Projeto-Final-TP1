@@ -4,6 +4,7 @@
  */
 package app.ui;
 
+import app.model.Estoque;
 import javax.swing.JOptionPane;
 import app.model.TipoDePeca;
 import javax.swing.table.DefaultTableModel;
@@ -431,8 +432,13 @@ public class CadastroTipoPeca extends javax.swing.JFrame {
 
         private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnRemoveActionPerformed
         {//GEN-HEADEREND:event_btnRemoveActionPerformed
-		TipoDePeca.removerCadastro(currentTPeca);
-		enterMainState();
+		if ((Estoque.findPeca(currentTPeca)) == null) {
+			TipoDePeca.removerCadastro(currentTPeca);
+			enterMainState();
+		} else {
+			JOptionPane.showMessageDialog(null, "Impossível remover cadastro se a peça ainda está em estoque!", "Erro", JOptionPane.ERROR_MESSAGE);
+			enterViewState();
+		}
         }//GEN-LAST:event_btnRemoveActionPerformed
 
         private void btnSaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnSaveActionPerformed

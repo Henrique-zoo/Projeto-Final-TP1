@@ -80,9 +80,9 @@ public class Funcionario extends Pessoa {
         }
     }
 
-    public void adicionaPecasComProblema(Servico servico, ArrayList<Peca> pecasComProblema) {
+    public void adicionaPecasComProblema(Servico servico, ArrayList<Peca> pecasComProblema, String metodo) {
         servico.getVeiculo().setPecasComProblema(pecasComProblema);
-        servico.setValor();
+        servico.setValor(metodo);
     }
     
     public ArrayList<Peca> pegarPecasNoEstoque(Servico servico) {
@@ -98,8 +98,8 @@ public class Funcionario extends Pessoa {
         return pecasFaltantes;
     }
     
-    public void consertarVeiculo(Servico servico) {
-        servico.calculaValor();
+    public void consertarVeiculo(Servico servico, String metodo) {
+        servico.calculaValor(metodo);
         servico.getVeiculo().esvaziarPecasComProblema();
         servico.setConsertado(true);
     }

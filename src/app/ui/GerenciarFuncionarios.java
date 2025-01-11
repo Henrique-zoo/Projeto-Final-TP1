@@ -6,6 +6,7 @@ package app.ui;
 
 import app.model.Funcionario;
 import app.model.Servico;
+import app.utils.Objetos;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -275,7 +276,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
     private void carregarTabelaServicos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Valor","Consertado","Pago", "Cliente", "Veículo"},0);
         int indice = Integer.parseInt(jTFid.getText());
-        Funcionario funcionario = Main.funcionarios.get(indice);
+        Funcionario funcionario = Objetos.funcionarios.get(indice);
         
         HashMap<Integer, Servico> servicosFuncionario = funcionario.getServicosAtivos();
         
@@ -283,7 +284,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             Integer id = entry.getKey();
             Servico servico = entry.getValue();
             Object linha[] = new Object[]{  id,
-                                            servico.getValor(),
+                                            String.format("R$%.2f", servico.getValor()),
                                             servico.isConsertado() ? "Sim" : "Não",
                                             servico.isPago() ? "Sim" : "Não",
                                             servico.getCliente().getCpf(),
@@ -302,16 +303,16 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             javax.swing.JOptionPane.showMessageDialog(this, "Informe um CPF!");
         }
         else {                  
-            for (Funcionario funcionario : Main.funcionarios){
-               if (funcionario.getCpf().equals(cpf)) { //percorre o array de funcionarios até encontrar o CPF e colocar os dados nos respectivos campos
+            for (int i = 1; i < Objetos.funcionarios.size(); i++){
+               if (Objetos.funcionarios.get(i).getCpf().equals(cpf)) { //percorre o array de funcionarios até encontrar o CPF e colocar os dados nos respectivos campos
                    encontrado = true;
-                   jTFNome.setText(funcionario.getNome());
-                   jTFEmail.setText(funcionario.getEmail());
-                   jFTFTelefone.setText(funcionario.getTelefone());
-                   jTFid.setText(Integer.toString(funcionario.getId()));
-                   jFTFSalario.setText(Double.toString(funcionario.getSalario()));                   
+                   jTFNome.setText(Objetos.funcionarios.get(i).getNome());
+                   jTFEmail.setText(Objetos.funcionarios.get(i).getEmail());
+                   jFTFTelefone.setText(Objetos.funcionarios.get(i).getTelefone());
+                   jTFid.setText(Integer.toString(Objetos.funcionarios.get(i).getId()));
+                   jFTFSalario.setText(Double.toString(Objetos.funcionarios.get(i).getSalario()));                   
                    carregarTabelaServicos();
-                   jCheckBox1.setSelected(funcionario.isAdmin());
+                   jCheckBox1.setSelected(Objetos.funcionarios.get(i).isAdmin());
                    if (Main.isAdmin){
                        jButtonExcluir.setEnabled(true);
                        jButtonEditar.setEnabled(true);
@@ -351,12 +352,12 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             String telefone = jFTFTelefone.getText();
             double salarioDouble = Double.parseDouble(jFTFSalario.getText());
             
-            Main.funcionarios.get(idInt).setNome(nome);
-            Main.funcionarios.get(idInt).setCpf(cpf);
-            Main.funcionarios.get(idInt).setEmail(email);
-            Main.funcionarios.get(idInt).setTelefone(telefone);
-            Main.funcionarios.get(idInt).setSalario(salarioDouble);
-            Main.funcionarios.get(idInt).setAdmin(jCheckBox1.isSelected());
+            Objetos.funcionarios.get(idInt).setNome(nome);
+            Objetos.funcionarios.get(idInt).setCpf(cpf);
+            Objetos.funcionarios.get(idInt).setEmail(email);
+            Objetos.funcionarios.get(idInt).setTelefone(telefone);
+            Objetos.funcionarios.get(idInt).setSalario(salarioDouble);
+            Objetos.funcionarios.get(idInt).setAdmin(jCheckBox1.isSelected());
             
             javax.swing.JOptionPane.showMessageDialog(this, "Dados alterados com sucesso.");
             jButtonConfirmar.setEnabled(false);
@@ -370,7 +371,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse funcionário?");
         if (resposta == JOptionPane.YES_OPTION) {
             int indice = Integer.parseInt(jTFid.getText());
-            Main.funcionarios.remove(indice);
+            Objetos.funcionarios.remove(indice);
             javax.swing.JOptionPane.showMessageDialog(this, "Funcionário excluído com sucesso.");
         }
     }//GEN-LAST:event_jButtonExcluirActionPerformed

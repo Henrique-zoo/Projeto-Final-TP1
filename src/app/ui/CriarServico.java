@@ -326,9 +326,9 @@ public class CriarServico extends javax.swing.JFrame {
             
             Funcionario funcionario = Objetos.funcionarios.get(idFuncionario);
             Cliente cliente = Objetos.clientes.get(idCliente);
-            Veiculo veiculo = Objetos.veiculos.get(idVeiculo);
-            
+            Veiculo veiculo = cliente.getVeiculoByID(idVeiculo);            
             Objetos.adicionarServico(new Servico(cliente, veiculo, funcionario));
+            javax.swing.JOptionPane.showMessageDialog(this, "Serviço cadastrado com sucesso!");
         } else {
             JOptionPane.showMessageDialog(null, "Todos os campos devem ser inseridos!", "Aviso", JOptionPane.ERROR_MESSAGE);
         }

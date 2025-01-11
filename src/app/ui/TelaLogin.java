@@ -18,9 +18,10 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        Objetos objeto = new Objetos();
         Funcionario funcionario = new Funcionario("1", 0, "1", "111.111.111-11", "1", "1");
         funcionario.setAdmin(true);
-        Main.funcionarios.add(funcionario);
+        Objetos.funcionarios.put(0, funcionario);
     }
 
     /**
@@ -158,10 +159,10 @@ public class TelaLogin extends javax.swing.JFrame {
         String senhaInformada = String.copyValueOf(jPasswordField1.getPassword());
         boolean cpfEncontrado = false;
         
-        for (Funcionario funcionario : Main.funcionarios) { 
-            if (funcionario.getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
-                if (funcionario.getSenha().equals(senhaInformada)){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + funcionario.getNome() + ".");
+        for (int i = 0; i < Objetos.funcionarios.size(); i++) { 
+            if (Objetos.funcionarios.get(i).getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
+                if (Objetos.funcionarios.get(i).getSenha().equals(senhaInformada)){
+                    javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + Objetos.funcionarios.get(i).getNome() + ".");
                     Main.isAdmin = true; //dá os privilégios de adm pra alterar/excluir dados
                     Main main = new Main();
                     main.setVisible(true);

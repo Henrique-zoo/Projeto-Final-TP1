@@ -5,6 +5,7 @@
 package app.ui;
 
 import app.model.Cliente;
+import app.utils.Objetos;
 
 /**
  *
@@ -17,9 +18,7 @@ public class CadastroCliente extends javax.swing.JFrame {
      */
     public CadastroCliente() {
         initComponents();
-        jTFid.setEnabled(false);
-        jTFid.setText(Integer.toString(Main.clientes.size()));
-        //Os IDs são definidos automaticamente pelo tamanho do array, então o text field está desativado
+        jTFid.setEnabled(false);       
     }
 
     /**
@@ -182,35 +181,33 @@ public class CadastroCliente extends javax.swing.JFrame {
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
         // TODO add your handling code here:
-        int id = Main.clientes.size();
-        String nome = jTFNome.getText();
-        String cpf = jFTFCPF.getText();
-        String email = jTFEmail.getText();
-        String telefone = jFTFTelefone.getText();
+        int id = 1;        
         boolean cadastrado = false;
         
-        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  ) 9    -    "))){ //Verifica se todos os campos estão preenchidos
-            for (Cliente cliente : Main.clientes){                                                                      //Se sim, verifica se o CPF fornecido já está no sistema
-                if (cliente.getCpf().equals(cpf)){                                                                      //Se não, o cliente é adicionado ao array na Main
+        while (true){
+            if (!Objetos.clientes.containsKey(id)){
+                break;
+            }
+            id++;
+        }
+        
+        if (!(jTFNome.getText().isEmpty() || jFTFCPF.getText().equals("   .   .   -  ") || jTFEmail.getText().isEmpty() || jFTFTelefone.getText().equals("(  )9    -    "))){ //Verifica se todos os campos estão preenchidos
+            for (int i = 1; i < Objetos.clientes.size(); i++){                                                                      //Se sim, verifica se o CPF fornecido já está no sistema
+                if (Objetos.clientes.get(i).getCpf().equals(jFTFCPF.getText())){                                                                      //Se não, o cliente é adicionado ao array na Main
                     javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
                     cadastrado = true;
                 }
             }
             if (!cadastrado){
-                Cliente cliente = new Cliente(id, nome, cpf, email, telefone);
-                Main.clientes.add(cliente);
-                javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
-                
-                jFTFCPF.setText("");
-                jTFNome.setText("");
-                jTFEmail.setText("");
-                jFTFTelefone.setText("");          
+                Cliente cliente = new Cliente(id, jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
+                Objetos.clientes.put(id, cliente);
+                javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");                
+                this.dispose();
             }
         }
         else {
             javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
-        }
-        jTFid.setText(String.valueOf(Main.clientes.size())); //atualiza o ID com base no tamanho do array de clientes   
+        }           
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     /**

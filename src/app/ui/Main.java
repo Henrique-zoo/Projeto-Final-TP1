@@ -4,10 +4,8 @@
  */
 package app.ui;
 
-import app.model.Cliente;
 import app.model.Estoque;
-import app.model.Funcionario;
-import java.util.ArrayList;
+import app.utils.Objetos;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,13 +17,10 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
-    public static ArrayList<Funcionario> funcionarios = new ArrayList<>();
-    public static ArrayList<Cliente> clientes = new ArrayList<>();
     public static boolean isAdmin = false; //pra dar os privilégios de excluir/editar dados definida como true pra teste
     
     public Main() {
-        initComponents();
+        initComponents();        
     }
     
     /**
@@ -266,7 +261,7 @@ public class Main extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jButtonCadastrarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGerenciarFuncs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAtualizarFuncionarios)))
@@ -334,11 +329,6 @@ public class Main extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jButton1KeyTyped(evt);
-            }
-        });
 
         jButtonAtualizarPecas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
         jButtonAtualizarPecas.addActionListener(new java.awt.event.ActionListener() {
@@ -388,20 +378,6 @@ public class Main extends javax.swing.JFrame {
 
         jButtonGerenciarServicos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/car_edit.png"))); // NOI18N
         jButtonGerenciarServicos.setText("Gerenciar Serviços");
-        jButtonGerenciarServicos.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jButtonGerenciarServicosAncestorMoved(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        jButtonGerenciarServicos.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentMoved(java.awt.event.ComponentEvent evt) {
-                jButtonGerenciarServicosComponentMoved(evt);
-            }
-        });
         jButtonGerenciarServicos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonGerenciarServicosActionPerformed(evt);
@@ -422,6 +398,11 @@ public class Main extends javax.swing.JFrame {
         jScrollPane4.setViewportView(jTableServicos);
 
         jButtonAtualizarServicos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
+        jButtonAtualizarServicos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAtualizarServicosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -504,47 +485,69 @@ public class Main extends javax.swing.JFrame {
 		TelaLogin novoLogin = new TelaLogin();
 		novoLogin.setVisible(true);
         }//GEN-LAST:event_btnLeaveActionPerformed
-
+    
+    public void carregarTabelaServicos(){
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Valor","Pago", "Consertado", "Cliente", "Veículo", "Funcionário"},0);
+        for(int i = 0;i <= Objetos.servicos.size(); i++){
+            if (Objetos.servicos.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
+                                                String.format("R$%.2f", Objetos.servicos.get(i).getValor()),
+                                                Objetos.servicos.get(i).isPago() ? "Sim" : "Não",
+                                                Objetos.servicos.get(i).isConsertado() ? "Sim" : "Não",
+                                                Objetos.servicos.get(i).getCliente().getNome(),
+                                                Objetos.servicos.get(i).getFuncionario().getNome(),
+                                                };
+                modelo.addRow(linha);
+            }            
+        }
+        jTableServicos.setModel(modelo);
+    }
+        
     public void carregarTabelaClientes(){
         //Criar o modelo da tabela
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Debito", "Total Pago"},0);
-        for(int i=0;i<Main.clientes.size();i++){
-            Object linha[] = new Object[]{  Main.clientes.get(i).getId(),
-                                            Main.clientes.get(i).getCpf(),
-                                            Main.clientes.get(i).getNome(),
-                                            Main.clientes.get(i).getEmail(),
-                                            Main.clientes.get(i).getTelefone(),
-                                            Main.clientes.get(i).getDebito(),
-                                            Main.clientes.get(i).getTotalPago()                                            
+        for(int i = 1;i<Objetos.clientes.size() + 1;i++){
+            if (Objetos.clientes.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.clientes.get(i).getId(),
+                                            Objetos.clientes.get(i).getCpf(),
+                                            Objetos.clientes.get(i).getNome(),
+                                            Objetos.clientes.get(i).getEmail(),
+                                            Objetos.clientes.get(i).getTelefone(),
+                                            String.format("R$%.2f", Objetos.clientes.get(i).getDebito()),
+                                            String.format("R$%.2f", Objetos.clientes.get(i).getTotalPago())                                            
                                             };
-            modelo.addRow(linha);
+                modelo.addRow(linha);
+            }
+            
         }
         jTableClientes.setModel(modelo);
     } 
     
     private void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Salário", "Serviços Feitos"},0);
-        for(int i=0;i<Main.funcionarios.size();i++){
-            Object linha[] = new Object[]{  Main.funcionarios.get(i).getId(),
-                                            Main.funcionarios.get(i).getCpf(),
-                                            Main.funcionarios.get(i).getNome(),
-                                            Main.funcionarios.get(i).getEmail(),
-                                            Main.funcionarios.get(i).getTelefone(),
-                                            Main.funcionarios.get(i).getSalario(),
-                                            Main.funcionarios.get(i).getServicosFeitos()                                            
+        for(int i = 1; i < Objetos.funcionarios.size() + 1;i++){
+            if (Objetos.funcionarios.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.funcionarios.get(i).getId(),
+                                            Objetos.funcionarios.get(i).getCpf(),
+                                            Objetos.funcionarios.get(i).getNome(),
+                                            Objetos.funcionarios.get(i).getEmail(),
+                                            Objetos.funcionarios.get(i).getTelefone(),
+                                            String.format("R$%.2f", Objetos.funcionarios.get(i).getSalario()),
+                                            Objetos.funcionarios.get(i).getServicosFeitos()                                            
                                             };
-            modelo.addRow(linha);
+                modelo.addRow(linha);
+            }            
         }
         jTableFuncionarios.setModel(modelo);
     }
     
     private void carregarTabelaPecas() {
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Tipo","Marca", "Preço", "Qnt."},0);
-        for(int i=0;i < Estoque.getSize();i++){
+        for(int i = 0; i < Estoque.getSize();i++){
             Object linha[] = new Object[]{  Estoque.getPeca(i).getTipoPeca().getId(),
                                             Estoque.getPeca(i).getTipoPeca().getTipo(),
                                             Estoque.getPeca(i).getTipoPeca().getMarca(),
-                                            Estoque.getPeca(i).getTipoPeca().getPreco(),                                            
+                                            String.format("R$%.2f", Estoque.getPeca(i).getTipoPeca().getPreco()),                                            
                                             Estoque.getPeca(i).getQtd()
                                             };
             modelo.addRow(linha);
@@ -579,16 +582,14 @@ public class Main extends javax.swing.JFrame {
 
     private void jButtonGerenciarServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarServicosActionPerformed
         // TODO add your handling code here:
+        GerenciarServicos novoGerenciarServicos = new GerenciarServicos();
+        novoGerenciarServicos.setVisible(true);
     }//GEN-LAST:event_jButtonGerenciarServicosActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         GerenciarEstoque novoGerenciarEstoque = new GerenciarEstoque();
 	novoGerenciarEstoque.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1KeyTyped
 
     private void jButtonAtualizarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarClientesActionPerformed
         // TODO add your handling code here:
@@ -600,18 +601,15 @@ public class Main extends javax.swing.JFrame {
         carregarTabelaFuncionarios();
     }//GEN-LAST:event_jButtonAtualizarFuncionariosActionPerformed
 
-    private void jButtonGerenciarServicosComponentMoved(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jButtonGerenciarServicosComponentMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonGerenciarServicosComponentMoved
-
-    private void jButtonGerenciarServicosAncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jButtonGerenciarServicosAncestorMoved
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonGerenciarServicosAncestorMoved
-
     private void jButtonAtualizarPecasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarPecasActionPerformed
         // TODO add your handling code here:
         carregarTabelaPecas();
     }//GEN-LAST:event_jButtonAtualizarPecasActionPerformed
+
+    private void jButtonAtualizarServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarServicosActionPerformed
+        // TODO add your handling code here:
+        carregarTabelaServicos();
+    }//GEN-LAST:event_jButtonAtualizarServicosActionPerformed
 
     /**
      * @param args the command line arguments
