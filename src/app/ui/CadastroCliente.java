@@ -61,7 +61,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel6.setText("Telefone");
 
         try {
-            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)9####-####")));
+            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) 9####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }

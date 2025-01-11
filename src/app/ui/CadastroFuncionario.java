@@ -82,7 +82,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel6.setText("Telefone");
 
         try {
-            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)9####-####")));
+            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) 9####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -248,7 +248,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         String salario = jTFSalario.getText();
         boolean cadastrado = false;
         
-        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  )9    -    ") || senha.isEmpty() || confirmaSenha.isEmpty())){
+        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  ) 9    -    ") || senha.isEmpty() || confirmaSenha.isEmpty())){
             for (int i = 1; i < Objetos.funcionarios.size(); i++){
                 if (Objetos.funcionarios.get(i).getCpf().equals(cpf)){
                     javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");  //O If mais externo verifica se há campos vazios levando em conta as máscaras dos formated text fields
