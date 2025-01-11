@@ -811,8 +811,7 @@ public class GerenciarClientes extends javax.swing.JFrame {
         jFTFTotalPago.setEnabled(false);
         jTFNome.setEnabled(false);
         jTFEmail.setEnabled(false);
-        jComboBox1.setEnabled(false);
-        
+        jComboBox1.setEnabled(false);        
         jButtonPesquisar.setEnabled(false);
         jButtonExcluir.setEnabled(false);
         jButtonEditar.setEnabled(false);
@@ -1095,10 +1094,13 @@ public class GerenciarClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonOkVeiculoActionPerformed
 
     private void jButtonIncluirPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonIncluirPecaActionPerformed
-        // TODO add your handling code here:   
-        if (jFTFQnt.getText().isEmpty() || jComboBoxPeca.getSelectedItem() == null){
+        // TODO add your handling code here: 
+        if (TipoDePeca.getTPecaQuantity() != 0 && (jFTFQnt.getText().isEmpty() || jComboBoxPeca.getSelectedItem() == null)){            
             javax.swing.JOptionPane.showMessageDialog(this, "Informe uma peça e a quantidade!");
-        }                
+        }        
+        else if (TipoDePeca.getTPecaQuantity() == 0 && jFTFQnt.getText().isEmpty()){
+            javax.swing.JOptionPane.showMessageDialog(this, "Informe a quantidade!");            
+        }
         else {
             Peca novaPeca = new Peca(Integer.parseInt(jFTFQnt.getText()), (TipoDePeca)jComboBoxPeca.getSelectedItem());
             arrayPeca.add(novaPeca);
@@ -1112,9 +1114,8 @@ public class GerenciarClientes extends javax.swing.JFrame {
             modelo.addRow(new Object[]{novaPeca.getTipoPeca().getTipo(),
                                             novaPeca.getTipoPeca().getMarca(),
                                             //peca.getTipoPeca().getQnt()
-                                            });         
-        }
-                                   
+                                            });                     
+        }                                           
     }//GEN-LAST:event_jButtonIncluirPecaActionPerformed
 
     private void jButtonEditarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarVeiculoActionPerformed

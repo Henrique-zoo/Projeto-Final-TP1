@@ -28,7 +28,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="1" pref="459" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="1" pref="453" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="jButtonBuscarID" min="-2" pref="120" max="-2" attributes="0"/>
@@ -36,7 +36,6 @@
                       <Component id="jButtonExcluir" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jButtonSalvar" min="-2" pref="120" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -206,6 +205,11 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="jFTFValor">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format format="#0.00" subtype="-1" type="0"/>
+            </Property>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonBusca">
           <Properties>
@@ -226,11 +230,12 @@
         <Component class="javax.swing.JComboBox" name="jComboBox1">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Dinheiro"/>
-                <StringItem index="1" value="PIX"/>
-                <StringItem index="2" value="D&#xe9;bito"/>
-                <StringItem index="3" value="Cr&#xe9;dito"/>
+              <StringArray count="5">
+                <StringItem index="0" value=""/>
+                <StringItem index="1" value="Dinheiro"/>
+                <StringItem index="2" value="PIX"/>
+                <StringItem index="3" value="D&#xe9;bito"/>
+                <StringItem index="4" value="Cr&#xe9;dito"/>
               </StringArray>
             </Property>
           </Properties>
@@ -306,6 +311,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Excluir"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExcluirActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonSalvar">
       <Properties>

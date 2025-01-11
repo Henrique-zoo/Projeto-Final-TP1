@@ -22,6 +22,21 @@ public class GerenciarServicos extends javax.swing.JFrame {
     public GerenciarServicos() {
         initComponents();
         carregaTabelaServicos();
+        jTFCliente.setEditable(false);
+        jTFCliente.setText("");
+        
+        jTFVeiculo.setEditable(false);
+        jTFVeiculo.setText("");
+        
+        jTFFuncionario.setEditable(false);
+        jTFFuncionario.setText("");
+        
+        jButtonExcluir.setEnabled(false);
+        jButtonSalvar.setEnabled(false);
+        
+        jTFId.setEnabled(false);
+        jButtonBusca.setEnabled(false);
+        
     }
 
     /**
@@ -75,6 +90,8 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jLabel6.setText("Valor");
 
+        jFTFValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
         jButtonBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/zoom.png"))); // NOI18N
         jButtonBusca.setBorderPainted(false);
         jButtonBusca.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +102,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jLabel8.setText("Método de pagamento");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dinheiro", "PIX", "Débito", "Crédito" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Dinheiro", "PIX", "Débito", "Crédito" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -205,6 +222,11 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcard_delete.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/accept.png"))); // NOI18N
         jButtonSalvar.setText("Salvar");
@@ -222,15 +244,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addComponent(jButtonBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -268,6 +289,17 @@ public class GerenciarServicos extends javax.swing.JFrame {
             jTFCliente.setText(servico.getCliente().getNome());
             jTFFuncionario.setText(servico.getFuncionario().getNome());
             jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
+            jButtonExcluir.setEnabled(true);
+            jButtonSalvar.setEnabled(true);
+            jTFId.setEnabled(true);
+            jButtonBusca.setEnabled(true);
+            
+            jFTFValor.setText(Double.toString(servico.getValor()));
+            jCheckBoxPago.setSelected(servico.isPago());
+            jCheckBoxConsertado.setSelected(servico.isConsertado());
+            if (servico.getMetodoPagamento() != null){
+                jComboBox1.setSelectedItem(servico.getMetodoPagamento());
+            }            
         }
     }//GEN-LAST:event_jButtonBuscaActionPerformed
 
@@ -278,15 +310,30 @@ public class GerenciarServicos extends javax.swing.JFrame {
         if (jCheckBoxConsertado.isSelected()){            
             funcionario.consertarVeiculo(servico, (String) jComboBox1.getSelectedItem());
         }
-        if (jCheckBoxPago.isSelected()){
-            servico.setPago(true);
+        if (jCheckBoxPago.isSelected()){            
+            servico.setPago(true);            
             double valor = servico.getCliente().getDebito() - Double.parseDouble(jFTFValor.getText());
             servico.getCliente().setDebito(valor);
         }
+        if (jComboBox1.getSelectedItem() != null){
+            servico.setMetodoPagamento((String) jComboBox1.getSelectedItem());
+        }
+        Double valor = Double.parseDouble(jFTFValor.getText());        
+        servico.setValor(valor);
         funcionario.completaSevico(servico);
-        
-        
+        javax.swing.JOptionPane.showMessageDialog(this, "Dados salvos com sucesso");
     }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse veículo?");
+            if (resposta == JOptionPane.YES_OPTION) {
+                if (!Objetos.servicos.isEmpty()){            
+                Objetos.servicos.remove(Integer.parseInt(jTFId.getText()));
+                javax.swing.JOptionPane.showMessageDialog(this, "Serviço excluído com sucesso");            
+            }
+        }        
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -297,9 +344,9 @@ public class GerenciarServicos extends javax.swing.JFrame {
         for(int i = 0;i< Objetos.servicos.size() + 1; i++){
             if (Objetos.servicos.get(i) != null){
                 Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
-                                            Objetos.servicos.get(i).getCliente(),
-                                            Objetos.servicos.get(i).getVeiculo(),
-                                            Objetos.servicos.get(i).getFuncionario()                                                                                        
+                                            Objetos.servicos.get(i).getCliente().getCpf(),
+                                            Objetos.servicos.get(i).getVeiculo().getModelo(),
+                                            Objetos.servicos.get(i).getFuncionario().getCpf()
                                             };
                 modelo.addRow(linha);
             }            

@@ -52,8 +52,7 @@ public class TipoDePeca {
 	{
 		free_ids.add(pecaCadastrada.getId());
 		tPecasCadastradas.remove(pecaCadastrada);
-	}
-	
+	}	
 	/**
 	 * Searches for an already existing part according to the given Type and Brand
 	 * @param tipo 

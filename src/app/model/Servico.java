@@ -36,9 +36,15 @@ public class Servico {
     public double getValor() {
         return valor;
     }
+    
     public void setValor(String metodo) {
         valor = calculaValor(metodo);
     }
+       
+    public void setValor(Double valor) { //Sobrecarga
+        this.valor = valor;
+    }
+    
     public boolean isPago() {
         return pago;
     }
