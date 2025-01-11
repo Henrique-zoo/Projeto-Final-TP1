@@ -62,7 +62,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel6.setText("Telefone");
 
         try {
-            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##)9####-####")));
+            jFTFTelefone.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) 9####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
@@ -189,7 +189,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         String telefone = jFTFTelefone.getText();
         boolean cadastrado = false;
         
-        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  )9    -    "))){ //Verifica se todos os campos estão preenchidos
+        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  ) 9    -    "))){ //Verifica se todos os campos estão preenchidos
             for (Cliente cliente : Main.clientes){                                                                      //Se sim, verifica se o CPF fornecido já está no sistema
                 if (cliente.getCpf().equals(cpf)){                                                                      //Se não, o cliente é adicionado ao array na Main
                     javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
