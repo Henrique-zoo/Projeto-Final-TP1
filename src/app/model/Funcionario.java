@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  * @author derickandrade
  */
-public class Funcionario extends Pessoa {
+public final class Funcionario extends Pessoa {
     
     private double salario;
     private int servicosFeitos;

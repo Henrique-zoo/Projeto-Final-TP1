@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author derickandrade
  */
-public class Cliente extends Pessoa {
+public final class Cliente extends Pessoa {
     private double debito;
     private ArrayList<Veiculo> veiculos;
     private double totalPago;
