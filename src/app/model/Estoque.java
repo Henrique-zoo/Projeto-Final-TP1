@@ -13,6 +13,9 @@ import java.util.ArrayList;
 public class Estoque {
 	private final static ArrayList<Peca> estoque = new ArrayList<>();
 	
+        public static ArrayList<Peca> getEstoque() {
+            return estoque;
+        }
 	// methods
 	public static void adicionarPeca(TipoDePeca tPeca, int qty)
 	{

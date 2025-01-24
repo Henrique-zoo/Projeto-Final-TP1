@@ -4,6 +4,7 @@
  */
 package app.model;
 
+import app.utils.IDGenerator;
 import java.util.ArrayList;
 
 /**
@@ -12,13 +13,20 @@ import java.util.ArrayList;
  */
 public class Veiculo {
     private int id, ano;
-    private String tipo, modelo, cor;
+    private String tipo, modelo, cor, placa;
     private final ArrayList<Peca> pecasComProblema;
 
-    public Veiculo(int id, int ano, String tipo, String modelo, String cor) {
-        this.id = id;
+    public Veiculo () {
+        this.tipo = "Selecione";
+        this.modelo = "um veículo";
+        this.pecasComProblema = new ArrayList<>();
+    }
+    
+    public Veiculo(int ano, String tipo, String placa, String modelo, String cor) {
+        this.id = IDGenerator.generateVeiculoID();
         this.ano = ano;
         this.tipo = tipo;
+        this.placa = placa;
         this.modelo = modelo;
         this.cor = cor;
         this.pecasComProblema = new ArrayList<>();
@@ -26,9 +34,6 @@ public class Veiculo {
 
     public int getId() {
         return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public int getAno() {
         return ano;
@@ -42,6 +47,12 @@ public class Veiculo {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
+    public String getPlaca() {
+        return placa;
+    }
+    public void setPlaca(String placa) {
+        this.placa = placa;
+    }
     public String getModelo() {
         return modelo;
     }
@@ -54,6 +65,12 @@ public class Veiculo {
     public void setCor(String cor) {
         this.cor = cor;
     }
+
+    @Override
+    public String toString() {
+        return tipo + " " + modelo + " " + (tipo.equals("Selecione") ? "" : ano);
+    }
+    
     public ArrayList<Peca> getPecasComProblema() {
         return pecasComProblema;
     }

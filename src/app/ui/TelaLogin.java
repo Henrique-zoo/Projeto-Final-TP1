@@ -6,6 +6,7 @@ package app.ui;
 
 import app.model.Funcionario;
 import app.utils.Objetos;
+import app.utils.SessaoUsuario;
 
 /**
  *
@@ -18,7 +19,6 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
-        Objetos objeto = new Objetos();
         Funcionario funcionario = new Funcionario("1", 0, "1", "111.111.111-11", "1", "1");
         funcionario.setAdmin(true);
         Objetos.funcionarios.put(0, funcionario);
@@ -160,13 +160,16 @@ public class TelaLogin extends javax.swing.JFrame {
         boolean cpfEncontrado = false;
         
         for (int i = 0; i < Objetos.funcionarios.size(); i++) { 
+            Funcionario funcionarioAutenticado;
             if (Objetos.funcionarios.get(i).getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
-                if (Objetos.funcionarios.get(i).getSenha().equals(senhaInformada)){
+                if ((funcionarioAutenticado = Objetos.funcionarios.get(i)).getSenha().equals(senhaInformada)){
                     javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + Objetos.funcionarios.get(i).getNome() + ".");
                     Main.isAdmin = true; //dá os privilégios de adm pra alterar/excluir dados
                     Main main = new Main();
                     main.setVisible(true);
+                    SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
                     this.dispose();
+                    
                 }
                 else{
                     javax.swing.JOptionPane.showMessageDialog(this, "Senha inválida.");
