@@ -7,6 +7,7 @@ package app.ui;
 import app.model.Funcionario;
 import app.model.Servico;
 import app.utils.Objetos;
+import app.utils.SessaoUsuario;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -22,10 +23,11 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
      * Creates new form GerenciarFuncionarios
      */
     private boolean flagEditar = false;
+    private final Funcionario usuario;
     
     public GerenciarFuncionarios() {
         initComponents();
-        
+        usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
         jTFNome.setEnabled(false);
         jTFEmail.setEnabled(false);
         jTFid.setEnabled(false);
@@ -74,6 +76,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jCheckBox1 = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Funcionários");
@@ -174,6 +177,8 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         );
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setContentAreaFilled(false);
+        jButtonExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExcluirActionPerformed(evt);
@@ -181,6 +186,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         });
 
         jButtonEditar.setText("Editar");
+        jButtonEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarActionPerformed(evt);
@@ -188,6 +194,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         });
 
         jButtonConfirmar.setText("Confirmar");
+        jButtonConfirmar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonConfirmarActionPerformed(evt);
@@ -195,6 +202,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         });
 
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
@@ -225,6 +233,14 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
 
         jCheckBox1.setText("Administrador");
 
+        jButton1.setText("Voltar");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -239,7 +255,8 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                                 .addGap(6, 6, 6)
                                 .addComponent(jCheckBox1)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonExcluir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -247,7 +264,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonConfirmar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonCancelar)))
+                        .addComponent(jButtonCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -265,7 +284,8 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                     .addComponent(jButtonExcluir)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonConfirmar)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
 
@@ -313,7 +333,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                    jFTFSalario.setText(Double.toString(Objetos.funcionarios.get(i).getSalario()));                   
                    carregarTabelaServicos();
                    jCheckBox1.setSelected(Objetos.funcionarios.get(i).isAdmin());
-                   if (Main.isAdmin){
+                   if (usuario.isAdmin()){
                        jButtonExcluir.setEnabled(true);
                        jButtonEditar.setEnabled(true);
                        jButtonCancelar.setEnabled(true);  //se for admin e tiver encontrado o funcionario, as edições ficam disponíveis
@@ -404,6 +424,10 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         //Limpa todos os campos e desativa a flag de pesquisa e os botões
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -435,6 +459,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonConfirmar;
     private javax.swing.JButton jButtonEditar;

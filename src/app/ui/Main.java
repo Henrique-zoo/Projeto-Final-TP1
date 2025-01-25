@@ -5,7 +5,9 @@
 package app.ui;
 
 import app.model.Estoque;
+import app.model.Funcionario;
 import app.utils.Objetos;
+import app.utils.SessaoUsuario;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,13 +16,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Main extends javax.swing.JFrame {
     
+    private final Funcionario usuario;
     /**
      * Creates new form Main
      */
-    public static boolean isAdmin = false; //pra dar os privilégios de excluir/editar dados definida como true pra teste
     
     public Main() {
-        initComponents();        
+        initComponents();
+        usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
+        if (usuario.isAdmin()) {
+            btnGerenciarFuncs.setEnabled(true);
+        }
     }
     
     /**
@@ -35,7 +41,6 @@ public class Main extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane3 = new javax.swing.JTabbedPane();
         jPanel7 = new javax.swing.JPanel();
-        btnGetAdmin = new javax.swing.JButton();
         btnLeave = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -69,13 +74,6 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Noto Sans Mono", 1, 36)); // NOI18N
         jLabel1.setText("Tonhão Autopeças");
 
-        btnGetAdmin.setText("Admin");
-        btnGetAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGetAdminActionPerformed(evt);
-            }
-        });
-
         btnLeave.setText("Sair");
         btnLeave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,14 +88,13 @@ public class Main extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnGetAdmin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLeave)
-                .addContainerGap())
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
-                .addComponent(jLabel2)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnLeave)))
                 .addContainerGap(78, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -105,11 +102,9 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGetAdmin)
-                    .addComponent(btnLeave))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnLeave)
+                .addContainerGap())
         );
 
         jTabbedPane3.addTab("Início", jPanel7);
@@ -473,12 +468,6 @@ public class Main extends javax.swing.JFrame {
 		telaGerFuncionario.setVisible(true);
         }//GEN-LAST:event_btnGerenciarFuncsActionPerformed
 
-        private void btnGetAdminActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnGetAdminActionPerformed
-        {//GEN-HEADEREND:event_btnGetAdminActionPerformed
-		isAdmin = true;
-		btnGerenciarFuncs.setEnabled(true);
-        }//GEN-LAST:event_btnGetAdminActionPerformed
-
         private void btnLeaveActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnLeaveActionPerformed
         {//GEN-HEADEREND:event_btnLeaveActionPerformed
                 this.dispose();
@@ -644,7 +633,6 @@ public class Main extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGerenciarFuncs;
     private javax.swing.JButton btnGerenciarPcs;
-    private javax.swing.JButton btnGetAdmin;
     private javax.swing.JButton btnLeave;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonAtualizarClientes;

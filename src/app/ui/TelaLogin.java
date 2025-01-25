@@ -164,10 +164,9 @@ public class TelaLogin extends javax.swing.JFrame {
             if (Objetos.funcionarios.get(i).getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
                 if ((funcionarioAutenticado = Objetos.funcionarios.get(i)).getSenha().equals(senhaInformada)){
                     javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + Objetos.funcionarios.get(i).getNome() + ".");
-                    Main.isAdmin = true; //dá os privilégios de adm pra alterar/excluir dados
+                    SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
                     Main main = new Main();
                     main.setVisible(true);
-                    SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
                     this.dispose();
                     
                 }

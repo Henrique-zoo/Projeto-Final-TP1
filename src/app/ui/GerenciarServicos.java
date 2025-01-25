@@ -11,6 +11,7 @@ import app.model.Servico;
 import app.model.TipoDePeca;
 import app.utils.Objetos;
 import app.utils.SessaoUsuario;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +21,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class GerenciarServicos extends javax.swing.JFrame {
     
-    private Funcionario usuario;
+    private final Funcionario usuario;
+    private Servico servico;
+    private final ArrayList<Peca> pecas;
     /**
      * Creates new form GerenciarServicos
      */
@@ -28,6 +31,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
         initComponents();
         carregaTabelaServicos();
         usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
+        pecas = new ArrayList<>();
 
         jTFCliente.setEditable(false);
         jTFCliente.setText("");
@@ -326,12 +330,11 @@ public class GerenciarServicos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarIDActionPerformed
 
     private void jButtonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscaActionPerformed
-        Servico servico;
         int id = (jTFId.getText().isEmpty() || jTFId.getText().isBlank()) ? 0 : Integer.parseInt(jTFId.getText());
         if (id == 0){
             JOptionPane.showMessageDialog(null, "Insira um ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
         } else if ((servico = Objetos.servicos.get(id)) != null) {
-            if ((usuario.getServicosAtivos()).get(id) == null) {
+            if ((usuario.getServicosAtivos()).get(id) == null && !usuario.isAdmin()) {
                 JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar esse serviço!", "ERRO", JOptionPane.ERROR_MESSAGE);
             } else {
                 jTFCliente.setText(servico.getCliente().getNome());
@@ -353,22 +356,21 @@ public class GerenciarServicos extends javax.swing.JFrame {
                     selectPeca.addItem(peca.getTipoPeca());
                 }
                 
-                jFTFValor.setText(Double.toString(servico.getValor()));
+                jFTFValor.setText(String.format("%.2f", servico.getValor()));
                 jCheckBoxPago.setSelected(servico.isPago());
                 jCheckBoxConsertado.setSelected(servico.isConsertado());
                 if (servico.getMetodoPagamento() != null){
                     selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
                 }
             }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não existe um serviço com esse ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButtonBuscaActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-        // TODO add your handling code here:
-        Servico servico = Objetos.servicos.get(Integer.parseInt(jTFId.getText()));        
-        Funcionario funcionario = Objetos.servicos.get(Integer.parseInt(jTFId.getText())).getFuncionario();
         if (jCheckBoxConsertado.isSelected()){            
-            funcionario.consertarVeiculo(servico, (String) selectMetodoDePagamento.getSelectedItem());
+            usuario.consertarVeiculo(servico, (String) selectMetodoDePagamento.getSelectedItem());
         }
         if (jCheckBoxPago.isSelected()){            
             servico.setPago(true);            
@@ -378,25 +380,32 @@ public class GerenciarServicos extends javax.swing.JFrame {
         if (selectMetodoDePagamento.getSelectedItem() != null){
             servico.setMetodoPagamento((String) selectMetodoDePagamento.getSelectedItem());
         }
-        Double valor = Double.parseDouble(jFTFValor.getText());        
-        servico.setValor(valor);
-        funcionario.completaSevico(servico);
+        usuario.pegarPecasNoEstoque(servico);
+        pecas.clear();
         javax.swing.JOptionPane.showMessageDialog(this, "Dados salvos com sucesso");
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        // TODO add your handling code here:
-        int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse veículo?");
+        if (usuario.getServicosAtivos().get(Integer.valueOf(jTFId.getText())) != null || usuario.isAdmin()) {
+            int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse serviço?");
             if (resposta == JOptionPane.YES_OPTION) {
                 if (!Objetos.servicos.isEmpty()){            
-                Objetos.servicos.remove(Integer.valueOf(jTFId.getText()));
-                javax.swing.JOptionPane.showMessageDialog(this, "Serviço excluído com sucesso");            
+                    Objetos.servicos.remove(Integer.valueOf(jTFId.getText()));
+                    javax.swing.JOptionPane.showMessageDialog(this, "Serviço excluído com sucesso");            
+                }
             }
-        }        
+        } else {
+            JOptionPane.showMessageDialog(this, "Você não tem autorização para excluir esse serviço", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        // TODO add your handling code here:
+        TipoDePeca tipoDePeca = (TipoDePeca) selectPeca.getSelectedItem();
+        int qtd = Integer.valueOf(textQuantidade.getText());
+        pecas.add(new Peca(qtd, tipoDePeca));
+        String metodo = (String) selectMetodoDePagamento.getSelectedItem();
+        servico.adicionaPecasComProblema(pecas, metodo);
+        jFTFValor.setText(String.format("%.2f", servico.getValor()));
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void textQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQuantidadeActionPerformed
@@ -411,7 +420,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
-    public void carregaTabelaServicos(){
+    public final void carregaTabelaServicos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Cliente","Veículo", "Funcionário"} ,0);
         for(int i = 0;i< Objetos.servicos.size() + 1; i++){
             if (Objetos.servicos.get(i) != null){
