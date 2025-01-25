@@ -9,9 +9,15 @@ package app.utils;
  * @author henri
  */
 public class IDGenerator {
-    private static int currentServicoID = 0;
+    private static int currentServicoId = 1;
+;
+    private static int currentVeiculoId = 1;
     
     public static synchronized int generateServicoID() {
-        return currentServicoID++;
+        return currentServicoId++;
+    }
+    
+    public static synchronized int generateVeiculoID() {
+        return currentVeiculoId++;
     }
 }

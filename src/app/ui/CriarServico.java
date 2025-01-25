@@ -4,28 +4,36 @@
  */
 package app.ui;
 
-import app.utils.Objetos;
 import app.model.Cliente;
 import app.model.Funcionario;
 import app.model.Servico;
 import app.model.Veiculo;
+import app.utils.Objetos;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JOptionPane;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  *
  * @author henri
  */
 public class CriarServico extends javax.swing.JFrame {
-
+    
+    HashMap<String, Cliente> clientesCpf = new HashMap<>();
+    HashMap<String, Funcionario> funcionariosCpf = new HashMap<>();
     /**
      * Creates new form CriarServico
      */
     public CriarServico() {
         initComponents();
+        for (Map.Entry<Integer, Cliente> cliente : (Objetos.clientes).entrySet()) {
+            clientesCpf.put(cliente.getValue().getCpf(), cliente.getValue());
+        }
+        for (Map.Entry<Integer, Funcionario> funcionario : Objetos.funcionarios.entrySet()) {
+            funcionariosCpf.put(funcionario.getValue().getCpf(), funcionario.getValue());
+        }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,244 +43,73 @@ public class CriarServico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        painelDadosServico = new javax.swing.JPanel();
-        campoFuncionario = new javax.swing.JPanel();
-        lblFuncionario = new javax.swing.JLabel();
-        dadosFuncionario = new javax.swing.JPanel();
-        pnlId = new javax.swing.JPanel();
-        lblCod = new javax.swing.JLabel();
-        textCod = new javax.swing.JTextField();
-        lblNome = new javax.swing.JLabel();
-        textNome = new javax.swing.JTextField();
-        lblCPF = new javax.swing.JLabel();
-        textCPF = new javax.swing.JTextField();
-        campoCliente = new javax.swing.JPanel();
-        lblCliente = new javax.swing.JLabel();
-        dadosCliente = new javax.swing.JPanel();
-        pnlIdCliente = new javax.swing.JPanel();
-        lblCodCliente = new javax.swing.JLabel();
-        textCodCliente = new javax.swing.JTextField();
+        pnlServico = new javax.swing.JPanel();
+        lblDadosServico = new javax.swing.JLabel();
+        lblCpfCliente = new javax.swing.JLabel();
+        textCpfCliente = new javax.swing.JFormattedTextField();
+        lblCpfFuncionario = new javax.swing.JLabel();
+        textCpfFuncionario = new javax.swing.JFormattedTextField();
         lblNomeCliente = new javax.swing.JLabel();
         textNomeCliente = new javax.swing.JTextField();
-        lblCPFCliente = new javax.swing.JLabel();
-        textCPFCliente = new javax.swing.JTextField();
-        campoVeiculo = new javax.swing.JPanel();
         lblVeiculo = new javax.swing.JLabel();
-        dadosVeiculo = new javax.swing.JPanel();
-        pnlIdVeiculo = new javax.swing.JPanel();
-        lblCodVeiculo = new javax.swing.JLabel();
-        textCodVeiculo = new javax.swing.JTextField();
-        lblModeloVeiculo = new javax.swing.JLabel();
-        textModeloVeiculo = new javax.swing.JTextField();
-        lblPlacaVeiculo = new javax.swing.JLabel();
-        textPlacaVeiculo = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        campoButtons = new javax.swing.JPanel();
+        selectVeiculo = new javax.swing.JComboBox<>();
+        lblNomeFuncionario = new javax.swing.JLabel();
+        textNomeFuncionario = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        btnCadastrar = new javax.swing.JButton();
+        btnConfirmar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Criar Serviço");
 
-        painelDadosServico.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Dados do Serviço", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Ebrima", 1, 18))); // NOI18N
-        painelDadosServico.setLayout(new javax.swing.BoxLayout(painelDadosServico, javax.swing.BoxLayout.Y_AXIS));
+        lblDadosServico.setText("Dados do Serviço");
 
-        campoFuncionario.setLayout(new java.awt.GridLayout(2, 0));
+        lblCpfCliente.setText("CPF do Cliente:");
 
-        lblFuncionario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblFuncionario.setText("Escolha um Funcionário:");
-        campoFuncionario.add(lblFuncionario);
-
-        dadosFuncionario.setLayout(new java.awt.GridLayout(1, 5, 4, 0));
-
-        lblCod.setText("ID:");
-
-        textCod.addActionListener(new java.awt.event.ActionListener() {
+        try {
+            textCpfCliente.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        textCpfCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCodActionPerformed(evt);
+                textCpfClienteActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlIdLayout = new javax.swing.GroupLayout(pnlId);
-        pnlId.setLayout(pnlIdLayout);
-        pnlIdLayout.setHorizontalGroup(
-            pnlIdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdLayout.createSequentialGroup()
-                .addComponent(lblCod, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textCod, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlIdLayout.setVerticalGroup(
-            pnlIdLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(lblCod))
-            .addComponent(textCod, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        lblCpfFuncionario.setText("CPF do Funcionário:");
 
-        dadosFuncionario.add(pnlId);
-
-        lblNome.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblNome.setText("Nome:");
-        dadosFuncionario.add(lblNome);
-
-        textNome.setEnabled(false);
-        textNome.addActionListener(new java.awt.event.ActionListener() {
+        try {
+            textCpfFuncionario.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        textCpfFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textNomeActionPerformed(evt);
-            }
-        });
-        dadosFuncionario.add(textNome);
-
-        lblCPF.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblCPF.setText("CPF:");
-        dadosFuncionario.add(lblCPF);
-
-        textCPF.setEnabled(false);
-        textCPF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCPFActionPerformed(evt);
-            }
-        });
-        dadosFuncionario.add(textCPF);
-
-        campoFuncionario.add(dadosFuncionario);
-
-        painelDadosServico.add(campoFuncionario);
-
-        campoCliente.setLayout(new java.awt.GridLayout(2, 1));
-
-        lblCliente.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCliente.setText("Escolha um Cliente:");
-        campoCliente.add(lblCliente);
-
-        dadosCliente.setLayout(new java.awt.GridLayout(1, 5, 4, 0));
-
-        lblCodCliente.setText("ID:");
-
-        textCodCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCodClienteActionPerformed(evt);
+                textCpfFuncionarioActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlIdClienteLayout = new javax.swing.GroupLayout(pnlIdCliente);
-        pnlIdCliente.setLayout(pnlIdClienteLayout);
-        pnlIdClienteLayout.setHorizontalGroup(
-            pnlIdClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdClienteLayout.createSequentialGroup()
-                .addComponent(lblCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlIdClienteLayout.setVerticalGroup(
-            pnlIdClienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdClienteLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(lblCodCliente))
-            .addComponent(textCodCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-
-        dadosCliente.add(pnlIdCliente);
-
-        lblNomeCliente.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         lblNomeCliente.setText("Nome:");
-        dadosCliente.add(lblNomeCliente);
 
         textNomeCliente.setEnabled(false);
-        textNomeCliente.addActionListener(new java.awt.event.ActionListener() {
+
+        lblVeiculo.setText("Veículos:");
+
+        selectVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textNomeClienteActionPerformed(evt);
-            }
-        });
-        dadosCliente.add(textNomeCliente);
-
-        lblCPFCliente.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblCPFCliente.setText("CPF:");
-        dadosCliente.add(lblCPFCliente);
-
-        textCPFCliente.setEnabled(false);
-        textCPFCliente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCPFClienteActionPerformed(evt);
-            }
-        });
-        dadosCliente.add(textCPFCliente);
-
-        campoCliente.add(dadosCliente);
-
-        painelDadosServico.add(campoCliente);
-
-        campoVeiculo.setLayout(new java.awt.GridLayout(2, 1));
-
-        lblVeiculo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblVeiculo.setText("Selecione um Veiculo:");
-        campoVeiculo.add(lblVeiculo);
-
-        dadosVeiculo.setLayout(new java.awt.GridLayout(1, 5, 4, 0));
-
-        lblCodVeiculo.setText("ID:");
-
-        textCodVeiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textCodVeiculoActionPerformed(evt);
+                selectVeiculoActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout pnlIdVeiculoLayout = new javax.swing.GroupLayout(pnlIdVeiculo);
-        pnlIdVeiculo.setLayout(pnlIdVeiculoLayout);
-        pnlIdVeiculoLayout.setHorizontalGroup(
-            pnlIdVeiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdVeiculoLayout.createSequentialGroup()
-                .addComponent(lblCodVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textCodVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        pnlIdVeiculoLayout.setVerticalGroup(
-            pnlIdVeiculoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlIdVeiculoLayout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addComponent(lblCodVeiculo))
-            .addComponent(textCodVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        lblNomeFuncionario.setText("Nome:");
 
-        dadosVeiculo.add(pnlIdVeiculo);
-
-        lblModeloVeiculo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblModeloVeiculo.setText("Modelo:");
-        dadosVeiculo.add(lblModeloVeiculo);
-
-        textModeloVeiculo.setEnabled(false);
-        textModeloVeiculo.addActionListener(new java.awt.event.ActionListener() {
+        textNomeFuncionario.setEnabled(false);
+        textNomeFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textModeloVeiculoActionPerformed(evt);
+                textNomeFuncionarioActionPerformed(evt);
             }
         });
-        dadosVeiculo.add(textModeloVeiculo);
-
-        lblPlacaVeiculo.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
-        lblPlacaVeiculo.setText("Placa:");
-        dadosVeiculo.add(lblPlacaVeiculo);
-
-        textPlacaVeiculo.setEnabled(false);
-        textPlacaVeiculo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textPlacaVeiculoActionPerformed(evt);
-            }
-        });
-        dadosVeiculo.add(textPlacaVeiculo);
-
-        campoVeiculo.add(dadosVeiculo);
-
-        painelDadosServico.add(campoVeiculo);
-        painelDadosServico.add(jSeparator1);
-
-        campoButtons.setPreferredSize(new java.awt.Dimension(307, 29));
-        campoButtons.setLayout(new java.awt.GridLayout(1, 0));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -280,96 +117,162 @@ public class CriarServico extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        campoButtons.add(btnCancelar);
-        campoButtons.add(filler1);
 
-        btnCadastrar.setText("Cadastrar");
-        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+        btnConfirmar.setText("Criar Serviço");
+        btnConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCadastrarActionPerformed(evt);
+                btnConfirmarActionPerformed(evt);
             }
         });
-        campoButtons.add(btnCadastrar);
 
-        painelDadosServico.add(campoButtons);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(btnCancelar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnConfirmar))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(btnCancelar)
+                .addComponent(btnConfirmar))
+        );
+
+        javax.swing.GroupLayout pnlServicoLayout = new javax.swing.GroupLayout(pnlServico);
+        pnlServico.setLayout(pnlServicoLayout);
+        pnlServicoLayout.setHorizontalGroup(
+            pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addComponent(lblDadosServico)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblCpfFuncionario)
+                            .addComponent(lblCpfCliente)
+                            .addComponent(lblVeiculo)
+                            .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(selectVeiculo, javax.swing.GroupLayout.Alignment.LEADING, 0, 184, Short.MAX_VALUE)
+                                .addComponent(textCpfFuncionario, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(92, 92, 92)
+                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(textNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                            .addComponent(textNomeFuncionario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlServicoLayout.createSequentialGroup()
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblNomeFuncionario)
+                                    .addComponent(lblNomeCliente))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
+        );
+        pnlServicoLayout.setVerticalGroup(
+            pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlServicoLayout.createSequentialGroup()
+                .addComponent(lblDadosServico)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCpfCliente)
+                    .addComponent(lblNomeCliente))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblCpfFuncionario)
+                    .addComponent(lblNomeFuncionario))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textCpfFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textNomeFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblVeiculo)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(selectVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painelDadosServico, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(painelDadosServico, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+   
+    private void selectVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectVeiculoActionPerformed
+
+    }//GEN-LAST:event_selectVeiculoActionPerformed
+
+    private void textCpfFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfFuncionarioActionPerformed
+        Funcionario funcionario;
+        if ((funcionario = funcionariosCpf.get(textCpfFuncionario.getText())) != null) {
+            textNomeFuncionario.setText(funcionario.getNome());
+        }
+    }//GEN-LAST:event_textCpfFuncionarioActionPerformed
+
+    private void textNomeFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeFuncionarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textNomeFuncionarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        if (!textCod.getText().equals("") && !textCodCliente.getText().equals("") && !textCodVeiculo.getText().equals("")) {
-            int idFuncionario = Integer.parseInt(textCod.getText());
-            int idCliente = Integer.parseInt(textCodCliente.getText());
-            int idVeiculo = Integer.parseInt(textCodVeiculo.getText());
-            
-            Funcionario funcionario = Objetos.funcionarios.get(idFuncionario);
-            Cliente cliente = Objetos.clientes.get(idCliente);
-            Veiculo veiculo = cliente.getVeiculoByID(idVeiculo);            
-            Objetos.adicionarServico(new Servico(cliente, veiculo, funcionario));
-            javax.swing.JOptionPane.showMessageDialog(this, "Serviço cadastrado com sucesso!");
-        } else {
-            JOptionPane.showMessageDialog(null, "Todos os campos devem ser inseridos!", "Aviso", JOptionPane.ERROR_MESSAGE);
+    private void textCpfClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfClienteActionPerformed
+        Cliente cliente;
+        if ((cliente = clientesCpf.get(textCpfCliente.getText())) != null) {
+            textNomeCliente.setText(cliente.getNome());
+            selectVeiculo.removeAllItems();
+            if (!cliente.getVeiculos().isEmpty()) {
+                selectVeiculo.setEnabled(true);
+                selectVeiculo.addItem(new Veiculo());
+                for (Veiculo veiculo : cliente.getVeiculos())
+                    selectVeiculo.addItem(veiculo);
+            }
         }
-    }//GEN-LAST:event_btnCadastrarActionPerformed
+    }//GEN-LAST:event_textCpfClienteActionPerformed
 
-    private void textCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCodActionPerformed
-
-    private void textNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNomeActionPerformed
-
-    private void textCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCPFActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCPFActionPerformed
-
-    private void textCodClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCodClienteActionPerformed
-
-    private void textNomeClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textNomeClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textNomeClienteActionPerformed
-
-    private void textCPFClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCPFClienteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCPFClienteActionPerformed
-
-    private void textCodVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCodVeiculoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textCodVeiculoActionPerformed
-
-    private void textModeloVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textModeloVeiculoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textModeloVeiculoActionPerformed
-
-    private void textPlacaVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPlacaVeiculoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_textPlacaVeiculoActionPerformed
-
+    private void btnConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarActionPerformed
+        String cpfCliente, cpfFuncionario;
+        Veiculo veiculo;
+        
+        if ((cpfCliente = textCpfCliente.getText()).equals("")) {
+            JOptionPane.showMessageDialog(this, "Você precisa informar o CPF do cliente!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        } else if ((cpfFuncionario = textCpfFuncionario.getText()).equals("")) {
+            JOptionPane.showMessageDialog(this, "Você precisa informar o CPF do funcionário!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        } else if ((veiculo = (Veiculo) selectVeiculo.getSelectedItem()).getTipo().equals("Selecione")){
+            JOptionPane.showMessageDialog(this, "Você precisa selecionar um veículo!", "Aviso", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Servico servico = new Servico(clientesCpf.get(cpfCliente), veiculo, funcionariosCpf.get(cpfFuncionario));
+            Objetos.servicos.put(servico.getId(), servico);
+            JOptionPane.showMessageDialog(this, "Serviço criado com sucesso!");
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnConfirmarActionPerformed
+    
     /**
      * @param args the command line arguments
      */
@@ -406,41 +309,20 @@ public class CriarServico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JPanel campoButtons;
-    private javax.swing.JPanel campoCliente;
-    private javax.swing.JPanel campoFuncionario;
-    private javax.swing.JPanel campoVeiculo;
-    private javax.swing.JPanel dadosCliente;
-    private javax.swing.JPanel dadosFuncionario;
-    private javax.swing.JPanel dadosVeiculo;
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JLabel lblCPF;
-    private javax.swing.JLabel lblCPFCliente;
-    private javax.swing.JLabel lblCliente;
-    private javax.swing.JLabel lblCod;
-    private javax.swing.JLabel lblCodCliente;
-    private javax.swing.JLabel lblCodVeiculo;
-    private javax.swing.JLabel lblFuncionario;
-    private javax.swing.JLabel lblModeloVeiculo;
-    private javax.swing.JLabel lblNome;
+    private javax.swing.JButton btnConfirmar;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblCpfCliente;
+    private javax.swing.JLabel lblCpfFuncionario;
+    private javax.swing.JLabel lblDadosServico;
     private javax.swing.JLabel lblNomeCliente;
-    private javax.swing.JLabel lblPlacaVeiculo;
+    private javax.swing.JLabel lblNomeFuncionario;
     private javax.swing.JLabel lblVeiculo;
-    private javax.swing.JPanel painelDadosServico;
-    private javax.swing.JPanel pnlId;
-    private javax.swing.JPanel pnlIdCliente;
-    private javax.swing.JPanel pnlIdVeiculo;
-    private javax.swing.JTextField textCPF;
-    private javax.swing.JTextField textCPFCliente;
-    private javax.swing.JTextField textCod;
-    private javax.swing.JTextField textCodCliente;
-    private javax.swing.JTextField textCodVeiculo;
-    private javax.swing.JTextField textModeloVeiculo;
-    private javax.swing.JTextField textNome;
+    private javax.swing.JPanel pnlServico;
+    private javax.swing.JComboBox<Veiculo> selectVeiculo;
+    private javax.swing.JFormattedTextField textCpfCliente;
+    private javax.swing.JFormattedTextField textCpfFuncionario;
     private javax.swing.JTextField textNomeCliente;
-    private javax.swing.JTextField textPlacaVeiculo;
+    private javax.swing.JTextField textNomeFuncionario;
     // End of variables declaration//GEN-END:variables
 }

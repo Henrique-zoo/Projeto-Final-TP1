@@ -89,9 +89,8 @@ public class Servico {
         double total = 0.0;
         for (Peca par : veiculo.getPecasComProblema())
             total += par.getQtd() * par.getTipoPeca().getPreco();
-        if (metodo.equals("Dinheiro") || metodo.equals("PIX")){
+        if (metodo.equals("Dinheiro") || metodo.equals("PIX"))
             return total * 0.95;
-        }
         return total;
     }
 }

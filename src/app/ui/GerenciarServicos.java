@@ -4,9 +4,13 @@
  */
 package app.ui;
 
+import app.model.Estoque;
 import app.model.Funcionario;
+import app.model.Peca;
 import app.model.Servico;
+import app.model.TipoDePeca;
 import app.utils.Objetos;
+import app.utils.SessaoUsuario;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,21 +19,21 @@ import javax.swing.table.DefaultTableModel;
  * @author henri
  */
 public class GerenciarServicos extends javax.swing.JFrame {
-
+    
+    private Funcionario usuario;
     /**
      * Creates new form GerenciarServicos
      */
     public GerenciarServicos() {
         initComponents();
         carregaTabelaServicos();
+        usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
+
         jTFCliente.setEditable(false);
         jTFCliente.setText("");
         
         jTFVeiculo.setEditable(false);
         jTFVeiculo.setText("");
-        
-        jTFFuncionario.setEditable(false);
-        jTFFuncionario.setText("");
         
         jButtonExcluir.setEnabled(false);
         jButtonSalvar.setEnabled(false);
@@ -56,15 +60,17 @@ public class GerenciarServicos extends javax.swing.JFrame {
         jTFVeiculo = new javax.swing.JTextField();
         jTFId = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTFFuncionario = new javax.swing.JTextField();
         jCheckBoxPago = new javax.swing.JCheckBox();
         jCheckBoxConsertado = new javax.swing.JCheckBox();
         jLabel6 = new javax.swing.JLabel();
         jFTFValor = new javax.swing.JFormattedTextField();
         jButtonBusca = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        selectMetodoDePagamento = new javax.swing.JComboBox<>();
+        selectPeca = new javax.swing.JComboBox<>();
+        lblPecasComProblema = new javax.swing.JLabel();
+        btnAdicionar = new javax.swing.JButton();
+        textQuantidade = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableServicos = new javax.swing.JTable();
         jButtonBuscarID = new javax.swing.JButton();
@@ -74,23 +80,31 @@ public class GerenciarServicos extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Serviços");
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Serviço");
+
+        jTFCliente.setEnabled(false);
 
         jLabel2.setText("Cliente");
 
         jLabel3.setText("Veículo");
 
+        jTFVeiculo.setEnabled(false);
+
+        jTFId.setEnabled(false);
+
         jLabel4.setText("ID");
 
-        jLabel5.setText("Funcionário");
-
         jCheckBoxPago.setText("Pago");
+        jCheckBoxPago.setEnabled(false);
 
         jCheckBoxConsertado.setText("Consertado");
+        jCheckBoxConsertado.setEnabled(false);
 
         jLabel6.setText("Valor");
 
         jFTFValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jFTFValor.setEnabled(false);
 
         jButtonBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/zoom.png"))); // NOI18N
         jButtonBusca.setBorderPainted(false);
@@ -102,7 +116,32 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jLabel8.setText("Método de pagamento");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Dinheiro", "PIX", "Débito", "Crédito" }));
+        selectMetodoDePagamento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "Dinheiro", "PIX", "Débito", "Crédito" }));
+        selectMetodoDePagamento.setEnabled(false);
+
+        selectPeca.setEnabled(false);
+        selectPeca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                selectPecaActionPerformed(evt);
+            }
+        });
+
+        lblPecasComProblema.setText("Adicionar peças com problema");
+
+        btnAdicionar.setText("Adicionar");
+        btnAdicionar.setEnabled(false);
+        btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdicionarActionPerformed(evt);
+            }
+        });
+
+        textQuantidade.setEnabled(false);
+        textQuantidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textQuantidadeActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -117,14 +156,19 @@ public class GerenciarServicos extends javax.swing.JFrame {
                         .addComponent(jButtonBusca))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(selectPeca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnAdicionar))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jTFVeiculo, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                                .addComponent(jTFFuncionario)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTFCliente))
-                            .addComponent(jLabel5))
-                        .addGap(35, 35, 35)
+                                .addComponent(lblPecasComProblema, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTFCliente, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTFVeiculo, javax.swing.GroupLayout.Alignment.LEADING)))
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFTFValor)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -133,7 +177,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
                                     .addComponent(jCheckBoxPago)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(selectMetodoDePagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
@@ -150,7 +194,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
                         .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(jButtonBusca)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel6))
@@ -168,13 +212,15 @@ public class GerenciarServicos extends javax.swing.JFrame {
                     .addComponent(jCheckBoxConsertado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(lblPecasComProblema))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTFFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(12, Short.MAX_VALUE))
+                    .addComponent(selectMetodoDePagamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(selectPeca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAdicionar)
+                    .addComponent(textQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTableServicos.setModel(new javax.swing.table.DefaultTableModel(
@@ -244,11 +290,11 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(jButtonBuscarID, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(jButtonBuscarID)
+                        .addGap(17, 17, 17)
                         .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -280,26 +326,40 @@ public class GerenciarServicos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonBuscarIDActionPerformed
 
     private void jButtonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscaActionPerformed
-        // TODO add your handling code here:
-        if (jTFId.getText().isEmpty() || jTFId.getText().isBlank()){
+        Servico servico;
+        int id = (jTFId.getText().isEmpty() || jTFId.getText().isBlank()) ? 0 : Integer.parseInt(jTFId.getText());
+        if (id == 0){
             JOptionPane.showMessageDialog(null, "Insira um ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }
-        else if (Objetos.servicos.get(Integer.parseInt(jTFId.getText())) != null){
-            Servico servico = Objetos.servicos.get(Integer.parseInt(jTFId.getText()));
-            jTFCliente.setText(servico.getCliente().getNome());
-            jTFFuncionario.setText(servico.getFuncionario().getNome());
-            jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
-            jButtonExcluir.setEnabled(true);
-            jButtonSalvar.setEnabled(true);
-            jTFId.setEnabled(true);
-            jButtonBusca.setEnabled(true);
-            
-            jFTFValor.setText(Double.toString(servico.getValor()));
-            jCheckBoxPago.setSelected(servico.isPago());
-            jCheckBoxConsertado.setSelected(servico.isConsertado());
-            if (servico.getMetodoPagamento() != null){
-                jComboBox1.setSelectedItem(servico.getMetodoPagamento());
-            }            
+        } else if ((servico = Objetos.servicos.get(id)) != null) {
+            if ((usuario.getServicosAtivos()).get(id) == null) {
+                JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar esse serviço!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            } else {
+                jTFCliente.setText(servico.getCliente().getNome());
+                jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
+                jButtonExcluir.setEnabled(true);
+                jButtonSalvar.setEnabled(true);
+                jTFId.setEnabled(true);
+                jButtonBusca.setEnabled(true);
+                selectPeca.setEnabled(true);
+                textQuantidade.setEnabled(true);
+                btnAdicionar.setEnabled(true);
+                selectMetodoDePagamento.setEnabled(true);
+                jCheckBoxConsertado.setEnabled(true);
+                jCheckBoxPago.setEnabled(true);
+                
+                selectPeca.removeAllItems();
+                selectPeca.addItem(new TipoDePeca());
+                for (Peca peca : Estoque.getEstoque()) {
+                    selectPeca.addItem(peca.getTipoPeca());
+                }
+                
+                jFTFValor.setText(Double.toString(servico.getValor()));
+                jCheckBoxPago.setSelected(servico.isPago());
+                jCheckBoxConsertado.setSelected(servico.isConsertado());
+                if (servico.getMetodoPagamento() != null){
+                    selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
+                }
+            }
         }
     }//GEN-LAST:event_jButtonBuscaActionPerformed
 
@@ -308,15 +368,15 @@ public class GerenciarServicos extends javax.swing.JFrame {
         Servico servico = Objetos.servicos.get(Integer.parseInt(jTFId.getText()));        
         Funcionario funcionario = Objetos.servicos.get(Integer.parseInt(jTFId.getText())).getFuncionario();
         if (jCheckBoxConsertado.isSelected()){            
-            funcionario.consertarVeiculo(servico, (String) jComboBox1.getSelectedItem());
+            funcionario.consertarVeiculo(servico, (String) selectMetodoDePagamento.getSelectedItem());
         }
         if (jCheckBoxPago.isSelected()){            
             servico.setPago(true);            
             double valor = servico.getCliente().getDebito() - Double.parseDouble(jFTFValor.getText());
             servico.getCliente().setDebito(valor);
         }
-        if (jComboBox1.getSelectedItem() != null){
-            servico.setMetodoPagamento((String) jComboBox1.getSelectedItem());
+        if (selectMetodoDePagamento.getSelectedItem() != null){
+            servico.setMetodoPagamento((String) selectMetodoDePagamento.getSelectedItem());
         }
         Double valor = Double.parseDouble(jFTFValor.getText());        
         servico.setValor(valor);
@@ -329,11 +389,23 @@ public class GerenciarServicos extends javax.swing.JFrame {
         int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse veículo?");
             if (resposta == JOptionPane.YES_OPTION) {
                 if (!Objetos.servicos.isEmpty()){            
-                Objetos.servicos.remove(Integer.parseInt(jTFId.getText()));
+                Objetos.servicos.remove(Integer.valueOf(jTFId.getText()));
                 javax.swing.JOptionPane.showMessageDialog(this, "Serviço excluído com sucesso");            
             }
         }        
     }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnAdicionarActionPerformed
+
+    private void textQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQuantidadeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textQuantidadeActionPerformed
+
+    private void selectPecaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPecaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_selectPecaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -387,27 +459,29 @@ public class GerenciarServicos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton jButtonBusca;
     private javax.swing.JButton jButtonBuscarID;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JCheckBox jCheckBoxConsertado;
     private javax.swing.JCheckBox jCheckBoxPago;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JFormattedTextField jFTFValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFCliente;
-    private javax.swing.JTextField jTFFuncionario;
     private javax.swing.JTextField jTFId;
     private javax.swing.JTextField jTFVeiculo;
     private javax.swing.JTable jTableServicos;
+    private javax.swing.JLabel lblPecasComProblema;
+    private javax.swing.JComboBox<String> selectMetodoDePagamento;
+    private javax.swing.JComboBox<TipoDePeca> selectPeca;
+    private javax.swing.JTextField textQuantidade;
     // End of variables declaration//GEN-END:variables
 }

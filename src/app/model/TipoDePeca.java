@@ -44,6 +44,12 @@ public class TipoDePeca {
 		tPecasCadastradas.add(this);
 		tPecasCadastradas.sort(Comparator.comparing(a -> a.getId()));
 	}
+
+        public TipoDePeca() {
+            id = -1;
+            tipo = "Selecione uma";
+            marca = "peça";
+        }
 	
 	// static methods
 	
@@ -137,4 +143,10 @@ public class TipoDePeca {
 	{
 		this.preco = preco;
 	}
+
+        @Override
+        public String toString() {
+            return tipo + ' ' + marca;
+        }
+        
 }
