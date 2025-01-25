@@ -24,6 +24,7 @@ public class Objetos {
         adicionarFuncionariosAleatorios();
         adicionarVeiculosAleatorios();
         adicionarClientesAleatorios();
+        adicionarServicosAleatorios();
     }
 
     private static void adicionarFuncionariosAleatorios() {
@@ -106,5 +107,20 @@ public class Objetos {
         }
 
         return clientes;
+    }
+    
+    private static void adicionarServicosAleatorios() {
+        Random random = new Random();
+        String[] metodosPagamento = {"Dinheiro", "Cartão", "PIX"};
+
+        for (int i = 0; i < 10; i++) {
+            Cliente cliente = clientes.get(i + 1);
+            ArrayList<Veiculo> veiculosCliente = cliente.getVeiculos();
+            Veiculo veiculo = veiculosCliente.get(random.nextInt(cliente.getVeiculos().size()));
+            Funcionario funcionario = funcionarios.get(random.nextInt(funcionarios.size()) + 1);
+            String metodo = metodosPagamento[random.nextInt(metodosPagamento.length)];
+            Servico servico = new Servico(i + 1, random.nextDouble() * 2000, random.nextBoolean(), random.nextBoolean(), metodo, cliente, veiculo, funcionario);
+            servicos.put(servico.getId(), servico);
+        }
     }
 }

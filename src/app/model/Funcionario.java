@@ -79,20 +79,19 @@ public final class Funcionario extends Pessoa {
             servicosFeitos++;
         }
     }
-
-    public void adicionaPecasComProblema(Servico servico, ArrayList<Peca> pecasComProblema, String metodo) {
-        servico.getVeiculo().setPecasComProblema(pecasComProblema);
-        servico.setValor(metodo);
-    }
     
     public ArrayList<Peca> pegarPecasNoEstoque(Servico servico) {
         ArrayList<Peca> pecasFaltantes = new ArrayList<>();
         for (Peca peca : servico.getVeiculo().getPecasComProblema()) {
             for (int i = 0; i < peca.getQtd(); i++) {
-                if (Estoque.findPeca(peca.getTipoPeca()) == null)
+                if (Estoque.findPeca(peca.getTipoPeca()) == null) {
                     pecasFaltantes.add(peca);
-                else
+                    Estoque.adicionarPeca(peca.getTipoPeca(), 0);
+                } else if (Estoque.findPeca(peca.getTipoPeca()).getQtd() < 1) {
+                    pecasFaltantes.add(peca);
+                } else {
                     Estoque.removerPeca(peca.getTipoPeca(), 1);
+                }
             }
         }
         return pecasFaltantes;

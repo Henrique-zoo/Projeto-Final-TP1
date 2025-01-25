@@ -96,6 +96,7 @@ public class CriarServico extends javax.swing.JFrame {
 
         lblVeiculo.setText("Veículos:");
 
+        selectVeiculo.setEnabled(false);
         selectVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 selectVeiculoActionPerformed(evt);

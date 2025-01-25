@@ -5,6 +5,7 @@
 package app.model;
 
 import app.utils.IDGenerator;
+import java.util.ArrayList;
 
 /**
  *
@@ -26,6 +27,17 @@ public class Servico {
         this.cliente = cliente;
         this.veiculo = veiculo;
         funcionario.setServicosAtivos(this);
+        this.funcionario = funcionario;
+    }
+    // Construtor para criar os serviços iniciais de exemplo
+    public Servico(int id, double valor, boolean pago, boolean consertado, String metodoPagamento, Cliente cliente, Veiculo veiculo, Funcionario funcionario) {
+        this.id = id;
+        this.valor = valor;
+        this.pago = pago;
+        this.consertado = consertado;
+        this.metodoPagamento = metodoPagamento;
+        this.cliente = cliente;
+        this.veiculo = veiculo;
         this.funcionario = funcionario;
     }
     
@@ -92,5 +104,10 @@ public class Servico {
         if (metodo.equals("Dinheiro") || metodo.equals("PIX"))
             return total * 0.95;
         return total;
+    }
+    
+    public void adicionaPecasComProblema(ArrayList<Peca> pecasComProblema, String metodo) {
+        this.veiculo.setPecasComProblema(pecasComProblema);
+        this.setValor(metodo);
     }
 }
