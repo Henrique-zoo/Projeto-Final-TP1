@@ -17,6 +17,9 @@ public class TelaLogin extends javax.swing.JFrame {
     /**
      * Creates new form TelaLogin
      */
+    
+    public static Main telaMain;
+    
     public TelaLogin() {
         initComponents();
         Funcionario funcionario = new Funcionario("1", 0, "1", "111.111.111-11", "1", "1");
@@ -165,8 +168,8 @@ public class TelaLogin extends javax.swing.JFrame {
                 if ((funcionarioAutenticado = Objetos.funcionarios.get(i)).getSenha().equals(senhaInformada)){
                     javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + Objetos.funcionarios.get(i).getNome() + ".");
                     SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
-                    Main main = new Main();
-                    main.setVisible(true);
+                    telaMain = new Main();
+                    telaMain.setVisible(true);
                     this.dispose();
                     
                 }

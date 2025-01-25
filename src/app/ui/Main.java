@@ -27,6 +27,10 @@ public class Main extends javax.swing.JFrame {
         if (usuario.isAdmin()) {
             btnGerenciarFuncs.setEnabled(true);
         }
+        carregarTabelaClientes();
+        carregarTabelaFuncionarios();
+        carregarTabelaPecas();
+        carregarTabelaServicos();
     }
     
     /**
@@ -48,25 +52,21 @@ public class Main extends javax.swing.JFrame {
         jButtonGerenciarClientes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableClientes = new javax.swing.JTable();
-        jButtonAtualizarClientes = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         btnGerenciarFuncs = new javax.swing.JButton();
         jButtonCadastrarFuncionario = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableFuncionarios = new javax.swing.JTable();
-        jButtonAtualizarFuncionarios = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         btnGerenciarPcs = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePecas = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jButtonAtualizarPecas = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jButtonCriarServico = new javax.swing.JButton();
         jButtonGerenciarServicos = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableServicos = new javax.swing.JTable();
-        jButtonAtualizarServicos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tonhão Autopeças");
@@ -155,13 +155,6 @@ public class Main extends javax.swing.JFrame {
             jTableClientes.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jButtonAtualizarClientes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
-        jButtonAtualizarClientes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarClientesActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -174,8 +167,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jButtonCadastrarCliente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonGerenciarClientes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAtualizarClientes)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -184,8 +176,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCadastrarCliente)
-                    .addComponent(jButtonGerenciarClientes)
-                    .addComponent(jButtonAtualizarClientes))
+                    .addComponent(jButtonGerenciarClientes))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addContainerGap())
@@ -239,13 +230,6 @@ public class Main extends javax.swing.JFrame {
             jTableFuncionarios.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jButtonAtualizarFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
-        jButtonAtualizarFuncionarios.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarFuncionariosActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -258,8 +242,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jButtonCadastrarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnGerenciarFuncs)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAtualizarFuncionarios)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -268,8 +251,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCadastrarFuncionario)
-                    .addComponent(btnGerenciarFuncs)
-                    .addComponent(jButtonAtualizarFuncionarios))
+                    .addComponent(btnGerenciarFuncs))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addContainerGap())
@@ -325,13 +307,6 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jButtonAtualizarPecas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
-        jButtonAtualizarPecas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarPecasActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -339,13 +314,12 @@ public class Main extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnGerenciarPcs)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAtualizarPecas)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -354,8 +328,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGerenciarPcs)
-                    .addComponent(jButton1)
-                    .addComponent(jButtonAtualizarPecas))
+                    .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addContainerGap())
@@ -392,13 +365,6 @@ public class Main extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTableServicos);
 
-        jButtonAtualizarServicos.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/arrow_refresh.png"))); // NOI18N
-        jButtonAtualizarServicos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAtualizarServicosActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -411,8 +377,7 @@ public class Main extends javax.swing.JFrame {
                         .addComponent(jButtonCriarServico, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonGerenciarServicos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonAtualizarServicos)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -421,8 +386,7 @@ public class Main extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCriarServico)
-                    .addComponent(jButtonGerenciarServicos)
-                    .addComponent(jButtonAtualizarServicos))
+                    .addComponent(jButtonGerenciarServicos))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
                 .addContainerGap())
@@ -512,7 +476,7 @@ public class Main extends javax.swing.JFrame {
         jTableClientes.setModel(modelo);
     } 
     
-    private void carregarTabelaFuncionarios(){
+    public void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Salário", "Serviços Feitos"},0);
         for(int i = 1; i < Objetos.funcionarios.size() + 1;i++){
             if (Objetos.funcionarios.get(i) != null){
@@ -530,7 +494,7 @@ public class Main extends javax.swing.JFrame {
         jTableFuncionarios.setModel(modelo);
     }
     
-    private void carregarTabelaPecas() {
+    public void carregarTabelaPecas() {
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Tipo","Marca", "Preço", "Qnt."},0);
         for(int i = 0; i < Estoque.getSize();i++){
             Object linha[] = new Object[]{  Estoque.getPeca(i).getTipoPeca().getId(),
@@ -548,7 +512,7 @@ public class Main extends javax.swing.JFrame {
     private void jButtonCadastrarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarClienteActionPerformed
         // TODO add your handling code here:
         CadastroCliente novoCadastroCliente = new CadastroCliente();
-        novoCadastroCliente.setVisible(true);
+        novoCadastroCliente.setVisible(true);        
     }//GEN-LAST:event_jButtonCadastrarClienteActionPerformed
 
     private void jButtonGerenciarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGerenciarClientesActionPerformed
@@ -579,26 +543,6 @@ public class Main extends javax.swing.JFrame {
         GerenciarEstoque novoGerenciarEstoque = new GerenciarEstoque();
 	novoGerenciarEstoque.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButtonAtualizarClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarClientesActionPerformed
-        // TODO add your handling code here:
-        carregarTabelaClientes();
-    }//GEN-LAST:event_jButtonAtualizarClientesActionPerformed
-
-    private void jButtonAtualizarFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarFuncionariosActionPerformed
-        // TODO add your handling code here:
-        carregarTabelaFuncionarios();
-    }//GEN-LAST:event_jButtonAtualizarFuncionariosActionPerformed
-
-    private void jButtonAtualizarPecasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarPecasActionPerformed
-        // TODO add your handling code here:
-        carregarTabelaPecas();
-    }//GEN-LAST:event_jButtonAtualizarPecasActionPerformed
-
-    private void jButtonAtualizarServicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAtualizarServicosActionPerformed
-        // TODO add your handling code here:
-        carregarTabelaServicos();
-    }//GEN-LAST:event_jButtonAtualizarServicosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -635,10 +579,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton btnGerenciarPcs;
     private javax.swing.JButton btnLeave;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButtonAtualizarClientes;
-    private javax.swing.JButton jButtonAtualizarFuncionarios;
-    private javax.swing.JButton jButtonAtualizarPecas;
-    private javax.swing.JButton jButtonAtualizarServicos;
     private javax.swing.JButton jButtonCadastrarCliente;
     private javax.swing.JButton jButtonCadastrarFuncionario;
     private javax.swing.JButton jButtonCriarServico;

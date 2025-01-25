@@ -482,6 +482,7 @@ public class CadastroTipoPeca extends javax.swing.JFrame {
         private void btnReturnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnReturnActionPerformed
         {//GEN-HEADEREND:event_btnReturnActionPerformed
                 this.dispose();
+                TelaLogin.telaMain.carregarTabelaPecas();
         }//GEN-LAST:event_btnReturnActionPerformed
 
 	/**

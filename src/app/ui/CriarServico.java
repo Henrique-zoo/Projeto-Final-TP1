@@ -240,6 +240,7 @@ public class CriarServico extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         this.dispose();
+        TelaLogin.telaMain.carregarTabelaServicos();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void textCpfClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfClienteActionPerformed

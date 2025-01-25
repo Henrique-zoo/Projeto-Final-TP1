@@ -16,6 +16,8 @@ public class CadastroCliente extends javax.swing.JFrame {
     /**
      * Creates new form CadastroCliente
      */
+        
+    
     public CadastroCliente() {
         initComponents();
         jTFid.setEnabled(false);       
@@ -202,7 +204,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                 Cliente cliente = new Cliente(id, jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
                 Objetos.clientes.put(id, cliente);
                 javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");                
-                this.dispose();
+                this.dispose();                
+                TelaLogin.telaMain.carregarTabelaClientes();
             }
         }
         else {

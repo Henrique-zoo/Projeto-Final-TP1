@@ -132,6 +132,7 @@ public class GerenciarClientes extends javax.swing.JFrame {
         jButtonOkVeiculo = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableClientes = new javax.swing.JTable();
+        jButtonVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Clientes");
@@ -490,6 +491,13 @@ public class GerenciarClientes extends javax.swing.JFrame {
             jTableClientes.getColumnModel().getColumn(3).setResizable(false);
         }
 
+        jButtonVoltar.setText("Voltar");
+        jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -497,6 +505,10 @@ public class GerenciarClientes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -521,9 +533,9 @@ public class GerenciarClientes extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButtonOkVeiculo))
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 763, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonVoltar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -545,6 +557,8 @@ public class GerenciarClientes extends javax.swing.JFrame {
                     .addComponent(jButtonOkVeiculo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonVoltar)
                 .addContainerGap())
         );
 
@@ -1046,6 +1060,12 @@ public class GerenciarClientes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jFTFAnoActionPerformed
 
+    private void jButtonVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonVoltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        TelaLogin.telaMain.carregarTabelaClientes();
+    }//GEN-LAST:event_jButtonVoltarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1086,6 +1106,7 @@ public class GerenciarClientes extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExcluirVeiculo;
     private javax.swing.JButton jButtonOkVeiculo;
     private javax.swing.JButton jButtonPesquisar;
+    private javax.swing.JButton jButtonVoltar;
     private javax.swing.JComboBox<Veiculo> jComboBox1;
     private javax.swing.JFormattedTextField jFTFAno;
     private javax.swing.JFormattedTextField jFTFCPF;

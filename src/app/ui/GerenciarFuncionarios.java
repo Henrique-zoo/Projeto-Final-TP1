@@ -381,6 +381,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             
             javax.swing.JOptionPane.showMessageDialog(this, "Dados alterados com sucesso.");
             jButtonConfirmar.setEnabled(false);
+            jButtonExcluir.setEnabled(true);
             flagEditar = false;
             //atribui todos os novos valores com base no ID como índice do array de funcionarios, reseta a flag de edição e o botão de confirmar
         }
@@ -426,6 +427,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
+        TelaLogin.telaMain.carregarTabelaClientes();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

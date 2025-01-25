@@ -258,12 +258,14 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 Objetos.funcionarios.put(id, funcionario);
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
+                TelaLogin.telaMain.carregarTabelaFuncionarios();
             } else if (!cadastrado) {
                 double salarioDouble = Double.parseDouble(salario);
                 Funcionario funcionario = new Funcionario(salarioDouble, senha, id, nome, cpf, email, telefone);
                 Objetos.funcionarios.put(id, funcionario);
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
+                TelaLogin.telaMain.carregarTabelaFuncionarios();
             }
         } else {
             JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "ERRO", JOptionPane.ERROR_MESSAGE);
