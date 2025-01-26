@@ -23,17 +23,18 @@ import javax.swing.table.DefaultTableModel;
  * @author henri
  */
 public class GerenciarServicos extends javax.swing.JFrame {
-    
     private final Funcionario usuario;
     private Servico servico;
-    private final ArrayList<Peca> pecas;
+    private Cliente cliente; //pra poupar um loop dentro da tabela
+    private final ArrayList<Peca> pecas;    
     /**
      * Creates new form GerenciarServicos
      */
     public GerenciarServicos() {
-        initComponents();
-        carregaTabelaServicos();
         usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
+        initComponents();
+        carregaTabelaServicos(false);
+        
         pecas = new ArrayList<>();
 
         jTFCliente.setEditable(false);
@@ -44,8 +45,9 @@ public class GerenciarServicos extends javax.swing.JFrame {
         
         jButtonExcluir.setEnabled(false);
         jButtonSalvar.setEnabled(false);
+        jButtonCancelar.setEnabled(false);
         
-        jTFId.setEnabled(false);
+        jFTFCPF.setEnabled(false);
         jButtonBusca.setEnabled(false);
         
     }
@@ -65,7 +67,6 @@ public class GerenciarServicos extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTFVeiculo = new javax.swing.JTextField();
-        jTFId = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jCheckBoxPago = new javax.swing.JCheckBox();
         jCheckBoxConsertado = new javax.swing.JCheckBox();
@@ -78,12 +79,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
         lblPecasComProblema = new javax.swing.JLabel();
         btnAdicionar = new javax.swing.JButton();
         textQuantidade = new javax.swing.JTextField();
+        jFTFCPF = new javax.swing.JFormattedTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableServicos = new javax.swing.JTable();
-        jButtonBuscarID = new javax.swing.JButton();
+        jButtonBuscarCPF = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jButtonVoltar = new javax.swing.JButton();
+        jButtonCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Serviços");
@@ -99,9 +102,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jTFVeiculo.setEnabled(false);
 
-        jTFId.setEnabled(false);
-
-        jLabel4.setText("ID");
+        jLabel4.setText("CPF");
 
         jCheckBoxPago.setText("Pago");
         jCheckBoxPago.setEnabled(false);
@@ -151,6 +152,12 @@ public class GerenciarServicos extends javax.swing.JFrame {
             }
         });
 
+        try {
+            jFTFCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -158,10 +165,6 @@ public class GerenciarServicos extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonBusca))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -180,17 +183,23 @@ public class GerenciarServicos extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jFTFValor)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jCheckBoxConsertado)
-                                    .addComponent(jCheckBoxPago)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(selectMetodoDePagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jCheckBoxConsertado)
+                                        .addComponent(jCheckBoxPago)
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(selectMetodoDePagamento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel6))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonBusca)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -198,15 +207,18 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)
-                        .addComponent(jButtonBusca)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonBusca)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jFTFCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel4)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jFTFValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTFCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -266,11 +278,11 @@ public class GerenciarServicos extends javax.swing.JFrame {
             jTableServicos.getColumnModel().getColumn(3).setResizable(false);
         }
 
-        jButtonBuscarID.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcardsearch.png"))); // NOI18N
-        jButtonBuscarID.setText("Buscar por ID");
-        jButtonBuscarID.addActionListener(new java.awt.event.ActionListener() {
+        jButtonBuscarCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcardsearch.png"))); // NOI18N
+        jButtonBuscarCPF.setText("Buscar por CPF");
+        jButtonBuscarCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonBuscarIDActionPerformed(evt);
+                jButtonBuscarCPFActionPerformed(evt);
             }
         });
 
@@ -297,6 +309,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
             }
         });
 
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/cancel.png"))); // NOI18N
+        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -305,16 +325,18 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButtonBuscarID)
+                        .addComponent(jButtonBuscarCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -324,12 +346,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonBuscarID)
+                    .addComponent(jButtonBuscarCPF)
                     .addComponent(jButtonExcluir)
                     .addComponent(jButtonSalvar)
-                    .addComponent(jButtonVoltar))
+                    .addComponent(jButtonCancelar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonVoltar)
                 .addContainerGap())
         );
 
@@ -337,26 +361,34 @@ public class GerenciarServicos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonBuscarIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarIDActionPerformed
+    private void jButtonBuscarCPFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarCPFActionPerformed
         // TODO add your handling code here:
-        jTFId.setEnabled(true);
+        jFTFCPF.setEnabled(true);
         jButtonBusca.setEnabled(true);
-    }//GEN-LAST:event_jButtonBuscarIDActionPerformed
+    }//GEN-LAST:event_jButtonBuscarCPFActionPerformed
 
     private void jButtonBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscaActionPerformed
-        int id = (jTFId.getText().isEmpty() || jTFId.getText().isBlank()) ? 0 : Integer.parseInt(jTFId.getText());
-        if (id == 0){
-            JOptionPane.showMessageDialog(null, "Insira um ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        } else if ((servico = Objetos.servicos.get(id)) != null) {
-            if ((usuario.getServicosAtivos()).get(id) == null && !usuario.isAdmin()) {
-                JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar esse serviço!", "ERRO", JOptionPane.ERROR_MESSAGE);
-            } else {
-                Servico servico = Objetos.servicos.get(id);
-                preencherCampos(servico);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Não existe um serviço com esse ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
+        String cpf = jFTFCPF.getText();                
+        boolean encontrado = false;
+        if (cpf.isBlank() || cpf.isEmpty() || cpf.contains("   .   .   -  ")){
+            JOptionPane.showMessageDialog(null, "Insira um CPF!", "ERRO", JOptionPane.ERROR_MESSAGE);
         }
+        else {
+            for (int i = 0; i < Objetos.clientes.size(); i++){
+                if (Objetos.clientes.get(i) != null){
+                    if (Objetos.clientes.get(i).getCpf().equals(cpf)){
+                        cliente = Objetos.clientes.get(i);
+                        encontrado = true;
+                        break;
+                    }                
+                }
+            }
+            if (!encontrado){
+                JOptionPane.showMessageDialog(null, "Não existe um cliente com esse CPF!", "ERRO", JOptionPane.ERROR_MESSAGE);
+            } else {
+                carregaTabelaServicos(true);
+            }
+        }                                        
     }//GEN-LAST:event_jButtonBuscaActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
@@ -374,15 +406,18 @@ public class GerenciarServicos extends javax.swing.JFrame {
         usuario.pegarPecasNoEstoque(servico);
         pecas.clear();
         javax.swing.JOptionPane.showMessageDialog(this, "Dados salvos com sucesso");
+        jButtonCancelar.setEnabled(true);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        if (usuario.getServicosAtivos().get(Integer.valueOf(jTFId.getText())) != null || usuario.isAdmin()) {
+        if (usuario.getServicosAtivos().get(servico) != null || usuario.isAdmin()) {
             int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse serviço?");
             if (resposta == JOptionPane.YES_OPTION) {
                 if (!Objetos.servicos.isEmpty()){            
-                    Objetos.servicos.remove(Integer.valueOf(jTFId.getText()));
+                    Objetos.servicos.remove(servico.getId());
                     javax.swing.JOptionPane.showMessageDialog(this, "Serviço excluído com sucesso");            
+                    carregaTabelaServicos(false);
+                    redefinirCampos();
                 }
             }
         } else {
@@ -413,16 +448,25 @@ public class GerenciarServicos extends javax.swing.JFrame {
         TelaLogin.telaMain.carregarTabelaServicos();
     }//GEN-LAST:event_jButtonVoltarActionPerformed
 
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        // TODO add your handling code here:                                
+        carregaTabelaServicos(false);
+        redefinirCampos();
+        jButtonCancelar.setEnabled(false);
+        jButtonSalvar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
     private void preencherCampos(Servico servico){
         jTFCliente.setText(servico.getCliente().getNome());
-        jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
+        jTFVeiculo.setText(servico.getVeiculo().getModelo() + ' ' + servico.getVeiculo().getPlaca());
         jButtonExcluir.setEnabled(true);
         jButtonSalvar.setEnabled(true);
-        jTFId.setEnabled(true);
+        jFTFCPF.setEnabled(true);
         jButtonBusca.setEnabled(true);
         selectPeca.setEnabled(true);
         textQuantidade.setEnabled(true);
@@ -431,46 +475,83 @@ public class GerenciarServicos extends javax.swing.JFrame {
         jCheckBoxConsertado.setEnabled(true);
         jCheckBoxPago.setEnabled(true);
                 
-            selectPeca.removeAllItems();
-            selectPeca.addItem(new TipoDePeca());
-            for (Peca peca : Estoque.getEstoque()) {
-                selectPeca.addItem(peca.getTipoPeca());
-            }
+        selectPeca.removeAllItems();
+        selectPeca.addItem(new TipoDePeca());
+        for (Peca peca : Estoque.getEstoque()) {
+            selectPeca.addItem(peca.getTipoPeca());
+        }
 
-            jFTFValor.setText(String.format("%.2f", servico.getValor()));
-            jCheckBoxPago.setSelected(servico.isPago());
-            jCheckBoxConsertado.setSelected(servico.isConsertado());
-            if (servico.getMetodoPagamento() != null){
-                selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
-            }
+        jFTFValor.setText(String.format("%.2f", servico.getValor()));
+        jCheckBoxPago.setSelected(servico.isPago());
+        jCheckBoxConsertado.setSelected(servico.isConsertado());
+        if (servico.getMetodoPagamento() != null){
+            selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
+        }
     }
     
-    public final void carregaTabelaServicos(){
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Cliente","Veículo", "Funcionário"} ,0);
-        for(int i = 0;i< Objetos.servicos.size() + 1; i++){
+    public final void carregaTabelaServicos(boolean buscaCliente){                
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Cliente","Veículo", "Funcionário"} ,0);                
+        
+        for(int i = 0; i < Objetos.servicos.size() + 1; i++){
             if (Objetos.servicos.get(i) != null){
-                Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
+                if ((Objetos.servicos.get(i).getFuncionario().getId() == usuario.getId() || usuario.isAdmin())){
+                    if (!buscaCliente){
+                        Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
                                             Objetos.servicos.get(i).getCliente().getCpf(),
                                             Objetos.servicos.get(i).getVeiculo().getModelo(),
                                             Objetos.servicos.get(i).getFuncionario().getCpf()
                                             };
-                modelo.addRow(linha);
+                        modelo.addRow(linha);
+                    } else if (cliente != null && Objetos.servicos.get(i).getCliente().equals(cliente)){
+                        Object linha[] = new Object[]{  Objetos.servicos.get(i).getId(),
+                                            Objetos.servicos.get(i).getCliente().getCpf(),
+                                            Objetos.servicos.get(i).getVeiculo().getModelo(),
+                                            Objetos.servicos.get(i).getFuncionario().getCpf()
+                                            };
+                        modelo.addRow(linha);
+                    }                                        
+                }                                
             }            
         }
         jTableServicos.setModel(modelo);
-                jTableServicos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+        jTableServicos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int selectedRow = jTableServicos.getSelectedRow();                
                 if (selectedRow >= 0) {
                     int idServico = (Integer) jTableServicos.getValueAt(selectedRow, 0);
-                    Servico servicoSelecionado = Objetos.servicos.get(idServico);
-                    preencherCampos(servicoSelecionado);
-                    jTFId.setText(Integer.toString(idServico));
+                    if (Objetos.servicos.get(idServico) != null){
+                        servico = Objetos.servicos.get(idServico);
+                        preencherCampos(servico);
+                        jFTFCPF.setText(servico.getCliente().getCpf());
+                        jButtonCancelar.setEnabled(true);
+                    }                    
                 }
             }
         });
-
+        jButtonCancelar.setEnabled(true);
+        jButtonSalvar.setEnabled(false);
+    }
+    
+    private void redefinirCampos(){
+        jTFCliente.setEnabled(false);
+        jTFCliente.setText("");
+        jFTFValor.setEnabled(false);
+        jFTFValor.setText("");
+        jTFVeiculo.setEnabled(false);
+        jTFVeiculo.setText("");
+        jCheckBoxPago.setEnabled(false);
+        jCheckBoxPago.setSelected(false);
+        jCheckBoxConsertado.setEnabled(false);
+        jCheckBoxConsertado.setSelected(false);
+        selectPeca.setEnabled(false);
+        selectPeca.removeAll();
+        textQuantidade.setEnabled(false);
+        textQuantidade.setText("");
+        btnAdicionar.setEnabled(false);
+        selectMetodoDePagamento.setEnabled(false);
+        selectMetodoDePagamento.removeAll();
+        
     }
     
     public static void main(String args[]) {
@@ -508,12 +589,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton jButtonBusca;
-    private javax.swing.JButton jButtonBuscarID;
+    private javax.swing.JButton jButtonBuscarCPF;
+    private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JButton jButtonVoltar;
     private javax.swing.JCheckBox jCheckBoxConsertado;
     private javax.swing.JCheckBox jCheckBoxPago;
+    private javax.swing.JFormattedTextField jFTFCPF;
     private javax.swing.JFormattedTextField jFTFValor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -524,7 +607,6 @@ public class GerenciarServicos extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTFCliente;
-    private javax.swing.JTextField jTFId;
     private javax.swing.JTextField jTFVeiculo;
     private javax.swing.JTable jTableServicos;
     private javax.swing.JLabel lblPecasComProblema;
