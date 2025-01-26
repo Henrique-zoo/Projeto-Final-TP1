@@ -71,7 +71,6 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jFTFSalario = new javax.swing.JFormattedTextField();
         jLabel7 = new javax.swing.JLabel();
         jTFid = new javax.swing.JTextField();
-        jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
         jButtonConfirmar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
@@ -79,6 +78,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jCheckBox1 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
+        jButtonExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerenciar Funcionários");
@@ -95,7 +95,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
 
         jLabel3.setText("Nome");
 
+        jButtonPesquisar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/zoom.png"))); // NOI18N
         jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.setToolTipText("Pesquisar funcionário por CPF");
         jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPesquisarActionPerformed(evt);
@@ -178,16 +180,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButtonExcluir.setText("Excluir");
-        jButtonExcluir.setContentAreaFilled(false);
-        jButtonExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonExcluirActionPerformed(evt);
-            }
-        });
-
+        jButtonEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/user_gray_edit.png"))); // NOI18N
         jButtonEditar.setText("Editar");
+        jButtonEditar.setToolTipText("Editar funcionário");
         jButtonEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,7 +190,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             }
         });
 
+        jButtonConfirmar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/accept.png"))); // NOI18N
         jButtonConfirmar.setText("Confirmar");
+        jButtonConfirmar.setToolTipText("Confirmar edição");
         jButtonConfirmar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +200,9 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
             }
         });
 
+        jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/cancel.png"))); // NOI18N
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setToolTipText("Limpar todos os campos");
         jButtonCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,10 +235,20 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         jCheckBox1.setText("Administrador");
 
         jButton1.setText("Voltar");
+        jButton1.setToolTipText("Voltar para menu principal");
         jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/user_gray_delete.png"))); // NOI18N
+        jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setToolTipText("Excluir funcionário");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
             }
         });
 
@@ -261,7 +270,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonExcluir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(3, 3, 3)
                         .addComponent(jButtonEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonConfirmar)
@@ -283,11 +292,11 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                         .addComponent(jCheckBox1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonExcluir)
                     .addComponent(jButtonEditar)
                     .addComponent(jButtonConfirmar)
                     .addComponent(jButtonCancelar)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(jButtonExcluir))
                 .addContainerGap())
         );
 
@@ -417,18 +426,6 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonConfirmarActionPerformed
 
-    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        // TODO add your handling code here:
-        int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse funcionário?");
-        if (resposta == JOptionPane.YES_OPTION) {
-            int indice = Integer.parseInt(jTFid.getText());
-            Objetos.funcionarios.remove(indice);
-            Funcionario.addIdLivre(indice);
-            javax.swing.JOptionPane.showMessageDialog(this, "Funcionário excluído com sucesso.");
-        }
-        limpaTudo();
-    }//GEN-LAST:event_jButtonExcluirActionPerformed
-
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
         flagEditar = false;
@@ -461,6 +458,18 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         this.dispose();
         TelaLogin.telaMain.carregarTabelaFuncionarios();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        // TODO add your handling code here:
+        int resposta = javax.swing.JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esse funcionário?");
+        if (resposta == JOptionPane.YES_OPTION) {
+            int indice = Integer.parseInt(jTFid.getText());
+            Objetos.funcionarios.remove(indice);
+            Funcionario.addIdLivre(indice);
+            javax.swing.JOptionPane.showMessageDialog(this, "Funcionário excluído com sucesso.");
+        }
+        limpaTudo();
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     /**
      * @param args the command line arguments

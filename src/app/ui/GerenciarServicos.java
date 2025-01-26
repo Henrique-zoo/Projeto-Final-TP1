@@ -116,6 +116,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
         jFTFValor.setEnabled(false);
 
         jButtonBusca.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/zoom.png"))); // NOI18N
+        jButtonBusca.setToolTipText("Pesquisar cliente");
         jButtonBusca.setBorderPainted(false);
         jButtonBusca.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -137,7 +138,9 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         lblPecasComProblema.setText("Adicionar peças com problema");
 
+        btnAdicionar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/cog_add.png"))); // NOI18N
         btnAdicionar.setText("Adicionar");
+        btnAdicionar.setToolTipText("Adicionar peça com problema");
         btnAdicionar.setEnabled(false);
         btnAdicionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,6 +283,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonBuscarCPF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcardsearch.png"))); // NOI18N
         jButtonBuscarCPF.setText("Buscar por CPF");
+        jButtonBuscarCPF.setToolTipText("Habilitar pesquisa de cliente por CPF");
         jButtonBuscarCPF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBuscarCPFActionPerformed(evt);
@@ -288,6 +292,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/vcard_delete.png"))); // NOI18N
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setToolTipText("Excluir serviço");
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExcluirActionPerformed(evt);
@@ -296,6 +301,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/accept.png"))); // NOI18N
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.setToolTipText("Salvar edições");
         jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSalvarActionPerformed(evt);
@@ -303,6 +309,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
         });
 
         jButtonVoltar.setText("Voltar");
+        jButtonVoltar.setToolTipText("Voltar para menu principal");
         jButtonVoltar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonVoltarActionPerformed(evt);
@@ -311,6 +318,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
 
         jButtonCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/cancel.png"))); // NOI18N
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setToolTipText("Limpar todos os campos");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);

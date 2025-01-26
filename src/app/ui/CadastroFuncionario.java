@@ -87,13 +87,15 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel7.setText("Salário (opcional)");
 
         jButtonCadastrar.setText("Cadastrar");
+        jButtonCadastrar.setToolTipText("Cadastrar funcionário");
         jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarActionPerformed(evt);
             }
         });
 
-        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setText("Voltar");
+        jButtonCancelar.setToolTipText("Voltar para menu principal");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);

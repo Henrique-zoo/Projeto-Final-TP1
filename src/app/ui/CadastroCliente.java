@@ -70,13 +70,15 @@ public class CadastroCliente extends javax.swing.JFrame {
         }
 
         jButtonCadastrar.setText("Cadastrar");
+        jButtonCadastrar.setToolTipText("Cadastrar cliente");
         jButtonCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarActionPerformed(evt);
             }
         });
 
-        jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.setText("Voltar");
+        jButtonCancelar.setToolTipText("Voltar para menu principal");
         jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCancelarActionPerformed(evt);
@@ -96,7 +98,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                     .addComponent(jTFNome)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButtonCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
                         .addComponent(jButtonCadastrar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

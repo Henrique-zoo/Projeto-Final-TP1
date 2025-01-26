@@ -75,6 +75,7 @@ public class Main extends javax.swing.JFrame {
         jLabel1.setText("Tonhão Autopeças");
 
         btnLeave.setText("Sair");
+        btnLeave.setToolTipText("Logout");
         btnLeave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLeaveActionPerformed(evt);

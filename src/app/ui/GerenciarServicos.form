@@ -243,6 +243,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/resources/images/zoom.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Pesquisar cliente"/>
             <Property name="borderPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -292,7 +293,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnAdicionar">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/images/cog_add.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Adicionar"/>
+            <Property name="toolTipText" type="java.lang.String" value="Adicionar pe&#xe7;a com problema"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
@@ -370,6 +375,7 @@
           <Image iconType="3" name="/resources/images/vcardsearch.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Buscar por CPF"/>
+        <Property name="toolTipText" type="java.lang.String" value="Habilitar pesquisa de cliente por CPF"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonBuscarCPFActionPerformed"/>
@@ -381,6 +387,7 @@
           <Image iconType="3" name="/resources/images/vcard_delete.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Excluir"/>
+        <Property name="toolTipText" type="java.lang.String" value="Excluir servi&#xe7;o"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExcluirActionPerformed"/>
@@ -392,6 +399,7 @@
           <Image iconType="3" name="/resources/images/accept.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Salvar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Salvar edi&#xe7;&#xf5;es"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
@@ -400,6 +408,7 @@
     <Component class="javax.swing.JButton" name="jButtonVoltar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Voltar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Voltar para menu principal"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonVoltarActionPerformed"/>
@@ -411,6 +420,7 @@
           <Image iconType="3" name="/resources/images/cancel.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Limpar todos os campos"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonCancelarActionPerformed"/>

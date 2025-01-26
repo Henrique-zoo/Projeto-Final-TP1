@@ -160,7 +160,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSearchTM">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/images/cog_search.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Pesquisar por Tipo e Marca"/>
+            <Property name="toolTipText" type="java.lang.String" value="Pesquisar pe&#xe7;a por tipo e marca"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchTMActionPerformed"/>
@@ -168,7 +172,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnSearchC">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/images/cog_search2.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Pesquisar por C&#xf3;digo"/>
+            <Property name="toolTipText" type="java.lang.String" value="Pesquisar pe&#xe7;a por c&#xf3;digo"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSearchCActionPerformed"/>
@@ -189,6 +197,7 @@
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancelar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Limpar todos os campos"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -198,6 +207,7 @@
     <Component class="javax.swing.JButton" name="btnReturn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Voltar"/>
+        <Property name="toolTipText" type="java.lang.String" value="Voltar para menu principal"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReturnActionPerformed"/>
@@ -390,7 +400,11 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnOperate">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/resources/images/arrow_right.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Realizar Opera&#xe7;&#xe3;o"/>
+            <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOperateActionPerformed"/>

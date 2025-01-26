@@ -103,6 +103,7 @@
             <Component class="javax.swing.JButton" name="btnLeave">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Sair"/>
+                <Property name="toolTipText" type="java.lang.String" value="Logout"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLeaveActionPerformed"/>
