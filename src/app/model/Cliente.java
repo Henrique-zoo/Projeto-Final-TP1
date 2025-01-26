@@ -18,6 +18,7 @@ public final class Cliente extends Pessoa {
     private static PriorityQueue<Integer> idsLivres = new PriorityQueue();
     private static int idGenarator = 1;
 
+    //Construtor que inclui lógica para usar id's que já foram excluídos e estão livres
     public Cliente(String nome, String cpf, String email, String telefone) {
         super(nome, cpf, email, telefone);
         if (!idsLivres.isEmpty()){
@@ -47,19 +48,7 @@ public final class Cliente extends Pessoa {
     
     public void setVeiculo(Veiculo veiculo){
         this.veiculos.add(veiculo);
-    }
-    
-    public Veiculo getVeiculoByID(int i){
-        return this.veiculos.get(i);
-    }
-    
-    public void excluirVeiculo(Veiculo veiculo){
-        this.veiculos.remove(veiculo);
-    }
-    
-    public void excluirVeiculos() {
-        this.veiculos.clear();
-    }
+    }                
 
     public double getTotalPago() {
         return totalPago;
@@ -69,7 +58,23 @@ public final class Cliente extends Pessoa {
         this.totalPago = totalPago;
     }
     
+    //Torna disponível o ID excluído
     public static void addIdLivre(int id){
         idsLivres.add(id);
+    }
+    
+    //Retorna um veículo específico do arraylist a partir do índice fornecido
+    public Veiculo getVeiculoByID(int i){
+        return this.veiculos.get(i);
+    }
+    
+    //Exclui um veículo específico a partir do objeto fornecido
+    public void excluirVeiculo(Veiculo veiculo){
+        this.veiculos.remove(veiculo);
+    }
+    
+    //Exclui todos os veículos do cliente
+    public void excluirVeiculos() {
+        this.veiculos.clear();
     }
 }

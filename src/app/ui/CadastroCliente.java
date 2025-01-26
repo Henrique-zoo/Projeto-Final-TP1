@@ -6,12 +6,13 @@ package app.ui;
 
 import app.model.Cliente;
 import app.utils.Objetos;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author derickandrade
  */
-public class CadastroCliente extends javax.swing.JFrame {
+public class CadastroCliente extends javax.swing.JFrame implements Validavel{
 
     /**
      * Creates new form CadastroCliente
@@ -159,37 +160,40 @@ public class CadastroCliente extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Retorna uma exceção de argumento ilegal se algum dos campos está vazio
+    @Override
+    public void verificarCampos(){
+        if (jTFNome.getText().isEmpty() || jTFNome.getText().isBlank() || jFTFCPF.getText().equals("   .   .   -  ") || jTFEmail.getText().isBlank() || jTFEmail.getText().isEmpty() || jFTFTelefone.getText().equals("(  ) 9    -    ")){
+            throw new IllegalArgumentException("Todos os campos devem ser preenchidos.");
+        }
+    }   
+    
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
-
-    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        // TODO add your handling code here:                
-        boolean cadastrado = false;                
         
-        if (!(jTFNome.getText().isEmpty() || jFTFCPF.getText().equals("   .   .   -  ") || jTFEmail.getText().isEmpty() || jFTFTelefone.getText().equals("(  )9    -    "))){ //Verifica se todos os campos estão preenchidos
-            for (int i = 1; i < Objetos.clientes.size(); i++){ //Se sim, verifica se o cliente indice i existe, depois verifica se o CPF fornecido já está no sistema
-                if (Objetos.clientes.get(i) != null) {
-                    if (Objetos.clientes.get(i).getCpf().equals(jFTFCPF.getText())){ //Se não, o cliente é adicionado ao array na Main
-                        javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
-                        cadastrado = true;
-                    }
-                }
-                
-            }
-            if (!cadastrado){
-                Cliente cliente = new Cliente(jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
-                int id = cliente.getId();
-                Objetos.clientes.put(id, cliente);
-                javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");                
-                this.dispose();                
-                TelaLogin.telaMain.carregarTabelaClientes();
-            }
+    /*
+    Verifica se algum campo informado está vazio
+    Se não, verifica se o CPF informado já está cadastrado
+    Se não, cadastra o cliente, fecha a janela e atualiza a tabela do menu principal
+    */
+    private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
+        // TODO add your handling code here:        
+        try {
+            verificarCampos();
+            Objetos.verificaCPF("cliente", jFTFCPF.getText());
+            Cliente cliente = new Cliente(jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
+            int id = cliente.getId();
+            Objetos.clientes.put(id, cliente);
+            javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");                
+            this.dispose();                
+            TelaLogin.telaMain.carregarTabelaClientes();
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos!", "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalStateException e) {
+            JOptionPane.showMessageDialog(null, "CPF já cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-        else {
-            javax.swing.JOptionPane.showMessageDialog(this, "Preencha todos os campos!");
-        }           
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     /**

@@ -7,6 +7,8 @@ package app.ui;
 import app.model.Funcionario;
 import app.utils.Objetos;
 import app.utils.SessaoUsuario;
+import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,7 +26,7 @@ public class TelaLogin extends javax.swing.JFrame {
         initComponents();
         Funcionario funcionario = new Funcionario(0.0, "1", 0, "Admin", "111.111.111-11", "1", "1");
         funcionario.setAdmin(true);
-        Objetos.funcionarios.put(0, funcionario);
+        Objetos.funcionarios.put(0, funcionario);        
     }
 
     /**
@@ -61,17 +63,23 @@ public class TelaLogin extends javax.swing.JFrame {
         });
 
         jLabel3.setText("Primeiro acesso?");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
 
         try {
             jFTFCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jFTFCPF.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jFTFCPFKeyPressed(evt);
+            }
+        });
+
+        jPasswordField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jPasswordField1KeyPressed(evt);
+            }
+        });
 
         jLabelCliqueAqui.setText("Clique aqui");
         jLabelCliqueAqui.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -144,10 +152,6 @@ public class TelaLogin extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel3MouseClicked
-
     private void jLabelCliqueAquiMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCliqueAquiMouseReleased
         // TODO add your handling code here:
         CadastroFuncionario cadastroFuncionario = new CadastroFuncionario(); //Se o usuário clicar no link de primeiro acesso, abre a página de cadastro de funcionário
@@ -155,35 +159,63 @@ public class TelaLogin extends javax.swing.JFrame {
         // Torna a janela CadastroCliente visível
         cadastroFuncionario.setVisible(true);
     }//GEN-LAST:event_jLabelCliqueAquiMouseReleased
-
-    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
-        // TODO add your handling code here:
+    
+    // Lança uma exceção caso tenha algum campo vazio, se a senha for incorreta ou CPF não cadastrado
+    // Caso não lançar nenhuma das exceções, retorna o funcionário encontrado
+    private Funcionario buscaCadastro(){
         String cpfInformado = jFTFCPF.getText();
         String senhaInformada = String.copyValueOf(jPasswordField1.getPassword());
+        if (cpfInformado.equals("   .   .   -  ") || senhaInformada.isEmpty() || senhaInformada.isBlank()){
+            throw new IllegalArgumentException("Preencha todos os campos!");
+        }
         boolean cpfEncontrado = false;
-        
-        for (int i = 0; i < Objetos.funcionarios.size(); i++) { 
-            Funcionario funcionarioAutenticado;
-            if (Objetos.funcionarios.get(i).getCpf().equals(cpfInformado)){ //Busca o CPF informado no login, se encontrar verifica a senha e dá as mensagens de boas vindas
-                if ((funcionarioAutenticado = Objetos.funcionarios.get(i)).getSenha().equals(senhaInformada)){
-                    javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + Objetos.funcionarios.get(i).getNome() + ".");
-                    SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
-                    telaMain = new Main();
-                    telaMain.setVisible(true);
-                    this.dispose();
-                    
-                }
-                else{
-                    javax.swing.JOptionPane.showMessageDialog(this, "Senha inválida.");
-                }
+        for (int i = 0; i < Objetos.funcionarios.size(); i++){
+            if (Objetos.funcionarios.get(i).getCpf().equals(cpfInformado)){
                 cpfEncontrado = true;
+                if (!senhaInformada.equals(Objetos.funcionarios.get(i).getSenha())){
+                    throw new IllegalArgumentException("Senha incorreta!");
+                }
+                else {
+                    return Objetos.funcionarios.get(i);
+                }
             }
         }
-        if (!cpfEncontrado) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Usuário não cadastrado!");
+        if (!cpfEncontrado){
+            throw new IllegalArgumentException("Usuário não cadastrado!");
         }
-        
+        return null;
+    }
+    
+    private void login(){
+        try {
+            Funcionario funcionarioAutenticado = buscaCadastro();
+            javax.swing.JOptionPane.showMessageDialog(this, "Bem-vindo(a), " + funcionarioAutenticado.getNome() + ".");
+            SessaoUsuario.getInstancia().setUsuarioLogado(funcionarioAutenticado);
+            telaMain = new Main();
+            telaMain.setVisible(true);
+            this.dispose();
+            
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }  
+    }
+    
+    private void jButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLoginActionPerformed
+        // TODO add your handling code here:        
+        login();
     }//GEN-LAST:event_jButtonLoginActionPerformed
+
+    private void jFTFCPFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFTFCPFKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+            login();
+    }//GEN-LAST:event_jFTFCPFKeyPressed
+
+    private void jPasswordField1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPasswordField1KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER)
+            login();
+    }//GEN-LAST:event_jPasswordField1KeyPressed
 
     /**
      * @param args the command line arguments

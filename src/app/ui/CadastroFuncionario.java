@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author derickandrade
  */
-public class CadastroFuncionario extends javax.swing.JFrame {
+public class CadastroFuncionario extends javax.swing.JFrame implements Validavel{
 
     /**
      * Creates new form CadastroFuncionario
@@ -198,55 +198,67 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    //Lança uma exceção se algum dos campos não estiver preenchido
+    @Override
+    public void verificarCampos(){
+        if (jFTFCPF.getText().equals("   .   .   -  ") || jTFNome.getText().isBlank() || jTFNome.getText().isEmpty() || jTFEmail.getText().isBlank() || jTFEmail.getText().isEmpty() || jFTFTelefone.getText().equals("(  ) 9    -    ") || (jPasswordField1.getPassword().length == 0) || jPasswordField2.getPassword().length == 0){
+            throw new IllegalArgumentException("Todos os campos devem ser preenchidos!");
+        }
+    }
+    
+    // Lança uma exceção se as senhas não forem iguais
+    public static void verificarSenha(String senha,  String confirmaSenha){
+        if (!senha.equals(confirmaSenha)){
+            throw new IllegalArgumentException("As senhas não coincidem!");
+        }
+    }
+    
+    // Recebe todos os valores que estão nos campos e cria um funcionário a partir desses. 
+    // Considera um cadastro informando ou não o salário.
+    private void cadastrarFuncionario(String senha){
+        String nome = jTFNome.getText();
+        String cpf = jFTFCPF.getText();
+        String email = jTFEmail.getText();
+        String telefone = jFTFTelefone.getText();            
+        String salario = jTFSalario.getText();
+        Funcionario funcionario;
+        if (salario.isBlank() || salario.isEmpty()){
+            funcionario = new Funcionario(senha, nome, cpf, email, telefone);
+        } else {
+            double salarioDouble = Double.parseDouble(salario);
+            funcionario = new Funcionario(salarioDouble, senha, nome, cpf, email, telefone);
+        }
+        int id = funcionario.getId();
+        Objetos.funcionarios.put(id, funcionario);
+        JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
+    }
+    
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jButtonCancelarActionPerformed
-
+               
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        // TODO add your handling code here:        
-        String nome = jTFNome.getText();
-        String cpf = jFTFCPF.getText();
-        String email = jTFEmail.getText();
-        String telefone = jFTFTelefone.getText();
-        String senha = String.copyValueOf(jPasswordField1.getPassword());
-        String confirmaSenha = String.copyValueOf(jPasswordField2.getPassword());
-        String salario = jTFSalario.getText();
-        boolean cadastrado = false;
-        
-        int id;        
-        if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  ) 9    -    ") || senha.isEmpty() || confirmaSenha.isEmpty())){
-            for (int i = 1; i < Objetos.funcionarios.size(); i++){
-                if (Objetos.funcionarios.get(i) != null){
-                   if (Objetos.funcionarios.get(i).getCpf().equals(cpf)){
-                        JOptionPane.showMessageDialog(this, "CPF já cadastrado!");  //O If mais externo verifica se há campos vazios levando em conta as máscaras dos formated text fields
-                                                                                    //Se tudo estiver preenchido, verifica se o CPF já está no sistema
-                        cadastrado = true;                                          //Senão, verifica se as senhas são iguais, se forem cria o perfil do usuário (o salário pode ou não ser informado)
-                    } 
-                }                
-            }
+        // TODO add your handling code here:
+        try {
+            verificarCampos();
             
-            if (!senha.equals(confirmaSenha)){
-                JOptionPane.showMessageDialog(this, "As senhas não coincidem.");
-            } else if ((!cadastrado) && salario.isEmpty()){
-                Funcionario funcionario = new Funcionario(senha, nome, cpf, email, telefone);
-                id = funcionario.getId();
-                Objetos.funcionarios.put(id, funcionario);
-                JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
-                this.dispose();
-                TelaLogin.telaMain.carregarTabelaFuncionarios();
-            } else if (!cadastrado) {
-                double salarioDouble = Double.parseDouble(salario);
-                Funcionario funcionario = new Funcionario(salarioDouble, senha, nome, cpf, email, telefone);
-                id = funcionario.getId();
-                Objetos.funcionarios.put(id, funcionario);
-                JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
-                this.dispose();
-                TelaLogin.telaMain.carregarTabelaFuncionarios();
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Preencha todos os campos!", "ERRO", JOptionPane.ERROR_MESSAGE);
-        }                  
+            Objetos.verificaCPF("funcionario", jFTFCPF.getText());
+            
+            String senha = String.copyValueOf(jPasswordField1.getPassword());            
+            String confirmaSenha = String.copyValueOf(jPasswordField2.getPassword());            
+            verificarSenha(senha, confirmaSenha);
+            
+            cadastrarFuncionario(senha);
+            
+            this.dispose();
+            TelaLogin.telaMain.carregarTabelaFuncionarios();
+                                        
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        } catch (IllegalStateException e){
+            JOptionPane.showMessageDialog(null, "CPF já cadastrado!", "Erro", JOptionPane.ERROR_MESSAGE);        
+        }                 
     }//GEN-LAST:event_jButtonCadastrarActionPerformed
 
     /**

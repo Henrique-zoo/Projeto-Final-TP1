@@ -2,6 +2,7 @@ package app.utils;
 
 import app.model.Cliente;
 import app.model.Funcionario;
+import app.model.Pessoa;
 import app.model.Servico;
 import app.model.Veiculo;
 import java.util.ArrayList;
@@ -122,4 +123,18 @@ public class Objetos {
             servicos.put(servico.getId(), servico);
         }
     }
+    
+    // Recebe uma string que informa o tipo de objeto a ser cadastrado e o CPF informado
+    // O for itera o hashmap específico do tipo de objeto informado
+    // Se o CPF informado for encontrado, lança uma exceção
+    public static void verificaCPF(String objeto, String campo){        
+        HashMap tipo = (objeto.equals("cliente")) ? clientes : funcionarios;
+            for (int i = 1; i < tipo.size(); i++){
+            if (tipo.get(i) != null){
+                if (((Pessoa) tipo.get(i)).getCpf().equals(campo)){
+                    throw new IllegalStateException("CPF já cadastrado!");
+                }
+            }
+        }
+    }           
 }
