@@ -91,8 +91,7 @@ public class Objetos {
                               "(61) 93210-4567", "(71) 97890-1234", "(81) 96543-2109", "(91) 98765-6789", "(31) 94321-5678"};
 
         for (int i = 0; i < 10; i++) {
-            Cliente cliente = new Cliente(
-                i + 1, // ID do cliente
+            Cliente cliente = new Cliente(                
                 nomes[i],
                 cpfs[i],
                 emails[i],

@@ -6,6 +6,7 @@ package app.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 /**
  *
@@ -18,6 +19,8 @@ public final class Funcionario extends Pessoa {
     private boolean admin;
     private String senha;
     private final HashMap<Integer, Servico> servicosAtivos;
+    private static PriorityQueue<Integer> idsLivres = new PriorityQueue();
+    private static int idGenerator = 8;
 
     public Funcionario(double salario, String senha, int id, String nome, String cpf, String email, String telefone) {
         super(id, nome, cpf, email, telefone);
@@ -25,9 +28,30 @@ public final class Funcionario extends Pessoa {
         this.senha = senha;
         this.servicosAtivos = new HashMap<>();
     }
+    
+    
 
-    public Funcionario(String senha, int id, String nome, String cpf, String email, String telefone) {
-        super(id, nome, cpf, email, telefone);
+    public Funcionario(double salario, String senha, String nome, String cpf, String email, String telefone) {
+        super(nome, cpf, email, telefone);
+        if (!idsLivres.isEmpty()){
+            this.setId(idsLivres.poll());
+        }
+        else {
+            this.setId(idGenerator++);
+        }
+        this.salario = salario;
+        this.senha = senha;
+        this.servicosAtivos = new HashMap<>();
+    }
+
+    public Funcionario(String senha, String nome, String cpf, String email, String telefone) {
+        super(nome, cpf, email, telefone);
+        if (!idsLivres.isEmpty()){
+            this.setId(idsLivres.poll());
+        }
+        else {
+            this.setId(idGenerator++);
+        }
         this.senha = senha;
         this.servicosAtivos = new HashMap<>();
     }
@@ -101,5 +125,9 @@ public final class Funcionario extends Pessoa {
         servico.calculaValor(metodo);
         servico.getVeiculo().esvaziarPecasComProblema();
         servico.setConsertado(true);
+    }
+    
+    public static void addIdLivre(int id){
+        idsLivres.add(id);
     }
 }

@@ -5,6 +5,7 @@
 package app.model;
 
 import java.util.ArrayList;
+import java.util.PriorityQueue;
 
 /**
  *
@@ -14,9 +15,17 @@ public final class Cliente extends Pessoa {
     private double debito;
     private ArrayList<Veiculo> veiculos;
     private double totalPago;
+    private static PriorityQueue<Integer> idsLivres = new PriorityQueue();
+    private static int idGenarator = 1;
 
-    public Cliente(int id, String nome, String cpf, String email, String telefone) {
-        super(id, nome, cpf, email, telefone);
+    public Cliente(String nome, String cpf, String email, String telefone) {
+        super(nome, cpf, email, telefone);
+        if (!idsLivres.isEmpty()){
+            this.setId(idsLivres.poll());
+        }
+        else {
+            this.setId(idGenarator++);
+        }
         this.veiculos = new ArrayList<>();
     }
 
@@ -58,5 +67,9 @@ public final class Cliente extends Pessoa {
 
     public void setTotalPago(double totalPago) {
         this.totalPago = totalPago;
+    }
+    
+    public static void addIdLivre(int id){
+        idsLivres.add(id);
     }
 }

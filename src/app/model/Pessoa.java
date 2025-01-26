@@ -13,7 +13,14 @@ public abstract class Pessoa {
         this.cpf = cpf;
         this.email = email;
         this.telefone = telefone;
-    }
+    }        
+
+    public Pessoa(String nome, String cpf, String email, String telefone) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email = email;
+        this.telefone = telefone;
+    }            
 
     public int getId() {
         return id;

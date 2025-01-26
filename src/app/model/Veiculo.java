@@ -68,7 +68,7 @@ public class Veiculo {
 
     @Override
     public String toString() {
-        return tipo + " " + modelo + " " + (tipo.equals("Selecione") ? "" : ano);
+        return placa;
     }
     
     public ArrayList<Peca> getPecasComProblema() {

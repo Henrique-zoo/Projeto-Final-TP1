@@ -4,6 +4,7 @@
  */
 package app.ui;
 
+import app.model.Cliente;
 import app.model.Funcionario;
 import app.model.Servico;
 import app.utils.Objetos;
@@ -11,6 +12,8 @@ import app.utils.SessaoUsuario;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -40,8 +43,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         
         jCheckBox1.setEnabled(false);
         
-        jTable1.setEnabled(false);          //é preciso fazer uma busca antes de poder editar
-        //carregarTabelaServicos();
+        jTable1.setEnabled(false);          //é preciso fazer uma busca antes de poder editar        
         
     }
 
@@ -312,8 +314,35 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                                             };
             modelo.addRow(linha);
         }
-        jTable1.setModel(modelo);
+        jTable1.setModel(modelo);         
     }    
+    
+    private void limpaTudo(){
+        jButtonEditar.setEnabled(false);
+        jButtonExcluir.setEnabled(false);
+        jButtonConfirmar.setEnabled(false);
+        jButtonCancelar.setEnabled(false);
+        
+        jTFid.setText("");
+        
+        jButtonPesquisar.setEnabled(true);
+        jFTFCPF.setEnabled(true);
+        jFTFCPF.setText("");
+        
+        jTFNome.setEnabled(false);
+        jTFNome.setText("");
+        
+        jTFEmail.setEnabled(false);
+        jTFEmail.setText("");
+        
+        jFTFTelefone.setEnabled(false);
+        jFTFTelefone.setText("");
+        
+        jFTFSalario.setEnabled(false);
+        jFTFSalario.setText("");
+        
+        jTable1.removeAll();
+    }
         
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         // TODO add your handling code here:
@@ -338,6 +367,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
                        jButtonEditar.setEnabled(true);
                        jButtonCancelar.setEnabled(true);  //se for admin e tiver encontrado o funcionario, as edições ficam disponíveis
                    }
+                   carregarTabelaServicos();
                    break;
                }
             }        
@@ -393,8 +423,10 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
         if (resposta == JOptionPane.YES_OPTION) {
             int indice = Integer.parseInt(jTFid.getText());
             Objetos.funcionarios.remove(indice);
+            Funcionario.addIdLivre(indice);
             javax.swing.JOptionPane.showMessageDialog(this, "Funcionário excluído com sucesso.");
         }
+        limpaTudo();
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
@@ -427,7 +459,7 @@ public class GerenciarFuncionarios extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.dispose();
-        TelaLogin.telaMain.carregarTabelaClientes();
+        TelaLogin.telaMain.carregarTabelaFuncionarios();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

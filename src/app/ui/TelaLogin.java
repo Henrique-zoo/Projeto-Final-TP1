@@ -22,7 +22,7 @@ public class TelaLogin extends javax.swing.JFrame {
     
     public TelaLogin() {
         initComponents();
-        Funcionario funcionario = new Funcionario("1", 0, "1", "111.111.111-11", "1", "1");
+        Funcionario funcionario = new Funcionario(0.0, "1", 0, "Admin", "111.111.111-11", "1", "1");
         funcionario.setAdmin(true);
         Objetos.funcionarios.put(0, funcionario);
     }

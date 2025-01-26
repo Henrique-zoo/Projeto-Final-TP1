@@ -4,6 +4,7 @@
  */
 package app.ui;
 
+import app.model.Cliente;
 import app.model.Estoque;
 import app.model.Funcionario;
 import app.model.Peca;
@@ -13,6 +14,8 @@ import app.utils.Objetos;
 import app.utils.SessaoUsuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -348,31 +351,8 @@ public class GerenciarServicos extends javax.swing.JFrame {
             if ((usuario.getServicosAtivos()).get(id) == null && !usuario.isAdmin()) {
                 JOptionPane.showMessageDialog(null, "Você não tem permissão para acessar esse serviço!", "ERRO", JOptionPane.ERROR_MESSAGE);
             } else {
-                jTFCliente.setText(servico.getCliente().getNome());
-                jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
-                jButtonExcluir.setEnabled(true);
-                jButtonSalvar.setEnabled(true);
-                jTFId.setEnabled(true);
-                jButtonBusca.setEnabled(true);
-                selectPeca.setEnabled(true);
-                textQuantidade.setEnabled(true);
-                btnAdicionar.setEnabled(true);
-                selectMetodoDePagamento.setEnabled(true);
-                jCheckBoxConsertado.setEnabled(true);
-                jCheckBoxPago.setEnabled(true);
-                
-                selectPeca.removeAllItems();
-                selectPeca.addItem(new TipoDePeca());
-                for (Peca peca : Estoque.getEstoque()) {
-                    selectPeca.addItem(peca.getTipoPeca());
-                }
-                
-                jFTFValor.setText(String.format("%.2f", servico.getValor()));
-                jCheckBoxPago.setSelected(servico.isPago());
-                jCheckBoxConsertado.setSelected(servico.isConsertado());
-                if (servico.getMetodoPagamento() != null){
-                    selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
-                }
+                Servico servico = Objetos.servicos.get(id);
+                preencherCampos(servico);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não existe um serviço com esse ID!", "ERRO", JOptionPane.ERROR_MESSAGE);
@@ -437,6 +417,34 @@ public class GerenciarServicos extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     
+    private void preencherCampos(Servico servico){
+        jTFCliente.setText(servico.getCliente().getNome());
+        jTFVeiculo.setText(Integer.toString(servico.getVeiculo().getId()) + " " + servico.getVeiculo().getModelo());
+        jButtonExcluir.setEnabled(true);
+        jButtonSalvar.setEnabled(true);
+        jTFId.setEnabled(true);
+        jButtonBusca.setEnabled(true);
+        selectPeca.setEnabled(true);
+        textQuantidade.setEnabled(true);
+        btnAdicionar.setEnabled(true);
+        selectMetodoDePagamento.setEnabled(true);
+        jCheckBoxConsertado.setEnabled(true);
+        jCheckBoxPago.setEnabled(true);
+                
+            selectPeca.removeAllItems();
+            selectPeca.addItem(new TipoDePeca());
+            for (Peca peca : Estoque.getEstoque()) {
+                selectPeca.addItem(peca.getTipoPeca());
+            }
+
+            jFTFValor.setText(String.format("%.2f", servico.getValor()));
+            jCheckBoxPago.setSelected(servico.isPago());
+            jCheckBoxConsertado.setSelected(servico.isConsertado());
+            if (servico.getMetodoPagamento() != null){
+                selectMetodoDePagamento.setSelectedItem(servico.getMetodoPagamento());
+            }
+    }
+    
     public final void carregaTabelaServicos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Cliente","Veículo", "Funcionário"} ,0);
         for(int i = 0;i< Objetos.servicos.size() + 1; i++){
@@ -450,6 +458,19 @@ public class GerenciarServicos extends javax.swing.JFrame {
             }            
         }
         jTableServicos.setModel(modelo);
+                jTableServicos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedRow = jTableServicos.getSelectedRow();                
+                if (selectedRow >= 0) {
+                    int idServico = (Integer) jTableServicos.getValueAt(selectedRow, 0);
+                    Servico servicoSelecionado = Objetos.servicos.get(idServico);
+                    preencherCampos(servicoSelecionado);
+                    jTFId.setText(Integer.toString(idServico));
+                }
+            }
+        });
+
     }
     
     public static void main(String args[]) {

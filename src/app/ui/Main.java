@@ -448,6 +448,7 @@ public class Main extends javax.swing.JFrame {
                                                 Objetos.servicos.get(i).isPago() ? "Sim" : "Não",
                                                 Objetos.servicos.get(i).isConsertado() ? "Sim" : "Não",
                                                 Objetos.servicos.get(i).getCliente().getNome(),
+                                                Objetos.servicos.get(i).getVeiculo().getPlaca(),
                                                 Objetos.servicos.get(i).getFuncionario().getNome(),
                                                 };
                 modelo.addRow(linha);

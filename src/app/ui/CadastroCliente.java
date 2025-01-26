@@ -20,7 +20,6 @@ public class CadastroCliente extends javax.swing.JFrame {
     
     public CadastroCliente() {
         initComponents();
-        jTFid.setEnabled(false);       
     }
 
     /**
@@ -34,8 +33,6 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTFid = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTFNome = new javax.swing.JTextField();
@@ -51,8 +48,6 @@ public class CadastroCliente extends javax.swing.JFrame {
         setTitle("Cadastrar Cliente");
 
         jLabel1.setText("Dados do Cliente");
-
-        jLabel2.setText("ID");
 
         jLabel3.setText("CPF");
 
@@ -95,43 +90,29 @@ public class CadastroCliente extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFTFCPF)
+                    .addComponent(jFTFTelefone)
+                    .addComponent(jTFEmail)
+                    .addComponent(jTFNome)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(jButtonCadastrar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButtonCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonCadastrar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jFTFCPF, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFTFTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTFEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTFNome, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
-                                        .addComponent(jLabel2)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFid, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(17, 17, 17))))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel1))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel2)))
+                .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -148,7 +129,7 @@ public class CadastroCliente extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jFTFTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonCadastrar)
                     .addComponent(jButtonCancelar))
@@ -182,26 +163,22 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        // TODO add your handling code here:
-        int id = 1;        
-        boolean cadastrado = false;
-        
-        while (true){
-            if (!Objetos.clientes.containsKey(id)){
-                break;
-            }
-            id++;
-        }
+        // TODO add your handling code here:                
+        boolean cadastrado = false;                
         
         if (!(jTFNome.getText().isEmpty() || jFTFCPF.getText().equals("   .   .   -  ") || jTFEmail.getText().isEmpty() || jFTFTelefone.getText().equals("(  )9    -    "))){ //Verifica se todos os campos estão preenchidos
-            for (int i = 1; i < Objetos.clientes.size(); i++){                                                                      //Se sim, verifica se o CPF fornecido já está no sistema
-                if (Objetos.clientes.get(i).getCpf().equals(jFTFCPF.getText())){                                                                      //Se não, o cliente é adicionado ao array na Main
-                    javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
-                    cadastrado = true;
+            for (int i = 1; i < Objetos.clientes.size(); i++){ //Se sim, verifica se o cliente indice i existe, depois verifica se o CPF fornecido já está no sistema
+                if (Objetos.clientes.get(i) != null) {
+                    if (Objetos.clientes.get(i).getCpf().equals(jFTFCPF.getText())){ //Se não, o cliente é adicionado ao array na Main
+                        javax.swing.JOptionPane.showMessageDialog(this, "CPF já cadastrado!");
+                        cadastrado = true;
+                    }
                 }
+                
             }
             if (!cadastrado){
-                Cliente cliente = new Cliente(id, jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
+                Cliente cliente = new Cliente(jTFNome.getText(), jFTFCPF.getText(), jTFEmail.getText(), jFTFTelefone.getText());
+                int id = cliente.getId();
                 Objetos.clientes.put(id, cliente);
                 javax.swing.JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");                
                 this.dispose();                
@@ -249,7 +226,6 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFTFCPF;
     private javax.swing.JFormattedTextField jFTFTelefone;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -257,6 +233,5 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTFEmail;
     private javax.swing.JTextField jTFNome;
-    private javax.swing.JTextField jTFid;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 /**
  *
@@ -43,7 +45,7 @@ public class GerenciarClientes extends javax.swing.JFrame {
                     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                             if (value instanceof Veiculo veiculo) {            
-                                setText(veiculo.getId() + " " + veiculo.getModelo() + " " + veiculo.getAno());  
+                                setText(veiculo.getModelo() + ' ' + veiculo.getPlaca());  
                             }
                         return this;
                     }
@@ -641,6 +643,17 @@ public class GerenciarClientes extends javax.swing.JFrame {
             }            
         }
         jTableClientes.setModel(modelo);
+        jTableClientes.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedRow = jTableClientes.getSelectedRow();                
+                if (selectedRow >= 0) {
+                    int idCliente = (Integer) jTableClientes.getValueAt(selectedRow, 0);
+                    Cliente clienteSelecionado = Objetos.clientes.get(idCliente);
+                    preencherCampos(clienteSelecionado);
+                }
+            }
+        });
     }
     
     public void carregarTabelaPecas(){
@@ -792,6 +805,26 @@ public class GerenciarClientes extends javax.swing.JFrame {
         jButtonAddVeiculo.setEnabled(false);
         jButtonOkVeiculo.setEnabled(true);
     }
+    private void preencherCampos(Cliente cliente){
+        flagEditar = false;
+        flagAddVeiculo = false;
+        flagEditarVeiculo = false;
+        jFTFCPF.setText(cliente.getCpf());
+        jTFNome.setText(cliente.getNome());
+        jTFEmail.setText(cliente.getEmail());
+        jFTFTelefone.setText(cliente.getTelefone());
+        jTFid.setText(Integer.toString(cliente.getId()));
+        jFTFDebito.setText(String.format("%.2f", cliente.getDebito()));
+        jFTFTotalPago.setText(String.format("%.2f", cliente.getTotalPago()));
+        jComboBox1.removeAllItems();
+        if (!cliente.getVeiculos().isEmpty()){
+            carregaVeiculos();
+        }                                                         
+        jButtonExcluir.setEnabled(true);
+        jButtonEditar.setEnabled(true);
+        jButtonCancelar.setEnabled(true);
+        jButtonAddVeiculo.setEnabled(true);
+    }
     
     private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
         // TODO add your handling code here:        
@@ -807,22 +840,9 @@ public class GerenciarClientes extends javax.swing.JFrame {
             for (int i = 1; i < Objetos.clientes.size() + 1; i++){
                 if (Objetos.clientes.get(i) != null){
                     if (Objetos.clientes.get(i).getCpf().equals(jFTFCPF.getText())) { //percorre o array de clientes até encontrar o CPF e colocar os dados nos respectivos campos
-                   encontrado = true;
-                   Cliente cliente = Objetos.clientes.get(i);
-                   jTFNome.setText(cliente.getNome());
-                   jTFEmail.setText(cliente.getEmail());
-                   jFTFTelefone.setText(cliente.getTelefone());
-                   jTFid.setText(Integer.toString(cliente.getId()));
-                   jFTFDebito.setText(String.format("%.2f", cliente.getDebito()));
-                   jFTFTotalPago.setText(String.format("%.2f", cliente.getTotalPago()));
-                   jComboBox1.removeAllItems();
-                   if (!cliente.getVeiculos().isEmpty()){
-                       carregaVeiculos();
-                   }                                                         
-                   jButtonExcluir.setEnabled(true);
-                   jButtonEditar.setEnabled(true);
-                   jButtonCancelar.setEnabled(true);
-                   jButtonAddVeiculo.setEnabled(true);                  
+                    encontrado = true;
+                    Cliente cliente = Objetos.clientes.get(i);
+                    preencherCampos(cliente);                  
                     break;
                     }
                 }
@@ -896,7 +916,8 @@ public class GerenciarClientes extends javax.swing.JFrame {
                     }                                    
                 }
                 Objetos.clientes.get(indice).excluirVeiculos();
-            }                        
+            }
+            Cliente.addIdLivre(indice);
             Objetos.clientes.remove(indice);
             javax.swing.JOptionPane.showMessageDialog(this, "Cliente excluído com sucesso.");
             limpaTudo();

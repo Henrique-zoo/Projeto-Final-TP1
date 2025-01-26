@@ -23,9 +23,6 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     public CadastroFuncionario() {
         initComponents();
         usuario = SessaoUsuario.getInstancia().getUsuarioLogado();
-        jTFid.setEnabled(false);
-        jTFid.setText(String.valueOf(Objetos.funcionarios.size()));
-        //Os IDs são o gerados automaticamente pelo índice do array, então o text field está desativado para preenchimento
     }
     
     /**
@@ -44,8 +41,6 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jTFNome = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jTFid = new javax.swing.JTextField();
         jFTFCPF = new javax.swing.JFormattedTextField();
         jLabel5 = new javax.swing.JLabel();
         jTFEmail = new javax.swing.JTextField();
@@ -72,8 +67,6 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         jLabel2.setText("CPF");
 
         jLabel3.setText("Nome");
-
-        jLabel4.setText("ID");
 
         try {
             jFTFCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
@@ -118,57 +111,35 @@ public class CadastroFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFTFTelefone)
+                    .addComponent(jTFEmail)
+                    .addComponent(jFTFCPF)
+                    .addComponent(jTFNome)
+                    .addComponent(jTFSalario)
+                    .addComponent(jPasswordField1)
+                    .addComponent(jPasswordField2)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonCancelar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonCadastrar))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jFTFTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTFEmail, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFTFCPF, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
-                                        .addComponent(jLabel4))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jTFNome, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTFid, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(7, 7, 7))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTFSalario, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPasswordField2)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel9))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(76, 76, 76))))
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButtonCancelar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                        .addComponent(jButtonCadastrar)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTFid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4)))
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -197,10 +168,10 @@ public class CadastroFuncionario extends javax.swing.JFrame {
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonCadastrar)
-                    .addComponent(jButtonCancelar))
+                    .addComponent(jButtonCancelar)
+                    .addComponent(jButtonCadastrar))
                 .addContainerGap())
         );
 
@@ -231,8 +202,7 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarActionPerformed
-        // TODO add your handling code here:
-        int id = Objetos.funcionarios.size();
+        // TODO add your handling code here:        
         String nome = jTFNome.getText();
         String cpf = jFTFCPF.getText();
         String email = jTFEmail.getText();
@@ -242,26 +212,31 @@ public class CadastroFuncionario extends javax.swing.JFrame {
         String salario = jTFSalario.getText();
         boolean cadastrado = false;
         
+        int id;        
         if (!(nome.isEmpty() || cpf.equals("   .   .   -  ") || email.isEmpty() || telefone.equals("(  ) 9    -    ") || senha.isEmpty() || confirmaSenha.isEmpty())){
             for (int i = 1; i < Objetos.funcionarios.size(); i++){
-                if (Objetos.funcionarios.get(i).getCpf().equals(cpf)){
-                    JOptionPane.showMessageDialog(this, "CPF já cadastrado!");  //O If mais externo verifica se há campos vazios levando em conta as máscaras dos formated text fields
-                                                                                            //Se tudo estiver preenchido, verifica se o CPF já está no sistema
-                    cadastrado = true;                                                      //Senão, verifica se as senhas são iguais, se forem cria o perfil do usuário (o salário pode ou não ser informado)
-                }
+                if (Objetos.funcionarios.get(i) != null){
+                   if (Objetos.funcionarios.get(i).getCpf().equals(cpf)){
+                        JOptionPane.showMessageDialog(this, "CPF já cadastrado!");  //O If mais externo verifica se há campos vazios levando em conta as máscaras dos formated text fields
+                                                                                    //Se tudo estiver preenchido, verifica se o CPF já está no sistema
+                        cadastrado = true;                                          //Senão, verifica se as senhas são iguais, se forem cria o perfil do usuário (o salário pode ou não ser informado)
+                    } 
+                }                
             }
             
             if (!senha.equals(confirmaSenha)){
                 JOptionPane.showMessageDialog(this, "As senhas não coincidem.");
             } else if ((!cadastrado) && salario.isEmpty()){
-                Funcionario funcionario = new Funcionario(senha, id, nome, cpf, email, telefone);
+                Funcionario funcionario = new Funcionario(senha, nome, cpf, email, telefone);
+                id = funcionario.getId();
                 Objetos.funcionarios.put(id, funcionario);
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
                 TelaLogin.telaMain.carregarTabelaFuncionarios();
             } else if (!cadastrado) {
                 double salarioDouble = Double.parseDouble(salario);
-                Funcionario funcionario = new Funcionario(salarioDouble, senha, id, nome, cpf, email, telefone);
+                Funcionario funcionario = new Funcionario(salarioDouble, senha, nome, cpf, email, telefone);
+                id = funcionario.getId();
                 Objetos.funcionarios.put(id, funcionario);
                 JOptionPane.showMessageDialog(this, "Cadastro realizado com sucesso!");
                 this.dispose();
@@ -310,7 +285,6 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -324,6 +298,5 @@ public class CadastroFuncionario extends javax.swing.JFrame {
     private javax.swing.JTextField jTFEmail;
     private javax.swing.JTextField jTFNome;
     private javax.swing.JTextField jTFSalario;
-    private javax.swing.JTextField jTFid;
     // End of variables declaration//GEN-END:variables
 }
