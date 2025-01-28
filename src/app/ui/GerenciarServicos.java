@@ -26,7 +26,7 @@ public class GerenciarServicos extends javax.swing.JFrame {
     private final Funcionario usuario;
     private Servico servico;
     private Cliente cliente; //pra poupar um loop dentro da tabela
-    private final ArrayList<Peca> pecas;    
+    private final ArrayList<Peca> pecas;
     /**
      * Creates new form GerenciarServicos
      */
