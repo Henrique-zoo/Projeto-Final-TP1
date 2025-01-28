@@ -1,3 +1,11 @@
+/*
+ * Classe Objetos - Armazena e gerencia coleções de objetos utilizados no sistema,
+ * incluindo funcionários, clientes, veículos e serviços.
+ * 
+ * A classe utiliza coleções estáticas para simular um banco de dados em memória,
+ * e contém métodos para adicionar objetos aleatórios, gerar placas de veículos,
+ * e verificar a existência de CPFs cadastrados.
+ */
 package app.utils;
 
 import app.model.Cliente;
@@ -9,13 +17,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Classe responsável pelo gerenciamento de coleções de objetos no sistema.
+ * Inclui funcionalidades para inicializar, manipular e validar dados simulados.
+ * 
+ * As coleções disponíveis são:
+ * - Funcionários
+ * - Clientes
+ * - Veículos
+ * - Serviços
+ */
 public class Objetos {
+    // Coleção de funcionários
     public final static HashMap<Integer, Funcionario> funcionarios;
+    // Coleção de clientes
     public final static HashMap<Integer, Cliente> clientes;
+    // Coleção de veículos, mapeada por placa
     public final static HashMap<String, Veiculo> veiculos;
+    // Coleção de serviços
     public final static HashMap<Integer, Servico> servicos;
+    // Lista de placas geradas para veículos
     public final static ArrayList<String> placas;
-    
+
+    // Bloco estático para inicializar as coleções e adicionar dados simulados
     static {
         funcionarios = new HashMap<>();
         clientes = new HashMap<>();
@@ -28,6 +52,9 @@ public class Objetos {
         adicionarServicosAleatorios();
     }
 
+    /**
+     * Adiciona funcionários com dados simulados à coleção.
+     */
     private static void adicionarFuncionariosAleatorios() {
         funcionarios.put(1, new Funcionario(5000.0, "senha123", 1, "João Silva", "123.456.789-00", "joao@gmail.com", "11999999999"));
         funcionarios.put(2, new Funcionario(4500.0, "senha456", 2, "Maria Oliveira", "987.654.321-00", "maria@gmail.com", "21988888888"));
@@ -38,6 +65,10 @@ public class Objetos {
         funcionarios.put(7, new Funcionario(5200.0, "senha111", 7, "Lucas Andrade", "666.777.888-99", "lucas@gmail.com", "21977776666"));
     }
 
+    /**
+     * Adiciona veículos com dados simulados à coleção.
+     * Cada veículo é criado com uma placa única gerada aleatoriamente.
+     */
     public static void adicionarVeiculosAleatorios() {
         Random random = new Random();
 
@@ -61,6 +92,12 @@ public class Objetos {
         }
     }
 
+    /**
+     * Gera uma placa de veículo aleatória no formato "AAA-1234".
+     * 
+     * @param random Instância de Random usada para gerar valores aleatórios.
+     * @return Uma placa de veículo única.
+     */
     private static String gerarPlacaAleatoria(Random random) {
         String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder placa = new StringBuilder();
@@ -75,40 +112,47 @@ public class Objetos {
         placas.add(placa.toString());
         return placa.toString();
     }
-    
+
+    /**
+     * Adiciona clientes com dados simulados à coleção.
+     * Cada cliente é associado a um veículo previamente gerado.
+     * 
+     * @return A coleção de clientes gerada.
+     */
     private static HashMap<Integer, Cliente> adicionarClientesAleatorios() {
         Random random = new Random();
 
         String[] nomes = {"João Silva", "Maria Oliveira", "Pedro Santos", "Ana Costa", "Lucas Pereira",
                           "Mariana Almeida", "Rafael Rodrigues", "Beatriz Sousa", "Carlos Mendes", "Fernanda Lopes"};
-        
         String[] emails = {"joao@email.com", "maria@email.com", "pedro@email.com", "ana@email.com", "lucas@email.com",
                            "mariana@email.com", "rafael@email.com", "beatriz@email.com", "carlos@email.com", "fernanda@email.com"};
-        
         String[] cpfs = {"123.456.789-01", "987.654.321-02", "111.222.333-03", "444.555.666-04", "777.888.999-05",
                          "222.333.444-06", "555.666.777-07", "888.999.111-08", "333.444.555-09", "666.777.888-10"};
-        
         String[] telefones = {"(11) 98765-4321", "(21) 99876-5432", "(31) 91234-5678", "(41) 97654-3210", "(51) 98765-1234",
                               "(61) 93210-4567", "(71) 97890-1234", "(81) 96543-2109", "(91) 98765-6789", "(31) 94321-5678"};
 
         for (int i = 0; i < 10; i++) {
-            Cliente cliente = new Cliente(                
+            Cliente cliente = new Cliente(
                 nomes[i],
                 cpfs[i],
                 emails[i],
                 telefones[i]
             );
-            
+
             cliente.setVeiculo(veiculos.get(placas.get(i)));
             cliente.setDebito(random.nextDouble() * 1000);
             cliente.setTotalPago(random.nextDouble() * 5000);
-            
+
             clientes.put(cliente.getId(), cliente);
         }
 
         return clientes;
     }
-    
+
+    /**
+     * Adiciona serviços com dados simulados à coleção.
+     * Cada serviço é associado a um cliente, veículo e funcionário.
+     */
     private static void adicionarServicosAleatorios() {
         Random random = new Random();
         String[] metodosPagamento = {"Dinheiro", "Cartão", "PIX"};
@@ -123,18 +167,22 @@ public class Objetos {
             servicos.put(servico.getId(), servico);
         }
     }
-    
-    // Recebe uma string que informa o tipo de objeto a ser cadastrado e o CPF informado
-    // O for itera o hashmap específico do tipo de objeto informado
-    // Se o CPF informado for encontrado, lança uma exceção
-    public static void verificaCPF(String objeto, String campo){        
+
+    /**
+     * Verifica se um CPF já está cadastrado no sistema.
+     * 
+     * @param objeto Tipo de objeto a ser verificado ("cliente" ou "funcionário").
+     * @param campo CPF a ser validado.
+     * @throws IllegalStateException Caso o CPF já esteja cadastrado.
+     */
+    public static void verificaCPF(String objeto, String campo) {
         HashMap tipo = (objeto.equals("cliente")) ? clientes : funcionarios;
-            for (int i = 1; i < tipo.size(); i++){
-            if (tipo.get(i) != null){
-                if (((Pessoa) tipo.get(i)).getCpf().equals(campo)){
+        for (int i = 1; i < tipo.size(); i++) {
+            if (tipo.get(i) != null) {
+                if (((Pessoa) tipo.get(i)).getCpf().equals(campo)) {
                     throw new IllegalStateException("CPF já cadastrado!");
                 }
             }
         }
-    }           
+    }
 }
