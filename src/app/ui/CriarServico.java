@@ -6,12 +6,16 @@ package app.ui;
 
 import app.model.Cliente;
 import app.model.Funcionario;
+import app.model.Pessoa;
 import app.model.Servico;
 import app.model.Veiculo;
 import app.utils.Objetos;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -58,6 +62,8 @@ public class CriarServico extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnConfirmar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Criar Serviço");
@@ -71,6 +77,11 @@ public class CriarServico extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        textCpfCliente.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                textCpfClienteCaretUpdate(evt);
+            }
+        });
         textCpfCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textCpfClienteActionPerformed(evt);
@@ -84,6 +95,11 @@ public class CriarServico extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        textCpfFuncionario.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                textCpfFuncionarioCaretUpdate(evt);
+            }
+        });
         textCpfFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textCpfFuncionarioActionPerformed(evt);
@@ -147,30 +163,32 @@ public class CriarServico extends javax.swing.JFrame {
         pnlServicoLayout.setHorizontalGroup(
             pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlServicoLayout.createSequentialGroup()
-                .addComponent(lblDadosServico)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(pnlServicoLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addComponent(lblDadosServico)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblCpfFuncionario)
-                            .addComponent(lblCpfCliente)
-                            .addComponent(lblVeiculo)
-                            .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(selectVeiculo, javax.swing.GroupLayout.Alignment.LEADING, 0, 184, Short.MAX_VALUE)
-                                .addComponent(textCpfFuncionario, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addGap(92, 92, 92)
-                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textNomeCliente, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                            .addComponent(textNomeFuncionario, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(pnlServicoLayout.createSequentialGroup()
                                 .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblNomeFuncionario)
-                                    .addComponent(lblNomeCliente))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                    .addComponent(lblCpfFuncionario)
+                                    .addComponent(lblCpfCliente)
+                                    .addComponent(lblVeiculo)
+                                    .addComponent(textCpfCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(selectVeiculo, javax.swing.GroupLayout.Alignment.LEADING, 0, 184, Short.MAX_VALUE)
+                                        .addComponent(textCpfFuncionario, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addGap(39, 39, 39)
+                                .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textNomeFuncionario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                                    .addComponent(textNomeCliente)
+                                    .addGroup(pnlServicoLayout.createSequentialGroup()
+                                        .addGroup(pnlServicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblNomeFuncionario)
+                                            .addComponent(lblNomeCliente))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))))
                 .addContainerGap())
         );
         pnlServicoLayout.setVerticalGroup(
@@ -202,6 +220,19 @@ public class CriarServico extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -209,13 +240,17 @@ public class CriarServico extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnlServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(pnlServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlServico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(5, 5, 5))
         );
 
@@ -227,6 +262,65 @@ public class CriarServico extends javax.swing.JFrame {
 
     }//GEN-LAST:event_selectVeiculoActionPerformed
 
+    public final void carregarTabelaClientes(){
+        //Criar o modelo da tabela
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome"},0);
+        for(int i = 1;i<Objetos.clientes.size() + 1;i++){
+            if (Objetos.clientes.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.clientes.get(i).getId(),
+                                            Objetos.clientes.get(i).getCpf(),
+                                            Objetos.clientes.get(i).getNome(),                                                                                        
+                                            };
+                modelo.addRow(linha);
+            }            
+        }
+        jTable1.setModel(modelo);
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedRow = jTable1.getSelectedRow();                
+                if (selectedRow >= 0) {
+                    int idCliente = (Integer) jTable1.getValueAt(selectedRow, 0);
+                    Cliente clienteSelecionado = Objetos.clientes.get(idCliente);
+                    textCpfCliente.setText(clienteSelecionado.getCpf());
+                    textNomeCliente.setText(clienteSelecionado.getNome());
+                    selectVeiculo.removeAllItems();
+                    for (Veiculo veiculo : clienteSelecionado.getVeiculos()){
+                        selectVeiculo.addItem(veiculo);
+                    }                    
+                    selectVeiculo.setEnabled(true);
+                }                                
+            }
+        });
+    }        
+    
+    public final void carregarTabelaFuncionarios(){
+        //Criar o modelo da tabela
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome"},0);
+        for(int i = 1;i<Objetos.funcionarios.size() + 1;i++){
+            if (Objetos.funcionarios.get(i) != null){
+                Object linha[] = new Object[]{  Objetos.funcionarios.get(i).getId(),
+                                            Objetos.funcionarios.get(i).getCpf(),
+                                            Objetos.funcionarios.get(i).getNome(),                                                                                       
+                                            };
+                modelo.addRow(linha);
+            }            
+        }
+        jTable1.setModel(modelo);
+        jTable1.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                int selectedRow = jTable1.getSelectedRow();                
+                if (selectedRow >= 0) {
+                    int idFuncionario = (Integer) jTable1.getValueAt(selectedRow, 0);
+                    Funcionario funcionarioSelecionado = Objetos.funcionarios.get(idFuncionario);
+                    textCpfFuncionario.setText(funcionarioSelecionado.getCpf());
+                    textNomeFuncionario.setText(funcionarioSelecionado.getNome());
+                }
+            }
+        });
+    } 
+    
     private void textCpfFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textCpfFuncionarioActionPerformed
         Funcionario funcionario;
         if ((funcionario = funcionariosCpf.get(textCpfFuncionario.getText())) != null) {
@@ -272,8 +366,19 @@ public class CriarServico extends javax.swing.JFrame {
             Objetos.servicos.put(servico.getId(), servico);
             JOptionPane.showMessageDialog(this, "Serviço criado com sucesso!");
             this.dispose();
+            TelaLogin.telaMain.carregarTabelaServicos();
         }
     }//GEN-LAST:event_btnConfirmarActionPerformed
+
+    private void textCpfClienteCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_textCpfClienteCaretUpdate
+        // TODO add your handling code here:
+        carregarTabelaClientes();        
+    }//GEN-LAST:event_textCpfClienteCaretUpdate
+
+    private void textCpfFuncionarioCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_textCpfFuncionarioCaretUpdate
+        // TODO add your handling code here:
+        carregarTabelaFuncionarios();
+    }//GEN-LAST:event_textCpfFuncionarioCaretUpdate
     
     /**
      * @param args the command line arguments
@@ -314,6 +419,8 @@ public class CriarServico extends javax.swing.JFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCpfCliente;
     private javax.swing.JLabel lblCpfFuncionario;
     private javax.swing.JLabel lblDadosServico;

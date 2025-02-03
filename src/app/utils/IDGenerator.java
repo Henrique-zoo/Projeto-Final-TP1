@@ -19,7 +19,7 @@ package app.utils;
  */
 public class IDGenerator {
     // Identificador atual para serviços
-    private static int currentServicoId = 1;
+    private static int currentServicoId = 11;
     // Identificador atual para veículos
     private static int currentVeiculoId = 1;
 
