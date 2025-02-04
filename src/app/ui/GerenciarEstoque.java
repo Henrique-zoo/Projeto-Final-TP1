@@ -63,7 +63,7 @@ public class GerenciarEstoque extends javax.swing.JFrame {
         btnOperate = new javax.swing.JButton();
         txtNewQty = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados da Peça"));
 
