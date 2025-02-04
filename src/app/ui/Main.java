@@ -72,6 +72,7 @@ public class Main extends javax.swing.JFrame {
         setTitle("Tonhão Autopeças");
 
         jLabel1.setFont(new java.awt.Font("Noto Sans Mono", 1, 36)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Tonhão Autopeças");
 
         btnLeave.setText("Sair");
@@ -82,28 +83,27 @@ public class Main extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/gear.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/images/TonhaoAutopecas.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jLabel2))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnLeave)))
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(btnLeave)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(105, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(104, 104, 104))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLeave)
                 .addContainerGap())
         );
@@ -400,12 +400,12 @@ public class Main extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(96, 96, 96)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -440,7 +440,7 @@ public class Main extends javax.swing.JFrame {
 		novoLogin.setVisible(true);
         }//GEN-LAST:event_btnLeaveActionPerformed
     
-    public void carregarTabelaServicos(){
+    public final void carregarTabelaServicos(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Valor","Pago", "Consertado", "Cliente", "Veículo", "Funcionário"},0);
         for(int i = 0;i <= Objetos.servicos.size(); i++){
             if (Objetos.servicos.get(i) != null){
@@ -458,7 +458,7 @@ public class Main extends javax.swing.JFrame {
         jTableServicos.setModel(modelo);
     }
         
-    public void carregarTabelaClientes(){
+    public final void carregarTabelaClientes(){
         //Criar o modelo da tabela
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Debito", "Total Pago"},0);
         for(int i = 1;i<Objetos.clientes.size() + 1;i++){
@@ -478,7 +478,7 @@ public class Main extends javax.swing.JFrame {
         jTableClientes.setModel(modelo);
     } 
     
-    public void carregarTabelaFuncionarios(){
+    public final void carregarTabelaFuncionarios(){
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","CPF","Nome", "E-Mail", "Telefone", "Salário", "Serviços Feitos"},0);
         for(int i = 1; i < Objetos.funcionarios.size() + 1;i++){
             if (Objetos.funcionarios.get(i) != null){
@@ -496,7 +496,7 @@ public class Main extends javax.swing.JFrame {
         jTableFuncionarios.setModel(modelo);
     }
     
-    public void carregarTabelaPecas() {
+    public final void carregarTabelaPecas() {
         DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Tipo","Marca", "Preço", "Qnt."},0);
         for(int i = 0; i < Estoque.getSize();i++){
             Object linha[] = new Object[]{  Estoque.getPeca(i).getTipoPeca().getId(),
