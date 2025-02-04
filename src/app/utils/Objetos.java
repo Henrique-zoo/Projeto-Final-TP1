@@ -1,11 +1,3 @@
-/*
- * Classe Objetos - Armazena e gerencia coleções de objetos utilizados no sistema,
- * incluindo funcionários, clientes, veículos e serviços.
- * 
- * A classe utiliza coleções estáticas para simular um banco de dados em memória,
- * e contém métodos para adicionar objetos aleatórios, gerar placas de veículos,
- * e verificar a existência de CPFs cadastrados.
- */
 package app.utils;
 
 import app.model.Cliente;
@@ -13,6 +5,8 @@ import app.model.Funcionario;
 import app.model.Pessoa;
 import app.model.Servico;
 import app.model.Veiculo;
+import app.model.TipoDePeca;
+import app.model.Estoque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -50,6 +44,7 @@ public class Objetos {
         adicionarVeiculosAleatorios();
         adicionarClientesAleatorios();
         adicionarServicosAleatorios();
+        adicionarPecasAleatorias(); // Adiciona peças aleatórias ao estoque
     }
 
     /**
@@ -183,6 +178,32 @@ public class Objetos {
                     throw new IllegalStateException("CPF já cadastrado!");
                 }
             }
+        }
+    }
+
+    /**
+     * Adiciona 20 peças aleatórias ao estoque.
+     * As peças são geradas com tipos, marcas e preços aleatórios.
+     */
+    private static void adicionarPecasAleatorias() {
+        Random random = new Random();
+
+        // Arrays de tipos e marcas pré-definidos para gerar peças aleatórias
+        String[] tipos = {"Parafuso", "Porca", "Arruela", "Prego", "Chave"};
+        String[] marcas = {"ACME", "Tramontina", "Vonder", "Bosch", "3M"};
+
+        for (int i = 0; i < 20; i++) {
+            // Gera valores aleatórios para tipo, marca e preço
+            String tipo = tipos[random.nextInt(tipos.length)];
+            String marca = marcas[random.nextInt(marcas.length)];
+            double preco = 1.0 + (100.0 - 1.0) * random.nextDouble(); // Preço entre 1.0 e 100.0
+
+            // Cria um novo TipoDePeca com os valores aleatórios
+            TipoDePeca tipoDePeca = new TipoDePeca(tipo, marca, preco);
+
+            // Adiciona a peça ao estoque com uma quantidade aleatória entre 1 e 10
+            int quantidade = 1 + random.nextInt(10);
+            Estoque.adicionarPeca(tipoDePeca, quantidade);
         }
     }
 }
