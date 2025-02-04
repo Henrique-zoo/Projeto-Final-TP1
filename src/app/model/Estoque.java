@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author nirva
  */
-public class Estoque {
+public abstract class Estoque {
 	private final static ArrayList<Peca> estoque = new ArrayList<>();
 	
         public static ArrayList<Peca> getEstoque() {

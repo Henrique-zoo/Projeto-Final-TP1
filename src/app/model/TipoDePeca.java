@@ -18,9 +18,9 @@ public class TipoDePeca {
 	private static final ArrayList<TipoDePeca> tPecasCadastradas = new ArrayList<>();
 	
 	// id management
-	private static int id_generator = 0;
+	private static int idGenerator = 0;
 	// this is a simple queue wherein new parts use the oldest free id and new free ids get added to its end.
-	private static final ArrayList<Integer> free_ids = new ArrayList<>();
+	private static final ArrayList<Integer> freeIds = new ArrayList<>();
 	
 	// attributes
 	private final int id;
@@ -30,11 +30,11 @@ public class TipoDePeca {
 	
 	// constructor
 	public TipoDePeca(String tipo, String marca, Double preco) {
-		if (!(free_ids.isEmpty())) {
-			this.id = free_ids.get(0);
-			free_ids.remove(0);
+		if (!(freeIds.isEmpty())) {
+			this.id = freeIds.get(0);
+			freeIds.remove(0);
 		} else {
-			this.id = id_generator++;
+			this.id = idGenerator++;
 		}
 		this.tipo = tipo;
 		this.marca = marca;
@@ -45,6 +45,7 @@ public class TipoDePeca {
 		tPecasCadastradas.sort(Comparator.comparing(a -> a.getId()));
 	}
 
+        // Necessary for combobox usage in other screens
         public TipoDePeca() {
             id = -1;
             tipo = "Selecione uma";
@@ -56,7 +57,7 @@ public class TipoDePeca {
 	// removerCadastro: remove a peca cadastrada de acordo com o id
 	public static void removerCadastro(TipoDePeca pecaCadastrada)
 	{
-		free_ids.add(pecaCadastrada.getId());
+		freeIds.add(pecaCadastrada.getId());
 		tPecasCadastradas.remove(pecaCadastrada);
 	}	
 	/**
