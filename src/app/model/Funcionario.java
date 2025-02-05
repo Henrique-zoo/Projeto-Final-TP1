@@ -40,6 +40,12 @@ public final class Funcionario extends Pessoa {
     private static int idGenerator = 8;
 
     /**
+    * Construtor default da classe Funcionario
+    */
+    public Funcionario() {
+    }
+
+    /**
      * Construtor padrão utilizado para criar um funcionário com todos os atributos informados.
      * 
      * @param salario Salário do funcionário.
