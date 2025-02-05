@@ -26,6 +26,12 @@ public abstract class Pessoa {
     private String telefone;
 
     /**
+    * Construtor padrão da classe Pessoa.
+    */
+    public Pessoa() {        
+    }
+
+    /**
      * Construtor completo da classe Pessoa.
      * 
      * @param id Identificador único da pessoa.
