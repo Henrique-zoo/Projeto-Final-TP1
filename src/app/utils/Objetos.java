@@ -1,515 +1,209 @@
-\documentclass[a4paper,12pt]{article}
-\usepackage[brazil]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{indentfirst}
-\usepackage{amsmath}
-\usepackage{amsthm}
-\usepackage{graphicx}
-\usepackage{float}
-\usepackage{array}
-\usepackage[font=footnotesize,labelfont=bf]{caption}
-\usepackage{geometry}
-\usepackage{listings}
-\usepackage{subcaption}
-\usepackage{xcolor}
-\usepackage[skins,xparse,breakable]{tcolorbox}
-\usepackage{longtable}
-\usepackage{minted}
-\usepackage{lastpage}
-\usepackage{graphicx}
-\usepackage{dirtree}
-\usepackage{enumitem}
-\usepackage{geometry}
-\usepackage{titlesec}
-\usepackage{fancyhdr}
-\usepackage{setspace}
-\usepackage[colorlinks=true, allcolors=black]{hyperref}
-
-% Configurações de margens e espaçamento
-\geometry{a4paper, left=3cm, right=2cm, top=3cm, bottom=2cm}
-\setlength{\parindent}{1.25cm}
-\onehalfspacing
-
-% Configurações de títulos
-\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\normalfont\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsubsection}{1em}{}
-
-% Configurações de listagens
-\renewcommand{\listingscaption}{Código}
-\newenvironment{code}{\captionsetup{type=listing}}{}
-
-% Configurações de cabeçalho e rodapé
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\footnotesize{Tonhão Autopeças - Proposta de Projeto TP1 - Grupo 08}}
-\fancyhead[R]{\footnotesize{\thepage\ de \pageref{LastPage}}}
-\fancyfoot[C]{\footnotesize{Relatório de implementação do sistema do Tonhão Autopeças}}
-
-\definecolor{cinza_claro}{RGB}{240, 240, 240} % Cinza claro
-
-\begin{document}
-
-% Capa
-\begin{titlepage}
-    \begin{center}
-        \vspace*{2cm}
-        {\Large \textbf{Universidade de Brasília (UnB)}} \\
-        {\Large \textbf{Departamento de Ciência da Computação}} \\
-        \vspace{3cm}
-        {\Huge \textbf{Tonhão Autopeças}} \\
-        \vspace{1cm}
-        {\Large \textbf{Proposta de Projeto TP1}} \\
-        \vspace{2cm}
-        {\Large \textbf{Grupo 08}} \\
-        \vspace{1cm}
-        {\Large \textbf{Nirva Neves de Macedo, 232009585}} \\
-        {\Large \textbf{Henrique Morcelles Salum, 232003008}} \\
-        {\Large \textbf{Dérick Daniel Silva de Andrade, 231003522}} \\
-        \vspace{2cm}
-        {\Large \textbf{Brasília, 21 de outubro de 2024}}
-    \end{center}
-\end{titlepage}
-
-% Sumário
-\newpage
-\tableofcontents
-\newpage
-
-% Introdução
-\section{Descrição do Problema}
-\paragraph{}
-Oficinas mecânicas são essenciais para a manutenção da infraestrutura centrada em carros no Brasil. Infelizmente, são normalmente conhecidas por suas baixas confiabilidades e desorganização, especialmente quando estão afastadas de polos urbanos.
-
-\paragraph{}
-Visando uma solução moderna e simples para essas instituições, propomos um software de gerenciamento baseado em classes, com o objetivo de fornecer uma interface objetiva para gerenciar os seguintes elementos:
-
-\begin{itemize}[noitemsep]
-    \item Clientes
-    \item Carros
-    \item Estoque de peças
-    \item Ordens de serviço
-\end{itemize}
-
-\paragraph{}
-O sistema atribui as ordens de serviço ao cliente, carro e funcionário respectivos, provendo status de conclusão, status de pagamento e método de pagamento. Ele também gerencia o estoque ao solicitar novas peças e deduzir peças usadas em um serviço. O sistema automatiza a demanda de peças, verificando a disponibilidade no estoque e alocando-as automaticamente ao serviço solicitado.
-
-\subsection{Organização do Projeto}
-
-
-\dirtree{%
-.1 \textcolor{black}{Projeto-Final-TP1}.
-.2 \textcolor{red}{build}.
-.2 \textcolor{red}{dist}.
-.2 \textcolor{red}{lib}.
-.2 \textcolor{green}{nbproject}.
-.2 \textcolor{black}{src}.
-.3 \textcolor{black}{app}.
-.4 \textcolor{purple}{model}.
-.5 \textcolor{red}{Cliente.java}.
-.5 \textcolor{red}{Estoque.java}.
-.5 \textcolor{red}{Funcionario.java}.
-.5 \textcolor{red}{Peca.java}.
-.5 \textcolor{red}{Pessoa.java}.
-.5 \textcolor{red}{Servico.java}.
-.5 \textcolor{red}{TipoDePeca.java}.
-.5 \textcolor{red}{Veiculo.java}.
-.4 \textcolor{purple}{ui}.
-.5 \textcolor{red}{CadastroCliente.java}.
-.5 \textcolor{red}{CadastroFuncionario.java}.
-.5 \textcolor{red}{CadastroTipoPeca.java}.
-.5 \textcolor{red}{CriarServico.java}.
-.5 \textcolor{red}{GerenciarClientes.java}.
-.5 \textcolor{red}{GerenciarEstoque.java}.
-.5 \textcolor{red}{GerenciarFuncionarios.java}.
-.5 \textcolor{red}{GerenciarServicos.java}.
-.5 \textcolor{red}{Main.java}.
-.5 \textcolor{red}{TelaLogin.java}.
-.5 \textcolor{red}{Validavel.java}.
-.4 \textcolor{green}{utils}.
-.5 \textcolor{red}{IDGenerator.java}.
-.5 \textcolor{red}{IDGeneratorCarro.java}.
-.5 \textcolor{red}{Objetos.java}.
-.5 \textcolor{red}{SessaoUsuario.java}.
-.3 \textcolor{yellow}{resources}.
-.2 \textcolor{teal}{test}.
-.2 \textcolor{orange}{.gitignore}.
-.2 \textcolor{orange}{build.xml}.
-.2 \textcolor{orange}{manifest.mf}.
-.2 \textcolor{blue}{README.md}.
-}
-
-% Regras de Negócio
-\section{Regras de Negócio}
-\begin{itemize}[noitemsep]
-    \item Clientes que pagarem em dinheiro ou Pix recebem 5\% de desconto.
-    \item A cada R\$2.000,00 pagos, o cliente ganha um check-up completo do veículo e troca de óleo gratuitos.
-    \item Funcionalidades de cadastrar, alterar e excluir objetos do programa requerem login de administrador.
-\end{itemize}
-
-% Diagrama de Classes
-\section{Diagrama de Classes}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{imagens/diagrama_de_classes.png}
-    \caption{Diagrama de classes do sistema}
-\end{figure}
-
-\subsection{Classes do Sistema}
-
-\subsubsection{TipoDePeça}
-\paragraph{}
-A classe \textit{TipoDePeça} fornece uma abstração para definir os tipos de peças reconhecidos e catalogados pela oficina. Ela possui um sistema de atribuição de códigos a cada novo tipo de peça cadastrado e permite busca por código ou pelos outros atributos: tipo e marca. Além disso, cada tipo de peça possui seu respectivo preço no catálogo. Todos os tipos de peças instanciados no programa são adicionados a uma lista estática da classe. Isso permite que as outras classes de fato usem \textit{TipoDePeça} da forma correta: nenhuma delas (fora a classe que implementa a tela de gerenciamento dos tipos de peça) instancia um novo tipo de peça: na verdade, elas utilizam referências a tipos de peça já existentes. Isso facilita inúmeras operações - ao invés de comparar se diversos atributos de uma peça são os mesmos de outra, por exemplo, podemos simplesmente verificar se é a mesma referência.
-
-\paragraph{}
-Essa classe possui os atributos descritos a seguir:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{tPecasCadastradas} \textit{(static)}: Uma lista estática das peças conhecidas.
-    \item \textbf{idGenerator} \textit{(static)}: Um atributo utilizado pela própria classe que ajuda a fornecer o serviço de geração de código das peças.
-    \item \textbf{freeIds} \textit{(static)}: Uma lista que carrega códigos previamente utilizados, mas que foram liberados para uso futuro.
-    \item \textbf{id}: O código da peça.
-    \item \textbf{tipo}: O tipo da peça.
-    \item \textbf{marca}: A marca da peça.
-    \item \textbf{preco}: O preço da peça, um \textit{double}.
-\end{itemize}
-
-\noindent e os seguintes métodos (além dos getters e setters apropriados), que, com a exceção do construtor, são todos estáticos:
-\begin{itemize}[noitemsep]
-    \item \textbf{TipoDePeca()}: O construtor. Também executa toda a lógica de atribuição de código e reordena a lista.
-    \item \textbf{removerCadastro()}: Remove o cadastro de um tipo de peça de acordo com uma referência ao objeto cadastrado.
-    \item \textbf{searchTPeca()}: Um método com sobrecarga que permite pesquisar um tipo de peça na lista de acordo com seu código, ou tipo e marca.
-    \item \textbf{getTPecaQuantity()}: Um getter especial que retorna a quantidade de peças cadastradas. Utilizado nas interfaces.
-    \item \textbf{searchTPecaPosition()}: Um método de busca especial, também utilizado nas interfaces, que fornece uma forma de buscar uma peça pelo seu índice na lista.
-\end{itemize}
-
-\subsubsection{Peça}
-\paragraph{}
-A classe \textit{Peca} é uma classe muito simples, que "embrulha" duas informações: o \textit{TipoDePeca}, e a quantidade. Ela fornece uma abstração para representar as peças físicas. Ela possui os seguintes atributos:
-\begin{itemize}[noitemsep]
-    \item \textbf{tipoPeca}: O tipo da peça.
-    \item \textbf{qtd}: A quantidade de peças.
-\end{itemize}
-
-\noindent além dos seguintes métodos:
-\begin{itemize}[noitemsep]
-    \item \textbf{Peca()}: O construtor padrão.
-    \item \textbf{Peca(TipoDePeca tipoPeca, int qtd)}: O construtor que inicializa os atributos.
-    \item \textbf{getTipoPeca()}: Retorna o tipo da peça.
-    \item \textbf{getQtd()}: Retorna a quantidade de peças.
-    \item \textbf{setQtd()}: Define a quantidade de peças.
-    \item \textbf{addQtd()}: Adiciona uma quantidade de peças.
-    \item \textbf{remQtd()}: Remove uma quantidade de peças.
-\end{itemize}
-
-\subsubsection{Estoque}
-Estoque é uma classe abstrata pelo motivo de nunca ser instanciada (logo possui apenas membros estáticos), cuja função é autoexplicativa: é a representação do estoque da oficina. Ela possui um único atributo.
-
-\begin{itemize}[noitemsep]
-    \item \textbf{estoque}: Uma lista de peças.
-\end{itemize}
-
-\noindent Seus métodos, que proporcionam uma forma encapsulada de interação com essa lista, são os seguintes:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{adicionarPeca()}: Um método que adiciona uma quantidade de uma peça ao estoque.
-    \item \textbf{removerPeca()}: Um método sobrecarregado que pode remover uma determinade quantidade de uma peça do estoque utilizando um TipoDePeca e uma quantidade ou uma referência a um objeto Peca.
-    \item \textbf{findPeca()}: Verifica se a peça está no estoque.
-    \item \textbf{getSize()}: Retorna quantos tipos diferentes de peça há no estoque.
-    \item \textbf{getPeca()}: Retorna a peça em um determinado índice da lista do estoque. 
-\end{itemize}
-
-\subsubsection{Veículo}
-\paragraph{}
-A classe \textit{Veiculo} modela os dados de um veículo. Uma lista dessas classes é um atributo da classe Cliente. Ela armazena as informações de id, ano, tipo, modelo, cor e placa, mas, principalmente, mantém uma lista de pecasComProblema, que é vazia até que o funcionário a popule pela tela de gerenciamento de serviços. A classe também oferece métodos para gerenciar os dados do veículo e manipular a lista de peças problemáticas, como adicionar peças com defeito e esvaziar a lista após os reparos. Essa estrutura permite uma organização eficiente dos diagnósticos e serviços realizados pela oficina.
-
-\paragraph{}
-A classe \textit{Veiculo} possui os seguintes atributos:
-\begin{itemize}[noitemsep]
-    \item \textbf{id}: O código do veículo.
-    \item \textbf{ano}: O ano do veículo.
-    \item \textbf{tipo}: O tipo do veículo.
-    \item \textbf{modelo}: O modelo do veículo.
-    \item \textbf{cor}: A cor do veículo.
-    \item \textbf{placa}: A placa do veículo.
-    \item \textbf{pecasComProblema}: Uma lista de peças com defeito.
-\end{itemize}
-\noindent e os seguintes métodos:
-\begin{itemize}[noitemsep]
-    \item \textbf{Veiculo()}: O construtor padrão.
-    \item \textbf{Veiculo(int ano, String tipo, String placa, String modelo, String cor)}: O construtor que inicializa os atributos.
-    \item \textbf{toString()}: Retorna a placa do veículo.
-    \item \textbf{esvaziarPecasComProblema()}: Esvazia a lista de peças com defeito.
-\end{itemize}
-
-\subsubsection{Serviço}
-\paragraph{}
-A classe Serviços, por sua vez, é essencial para o sistema. Nela, quase todas as outras classes do projeto são instanciadas para que se realize o que esse sistema se propõe a fazer: permitir que se tenha controle sobre um reparo de um funcionário ao veículo de um cliente.
-
-\paragraph{}
-A classe \textit{Servico} possui os seguintes atributos:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{id}: O código do serviço.
-    \item \textbf{valor}: O valor do serviço.
-    \item \textbf{pago}: Um booleano que indica se o serviço foi pago.
-    \item \textbf{consertado}: Um booleano que indica se o veículo foi consertado.
-    \item \textbf{metodoPagamento}: O método de pagamento.
-    \item \textbf{cliente}: O cliente que solicitou o serviço.
-    \item \textbf{veiculo}: O veículo que será consertado.
-    \item \textbf{funcionario}: O funcionário que realizará o serviço.
-\end{itemize}
-
-\noindent e os seguintes métodos:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{Servico()}: O construtor padrão.
-    \item \textbf{Servico(Cliente cliente, Veiculo veiculo, Funcionario funcionario)}: O construtor que inicializa os atributos.
-    \item \textbf{calculaValor()}: Calcula o valor do serviço.
-    \item \textbf{adicionaPecasComProblema()}: Adiciona peças com defeito ao veículo.
-\end{itemize}
-
-\subsubsection{Pessoa}
-\paragraph{}
-A classe \textit{Pessoa} é uma classe abstrata que fornece a estrutura básica para representar pessoas no sistema. Ela é a superclasse de \textit{Cliente} e \textit{Funcionario}, que serão explicados doravante. A classe \textit{Pessoa} possui os seguintes atributos:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{id}: O código da pessoa.
-    \item \textbf{nome}: O nome da pessoa.
-    \item \textbf{cpf}: O CPF da pessoa.
-    \item \textbf{email}: O e-mail da pessoa.
-    \item \textbf{telefone}: O telefone da pessoa.
-\end{itemize}
-
-\noindent e os seguintes métodos, além dos getters e setters:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{Pessoa(int id, String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos com id informado.
-    \item \textbf{Pessoa(String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos.
-\end{itemize}
-
-\subsubsection{Cliente}
-\paragraph{}
-A classe \textit{Cliente}, que herda a classe \textit{Pessoa}, oferece a estrutura para armazenar os dados de um cliente no contexto de uma oficina mecânica. Ela mantém informações como nome, telefone, endereço e uma lista de veículos associados ao cliente. Os objetos dessa classe são utilizados para criar os serviços da oficina. Os atributos dessa classe são os que seguem, além dos atributos herdados da classe \textit{Pessoa}:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{debito}: O débito do cliente.
-    \item \textbf{totalPago}: O total pago pelo cliente.
-    \item \textbf{idGenerator}: atributo utilizado para criar o id do cliente quando ele é criado
-    \item \textbf{idsLivres}: Uma lista dos ids livres para serem reutilizados
-    \item \textbf{veiculos}: Uma lista de veículos associados ao cliente.
-\end{itemize}
-
-\noindent e os seguintes métodos, além dos getters e setters:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{Cliente(String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos.
-    \item \textbf{excluirVeiculo(Veiculo veiculo)}: Exclui um veículo da lista de veículos.
-    \item \textbf{excluirVeiculos()}: Exclui todos os veículos da lista de veículos.
-\end{itemize}
-
-\subsubsection{Funcionário}
-\paragraph{}
-A classe \textit{Funcionario}, que herda a classe \textit{Pessoa}, implementa uma estrutura para simular um funcionário no sistema da oficina. Ela fornece os métodos necessários para gerenciar os serviços e peças. Os atributos dessa classe são os que seguem, além dos atributos herdados da classe \textit{Pessoa}:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{salario}: O salário do funcionário.
-    \item \textbf{servicosFeitos}: A quantidade de serviços feitos pelo funcionário.
-    \item \textbf{admin}: Um booleano que indica se o funcionário é administrador.
-    \item \textbf{senha}: A senha do funcionário, utilizada para acessar o sistema.
-    \item \textbf{servicosAtivos}: Um HashMap de serviços ativos, que mapeia o id do serviço ao serviço.
-    \item \textbf{idsLivres}: Uma \textit{priority queue} dos ids livres para serem reutilizados.
-    \item \textbf{idGenerator}: Um atributo utilizado para criar o id do funcionário quando ele é criado.
-\end{itemize}
-
-\noindent e os seguintes métodos, além dos getters e setters:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{Funcionario(double salario, String senha, int id, String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos com id informado.
-    \item \textbf{Funcionario(double salario, String senha, String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos.
-    \item \textbf{Funcionario(String senha, String nome, String cpf, String email, String telefone)}: O construtor que inicializa os atributos sem salário informado.
-    \item \textbf{completaServico(Servico servico)}: Completa um serviço.
-    \item \textbf{pegarPecasNoEstoque(Servico servico)}: Gerencia as peças necessárias para um serviço, identificando as peças faltantes no estoque e removendo as peças disponíveis.
-    \item \textbf{consertarVeiculo(Servico servico, String metodo)}: Calcula o valor de um serviço, esvazia a lista de peças com problema do veículo associado e define o serviço como consertado.
-\end{itemize}
-
-\subsection{Classes Auxiliares}
-
-\subsubsection{Sessão de Usuário}
-\paragraph{}
-A classe \textit{SessaoUsuario} é uma classe auxiliar que fornece ao sistema uma lógica de sessão do usuário autenticado no momento. Ela mantém uma referência estática ao funcionário logado, que é criada quando o usuário faz a autenticação pela tela de Login. Os atributos dessa classe são os que seguem:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{instancia}: Inicializa a única instância do usuário logado.
-    \item \textbf{usuarioLogado}: O funcionário logado.
-\end{itemize}
-
-\noindent e os métodos são os seguintes:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{SessaoUsuario()}: O construtor \textbf{privado}, para impedir a criação de múltiplas instâncias.
-    \item \textbf{getInstancia()}: Retorna a instância do usuário logado.
-    \item \textbf{setUsuarioLogado(Funcionario usuarioLogado)}: Define o funcionário logado.
-    \item \textbf{getUsuarioLogado()}: Retorna o funcionário logado.
-\end{itemize}
-
-\paragraph{}
-Para essa classe, forceremos a implementação por aqui, para que ela seja melhor compreendida.
-
-\begin{code}
-\begin{minted}[breaklines=true, breakanywhere=true, linenos=true, bgcolor=cinza_claro, style=vs]{java}
 package app.utils;
 
+import app.model.Cliente;
 import app.model.Funcionario;
+import app.model.Pessoa;
+import app.model.Servico;
+import app.model.Veiculo;
+import app.model.TipoDePeca;
+import app.model.Estoque;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
-public class SessaoUsuario {
-    private static SessaoUsuario instancia;
-    private Funcionario usuarioLogado;
+/**
+ * Classe responsável pelo gerenciamento de coleções de objetos no sistema.
+ * Inclui funcionalidades para inicializar, manipular e validar dados simulados.
+ * 
+ * As coleções disponíveis são:
+ * - Funcionários
+ * - Clientes
+ * - Veículos
+ * - Serviços
+ */
+public class Objetos {
+    // Coleção de funcionários
+    public final static HashMap<Integer, Funcionario> funcionarios;
+    // Coleção de clientes
+    public final static HashMap<Integer, Cliente> clientes;
+    // Coleção de veículos, mapeada por placa
+    public final static HashMap<String, Veiculo> veiculos;
+    // Coleção de serviços
+    public final static HashMap<Integer, Servico> servicos;
+    // Lista de placas geradas para veículos
+    public final static ArrayList<String> placas;
 
-    private SessaoUsuario() {}
+    // Bloco estático para inicializar as coleções e adicionar dados simulados
+    static {
+        funcionarios = new HashMap<>();
+        clientes = new HashMap<>();
+        servicos = new HashMap<>();
+        veiculos = new HashMap<>();
+        placas = new ArrayList<>();
+        adicionarFuncionariosAleatorios();
+        adicionarVeiculosAleatorios();
+        adicionarClientesAleatorios();
+        adicionarServicosAleatorios();
+        adicionarPecasAleatorias(); // Adiciona peças aleatórias ao estoque
+    }
 
-    public static SessaoUsuario getInstancia() {
-        if (instancia == null) {
-            instancia = new SessaoUsuario();
+    /**
+     * Adiciona funcionários com dados simulados à coleção.
+     */
+    private static void adicionarFuncionariosAleatorios() {
+        funcionarios.put(1, new Funcionario(5000.0, "senha123", 1, "João Silva", "123.456.789-00", "joao@gmail.com", "11999999999"));
+        funcionarios.put(2, new Funcionario(4500.0, "senha456", 2, "Maria Oliveira", "987.654.321-00", "maria@gmail.com", "21988888888"));
+        funcionarios.put(3, new Funcionario(4800.0, "senha789", 3, "Pedro Santos", "111.222.333-44", "pedro@gmail.com", "31977777777"));
+        funcionarios.put(4, new Funcionario(4700.0, "senha321", 4, "Ana Clara", "444.555.666-77", "ana@gmail.com", "41966666666"));
+        funcionarios.put(5, new Funcionario(6000.0, "senha654", 5, "Carlos Pereira", "999.888.777-66", "carlos@gmail.com", "51955555555"));
+        funcionarios.put(6, new Funcionario(5500.0, "senha987", 6, "Fernanda Souza", "222.333.444-55", "fernanda@gmail.com", "11988887777"));
+        funcionarios.put(7, new Funcionario(5200.0, "senha111", 7, "Lucas Andrade", "666.777.888-99", "lucas@gmail.com", "21977776666"));
+    }
+
+    /**
+     * Adiciona veículos com dados simulados à coleção.
+     * Cada veículo é criado com uma placa única gerada aleatoriamente.
+     */
+    public static void adicionarVeiculosAleatorios() {
+        Random random = new Random();
+
+        String[] modelos = {"Toyota Corolla", "Honda Civic", "Ford Mustang", "Chevrolet Onix", "Volkswagen Gol", 
+                             "Hyundai HB20", "Fiat Uno", "Jeep Renegade", "Nissan Kicks", "BMW X1"};
+        String[] cores = {"Vermelho", "Azul", "Preto", "Branco", "Prata"};
+        String[] tipos = {"Carro", "Moto", "Caminhão", "SUV"};
+
+        for (int i = 0; i < 20; i++) {
+            String placa = gerarPlacaAleatoria(random);
+
+            Veiculo veiculo = new Veiculo(
+                2000 + random.nextInt(24), // Ano entre 2000 e 2023
+                tipos[random.nextInt(tipos.length)], // Tipo aleatório
+                placa, // Placa gerada aleatoriamente
+                modelos[random.nextInt(modelos.length)], // Modelo real de carro
+                cores[random.nextInt(cores.length)] // Cor aleatória
+            );
+
+            veiculos.put(placa, veiculo);
         }
-        return instancia;
     }
 
-    public void setUsuarioLogado(Funcionario usuario) {
-        this.usuarioLogado = usuario;
+    /**
+     * Gera uma placa de veículo aleatória no formato "AAA-1234".
+     * 
+     * @param random Instância de Random usada para gerar valores aleatórios.
+     * @return Uma placa de veículo única.
+     */
+    private static String gerarPlacaAleatoria(Random random) {
+        String letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        StringBuilder placa = new StringBuilder();
+
+        for (int i = 0; i < 3; i++) {
+            placa.append(letras.charAt(random.nextInt(letras.length())));
+        }
+        placa.append("-");
+        for (int i = 0; i < 4; i++) {
+            placa.append(random.nextInt(10));
+        }
+        placas.add(placa.toString());
+        return placa.toString();
     }
 
-    public Funcionario getUsuarioLogado() {
-        return usuarioLogado;
+    /**
+     * Adiciona clientes com dados simulados à coleção.
+     * Cada cliente é associado a um veículo previamente gerado.
+     * 
+     * @return A coleção de clientes gerada.
+     */
+    private static HashMap<Integer, Cliente> adicionarClientesAleatorios() {
+        Random random = new Random();
+
+        String[] nomes = {"João Silva", "Maria Oliveira", "Pedro Santos", "Ana Costa", "Lucas Pereira",
+                          "Mariana Almeida", "Rafael Rodrigues", "Beatriz Sousa", "Carlos Mendes", "Fernanda Lopes"};
+        String[] emails = {"joao@email.com", "maria@email.com", "pedro@email.com", "ana@email.com", "lucas@email.com",
+                           "mariana@email.com", "rafael@email.com", "beatriz@email.com", "carlos@email.com", "fernanda@email.com"};
+        String[] cpfs = {"123.456.789-01", "987.654.321-02", "111.222.333-03", "444.555.666-04", "777.888.999-05",
+                         "222.333.444-06", "555.666.777-07", "888.999.111-08", "333.444.555-09", "666.777.888-10"};
+        String[] telefones = {"(11) 98765-4321", "(21) 99876-5432", "(31) 91234-5678", "(41) 97654-3210", "(51) 98765-1234",
+                              "(61) 93210-4567", "(71) 97890-1234", "(81) 96543-2109", "(91) 98765-6789", "(31) 94321-5678"};
+
+        for (int i = 0; i < 10; i++) {
+            Cliente cliente = new Cliente(
+                nomes[i],
+                cpfs[i],
+                emails[i],
+                telefones[i]
+            );
+
+            cliente.setVeiculo(veiculos.get(placas.get(i)));
+            cliente.setDebito(random.nextDouble() * 1000);
+            cliente.setTotalPago(random.nextDouble() * 5000);
+
+            clientes.put(cliente.getId(), cliente);
+        }
+
+        return clientes;
+    }
+
+    /**
+     * Adiciona serviços com dados simulados à coleção.
+     * Cada serviço é associado a um cliente, veículo e funcionário.
+     */
+    private static void adicionarServicosAleatorios() {
+        Random random = new Random();
+        String[] metodosPagamento = {"Dinheiro", "Cartão", "PIX"};
+
+        for (int i = 0; i < 10; i++) {
+            Cliente cliente = clientes.get(i + 1);
+            ArrayList<Veiculo> veiculosCliente = cliente.getVeiculos();
+            Veiculo veiculo = veiculosCliente.get(random.nextInt(cliente.getVeiculos().size()));
+            Funcionario funcionario = funcionarios.get(random.nextInt(funcionarios.size()) + 1);
+            String metodo = metodosPagamento[random.nextInt(metodosPagamento.length)];
+            Servico servico = new Servico(i + 1, random.nextDouble() * 2000, random.nextBoolean(), random.nextBoolean(), metodo, cliente, veiculo, funcionario);
+            servicos.put(servico.getId(), servico);
+        }
+    }
+
+    /**
+     * Verifica se um CPF já está cadastrado no sistema.
+     * 
+     * @param objeto Tipo de objeto a ser verificado ("cliente" ou "funcionário").
+     * @param campo CPF a ser validado.
+     * @throws IllegalStateException Caso o CPF já esteja cadastrado.
+     */
+    public static void verificaCPF(String objeto, String campo) {
+        HashMap tipo = (objeto.equals("cliente")) ? clientes : funcionarios;
+        for (int i = 1; i < tipo.size(); i++) {
+            if (tipo.get(i) != null) {
+                if (((Pessoa) tipo.get(i)).getCpf().equals(campo)) {
+                    throw new IllegalStateException("CPF já cadastrado!");
+                }
+            }
+        }
+    }
+
+    /**
+     * Adiciona 20 peças aleatórias ao estoque.
+     * As peças são geradas com tipos, marcas e preços aleatórios.
+     */
+    private static void adicionarPecasAleatorias() {
+        Random random = new Random();
+
+        // Arrays de tipos e marcas pré-definidos para gerar peças aleatórias
+        String[] tipos = {"Parafuso", "Porca", "Arruela", "Prego", "Chave"};
+        String[] marcas = {"ACME", "Tramontina", "Vonder", "Bosch", "3M"};
+
+        for (int i = 0; i < 20; i++) {
+            // Gera valores aleatórios para tipo, marca e preço
+            String tipo = tipos[random.nextInt(tipos.length)];
+            String marca = marcas[random.nextInt(marcas.length)];
+            double preco = 1.0 + (100.0 - 1.0) * random.nextDouble(); // Preço entre 1.0 e 100.0
+
+            // Cria um novo TipoDePeca com os valores aleatórios
+            TipoDePeca tipoDePeca = new TipoDePeca(tipo, marca, preco);
+
+            // Adiciona a peça ao estoque com uma quantidade aleatória entre 1 e 10
+            int quantidade = 1 + random.nextInt(10);
+            Estoque.adicionarPeca(tipoDePeca, quantidade);
+        }
     }
 }
-\end{minted}
-\caption{Implementação da classe SessaoUsuario}
-\end{code}
-
-\subsubsection{idGenerator}
-\paragraph{}
-Essa classe foi utilizada por algumas classes para gerar códigos únicos para os objetos. Ela fornece um método estático que retorna um código único para cada objeto criado. O código é gerado a partir de um contador que é incrementado a cada chamada do método. A classe possui os seguintes atributos estáticos:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{currentServicoId}: O contador dos ids de serviços.
-    \item \textbf{currentVeiculoId}: O contador dos ids de veículos.
-\end{itemize}
-
-\noindent e os seguintes métodos:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{generateServicoID()}: Gera um id único para um serviço.
-    \item \textbf{generateVeiculoID()}: Gera um id único para um veículo.
-\end{itemize}
-
-\noindent Ambos \textit{synchronized}, isto é, que podem ser acessados apenas por uma thread por vez, para evitar problemas de concorrência.
-
-\subsubsection{Objetos}
-\paragraph{}
-A classe \textit{Objetos} é uma classe auxiliar que mantém \textit{HashMap}s públicos e estáticos de todas as classes do sistema, armazenando os objetos criados de cada classe na interface de forma a simular o funcionamento real de um sistema com persistência durante a execução do programa. Além disso, nessa classe são criados, na execução do programa, os objetos padrão de cada classe, de forma a facilitar a visualização e o teste do sistema. Os atributos dessa classe são os que seguem:
-
-\begin{itemize}[noitemsep]
-    \item \textbf{clientes}: Um \textit{HashMap} de clientes.
-    \item \textbf{funcionarios}: Um \textit{HashMap} de funcionários.
-    \item \textbf{veiculos}: Um \textit{HashMap} de veículos.
-    \item \textbf{servicos}: Um \textit{HashMap} de serviços.
-    \item \textbf{placas}: Uma \textit{ArrayList} de placas de veículos.
-\end{itemize}
-
-\noindent seus métodos são demasiados e uma descrição detalhada para cada um deles não é necessária, mas, em resumo, eles são responsáveis por criar os objetos de exemplo no sistema.
-
-% Telas
-\section{Telas}
-
-\subsection{Telas de Início}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaLogin.png}
-    \caption{Tela de login}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaInicial.png}
-    \caption{Tela inicial}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaInicioClientes.png}
-    \caption{Tela inicial - Seção de clientes}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaInicioFuncionarios.png}
-    \caption{Tela inicial - Seção de funcionários}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaInicioPecas.png}
-    \caption{Tela inicial - Seção de peças}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/telaInicioServicos.png}
-    \caption{Tela inicial - Seção de serviços}
-\end{figure}
-
-\subsection{Telas de Cadastro e Criação}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/cadastroClientes.png}
-    \caption{Tela de Cadastro - Clientes}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/cadastroFuncionarios.png}
-    \caption{Tela de Cadastro - Funcionários}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{imagens/cadastroVeiculos.png}
-    \caption{Tela de Cadastro - Veículos}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.5\linewidth]{imagens/criarServico.png}
-    \caption{Tela de Criação de Serviços}
-\end{figure}
-
-
-\subsection{Telas de Gerenciamento}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{imagens/gerenciarClientes.png}
-    \caption{Tela de gerência de clientes}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{imagens/gerenciarFuncionarios.png}
-    \caption{Tela de gerência de funcionários}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{imagens/gerenciarEstoque.png}
-    \caption{Tela de gerência do estoque}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{imagens/gerenciarServicos.png}
-    \caption{Tela de gerência de serviços}
-\end{figure}
-
-\end{document}
