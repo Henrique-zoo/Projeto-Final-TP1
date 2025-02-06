@@ -22,16 +22,14 @@ public class TipoDePeca {
 	 * Lista estática de todos os tipos de peças cadastrados.
 	 */
 	private static final ArrayList<TipoDePeca> tPecasCadastradas = new ArrayList<>();
-	
 	/**
 	 * Gerador de IDs para novos tipos de peças.
 	 */
-	private static int id_generator = 0;
-	
+	private static int idGenerator = 0;
 	/**
 	 * Lista de IDs livres que podem ser reutilizados.
 	 */
-	private static final ArrayList<Integer> free_ids = new ArrayList<>();
+	private static final ArrayList<Integer> freeIds = new ArrayList<>();
 	
 	// Atributos de instância
 	
@@ -65,13 +63,13 @@ public class TipoDePeca {
 	 * @param preco Preço da peça.
 	 */
 	public TipoDePeca(String tipo, String marca, Double preco) {
-		// Verifica se há IDs livres para reutilização
-		if (!(free_ids.isEmpty())) {
-			this.id = free_ids.get(0);
-			free_ids.remove(0);
+    // Verifica se há IDs livres para reutilização
+		if (!(freeIds.isEmpty())) {
+			this.id = freeIds.get(0);
+			freeIds.remove(0);
 		} else {
-			// Caso não haja IDs livres, gera um novo ID
-			this.id = id_generator++;
+      // Caso não haja IDs livres, gera um novo ID
+			this.id = idGenerator++;
 		}
 		this.tipo = tipo;
 		this.marca = marca;
@@ -93,14 +91,13 @@ public class TipoDePeca {
 	}
 	
 	// Métodos estáticos
-	
 	/**
 	 * Remove um tipo de peça da lista de peças cadastradas.
 	 * 
 	 * @param pecaCadastrada Tipo de peça a ser removido.
 	 */
 	public static void removerCadastro(TipoDePeca pecaCadastrada) {
-		free_ids.add(pecaCadastrada.getId());
+		freeIds.add(pecaCadastrada.getId());
 		tPecasCadastradas.remove(pecaCadastrada);
 	}
 	

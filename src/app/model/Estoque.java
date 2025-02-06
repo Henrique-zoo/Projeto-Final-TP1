@@ -12,13 +12,8 @@ import java.util.ArrayList;
  * 
  * @author nirva
  */
-public class Estoque {
-	
-	// Atributo estático
-	
-	/**
-	 * Lista estática que armazena todas as peças no estoque.
-	 */
+public abstract class Estoque {
+	// Lista estática que armazena todas as peças no estoque.
 	private final static ArrayList<Peca> estoque = new ArrayList<>();
 	
 	// Métodos estáticos

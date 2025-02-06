@@ -434,12 +434,14 @@ public class GerenciarServicos extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        TipoDePeca tipoDePeca = (TipoDePeca) selectPeca.getSelectedItem();
-        int qtd = Integer.valueOf(textQuantidade.getText());
-        pecas.add(new Peca(qtd, tipoDePeca));
-        String metodo = (String) selectMetodoDePagamento.getSelectedItem();
-        servico.adicionaPecasComProblema(pecas, metodo);
-        jFTFValor.setText(String.format("%.2f", servico.getValor()));
+        if (!(textQuantidade.getText().isBlank() || textQuantidade.getText().isEmpty() || selectPeca.getSelectedIndex() == 0)){
+            TipoDePeca tipoDePeca = (TipoDePeca) selectPeca.getSelectedItem();
+            int qtd = Integer.valueOf(textQuantidade.getText());
+            pecas.add(new Peca(qtd, tipoDePeca));
+            String metodo = (String) selectMetodoDePagamento.getSelectedItem();
+            servico.adicionaPecasComProblema(pecas, metodo);            
+            jFTFValor.setText(String.format("%.2f", servico.getValor()));
+        }        
     }//GEN-LAST:event_btnAdicionarActionPerformed
 
     private void textQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textQuantidadeActionPerformed
