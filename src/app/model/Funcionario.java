@@ -43,6 +43,7 @@ public final class Funcionario extends Pessoa {
     * Construtor default da classe Funcionario
     */
     public Funcionario() {
+        this.servicosAtivos = null;
     }
 
     /**
