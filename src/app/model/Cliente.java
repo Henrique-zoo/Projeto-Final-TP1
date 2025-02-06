@@ -22,6 +22,11 @@ public final class Cliente extends Pessoa {
     private static int idGenarator = 1;
 
     /**
+    * Construtor default da classe Cliente
+    */
+    public Cliente(){}
+
+    /**
      * Construtor que inclui lógica para usar IDs que já foram excluídos e estão livres.
      *
      * @param nome      O nome do cliente.
