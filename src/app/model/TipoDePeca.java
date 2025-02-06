@@ -8,63 +8,105 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 /**
- *
+ * Classe que representa um tipo de peça no sistema.
+ * Cada tipo de peça possui um ID único, tipo, marca e preço.
+ * A classe também gerencia uma lista estática de todos os tipos de peças cadastrados.
+ * 
  * @author nirva
  */
 public class TipoDePeca {
 	
-	// static
-	// Array of registered parts
-	private static final ArrayList<TipoDePeca> tPecasCadastradas = new ArrayList<>();
+	// Atributos estáticos
 	
-	// id management
+	/**
+	 * Lista estática de todos os tipos de peças cadastrados.
+	 */
+	private static final ArrayList<TipoDePeca> tPecasCadastradas = new ArrayList<>();
+	/**
+	 * Gerador de IDs para novos tipos de peças.
+	 */
 	private static int idGenerator = 0;
-	// this is a simple queue wherein new parts use the oldest free id and new free ids get added to its end.
+	/**
+	 * Lista de IDs livres que podem ser reutilizados.
+	 */
 	private static final ArrayList<Integer> freeIds = new ArrayList<>();
 	
-	// attributes
+	// Atributos de instância
+	
+	/**
+	 * ID único do tipo de peça.
+	 */
 	private final int id;
+	
+	/**
+	 * Tipo da peça.
+	 */
 	private String tipo;
+	
+	/**
+	 * Marca da peça.
+	 */
 	private String marca;
+	
+	/**
+	 * Preço da peça.
+	 */
 	private Double preco;
 	
-	// constructor
+	// Construtores
+	
+	/**
+	 * Construtor principal da classe TipoDePeca.
+	 * 
+	 * @param tipo Tipo da peça.
+	 * @param marca Marca da peça.
+	 * @param preco Preço da peça.
+	 */
 	public TipoDePeca(String tipo, String marca, Double preco) {
+    // Verifica se há IDs livres para reutilização
 		if (!(freeIds.isEmpty())) {
 			this.id = freeIds.get(0);
 			freeIds.remove(0);
 		} else {
+      // Caso não haja IDs livres, gera um novo ID
 			this.id = idGenerator++;
 		}
 		this.tipo = tipo;
 		this.marca = marca;
 		this.preco = preco;
 		
-		// no leak, appending a reference to the list will be fine once object is done constructing
+		// Adiciona a peça à lista de peças cadastradas e ordena a lista por ID
 		tPecasCadastradas.add(this);
 		tPecasCadastradas.sort(Comparator.comparing(a -> a.getId()));
 	}
 
-        // Necessary for combobox usage in other screens
-        public TipoDePeca() {
-            id = -1;
-            tipo = "Selecione uma";
-            marca = "peça";
-        }
+	/**
+	 * Construtor padrão da classe TipoDePeca.
+	 * Inicializa um tipo de peça com valores padrão.
+	 */
+	public TipoDePeca() {
+		this.id = -1;
+		this.tipo = "Selecione uma";
+		this.marca = "peça";
+	}
 	
-	// static methods
-	
-	// removerCadastro: remove a peca cadastrada de acordo com o id
-	public static void removerCadastro(TipoDePeca pecaCadastrada)
-	{
+	// Métodos estáticos
+	/**
+	 * Remove um tipo de peça da lista de peças cadastradas.
+	 * 
+	 * @param pecaCadastrada Tipo de peça a ser removido.
+	 */
+	public static void removerCadastro(TipoDePeca pecaCadastrada) {
 		freeIds.add(pecaCadastrada.getId());
 		tPecasCadastradas.remove(pecaCadastrada);
-	}	
+	}
+	
 	/**
-	 * Searches for an already existing part according to the given Type and Brand
-	 * @param tipo 
-	 * @param marca
-	 * @return Reference to an existing Peca object
+	 * Busca um tipo de peça cadastrado com base no tipo e marca.
+	 * 
+	 * @param tipo Tipo da peça.
+	 * @param marca Marca da peça.
+	 * @return Referência ao tipo de peça encontrado, ou null se não encontrado.
 	 */
 	public static TipoDePeca searchTPeca(String tipo, String marca) {
 		for (TipoDePeca pecaCadastrada : tPecasCadastradas) {
@@ -76,9 +118,10 @@ public class TipoDePeca {
 	}
 	
 	/**
-	 * Searches for an already existing part according to the given Id
-	 * @param id
-	 * @return Reference to an existing Peca object
+	 * Busca um tipo de peça cadastrado com base no ID.
+	 * 
+	 * @param id ID da peça.
+	 * @return Referência ao tipo de peça encontrado, ou null se não encontrado.
 	 */
 	public static TipoDePeca searchTPeca(int id) {
 		for (TipoDePeca pecaCadastrada : tPecasCadastradas) {
@@ -89,65 +132,100 @@ public class TipoDePeca {
 		return null;
 	}
 	
-	public static int getTPecaQuantity()
-	{
+	/**
+	 * Retorna a quantidade de tipos de peças cadastrados.
+	 * 
+	 * @return Quantidade de tipos de peças cadastrados.
+	 */
+	public static int getTPecaQuantity() {
 		return tPecasCadastradas.size();
 	}
 	
 	/**
-	 * Returns a reference to Part according to position in the static object array.
-	 * Useful for iterating through every existing part.
-	 * Use in conjunction with getPecaQuantity().
-	 * @param i
-	 * @return reference to Part according to position in the static object array.
+	 * Retorna um tipo de peça com base na posição na lista de peças cadastradas.
+	 * Útil para iterar sobre todos os tipos de peças cadastrados.
+	 * 
+	 * @param i Posição na lista.
+	 * @return Referência ao tipo de peça na posição especificada.
 	 */
-	public static TipoDePeca searchTPecaPosition(int i)
-	{
+	public static TipoDePeca searchTPecaPosition(int i) {
 		return tPecasCadastradas.get(i);
 	}
 	
-	// getters
-
-	public int getId()
-	{
+	// Getters
+	
+	/**
+	 * Retorna o ID do tipo de peça.
+	 * 
+	 * @return ID do tipo de peça.
+	 */
+	public int getId() {
 		return id;
 	}
 
-	public String getTipo()
-	{
+	/**
+	 * Retorna o tipo da peça.
+	 * 
+	 * @return Tipo da peça.
+	 */
+	public String getTipo() {
 		return tipo;
 	}
 
-	public String getMarca()
-	{
+	/**
+	 * Retorna a marca da peça.
+	 * 
+	 * @return Marca da peça.
+	 */
+	public String getMarca() {
 		return marca;
 	}
 
-	public Double getPreco()
-	{
+	/**
+	 * Retorna o preço da peça.
+	 * 
+	 * @return Preço da peça.
+	 */
+	public Double getPreco() {
 		return preco;
 	}
 	
-	// setters (id is always set by constructor and should never be changed)
-
-	public void setTipo(String tipo)
-	{
+	// Setters (o ID é definido apenas no construtor e não deve ser alterado)
+	
+	/**
+	 * Define o tipo da peça.
+	 * 
+	 * @param tipo Novo tipo da peça.
+	 */
+	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
 
-	public void setMarca(String marca)
-	{
+	/**
+	 * Define a marca da peça.
+	 * 
+	 * @param marca Nova marca da peça.
+	 */
+	public void setMarca(String marca) {
 		this.marca = marca;
 	}
 
-	public void setPreco(Double preco)
-	{
+	/**
+	 * Define o preço da peça.
+	 * 
+	 * @param preco Novo preço da peça.
+	 */
+	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
 
-        @Override
-        public String toString() {
-            return tipo + ' ' + marca;
-        }
-        
+	/**
+	 * Retorna uma representação em String do tipo de peça.
+	 * 
+	 * @return String no formato "tipo marca".
+	 */
+	@Override
+	public String toString() {
+		return tipo + ' ' + marca;
+	}
 }

@@ -24,9 +24,7 @@ public final class Cliente extends Pessoa {
     /**
     * Construtor default da classe Cliente
     */
-
-    public Cliente(){
-    }
+    public Cliente(){}
 
     /**
      * Construtor que inclui lógica para usar IDs que já foram excluídos e estão livres.

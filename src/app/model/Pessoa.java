@@ -28,8 +28,7 @@ public abstract class Pessoa {
     /**
     * Construtor padrão da classe Pessoa.
     */
-    public Pessoa() {        
-    }
+    public Pessoa() {}
 
     /**
      * Construtor completo da classe Pessoa.

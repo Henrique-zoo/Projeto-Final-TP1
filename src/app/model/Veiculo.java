@@ -81,6 +81,9 @@ public class Veiculo {
     public String getCor() {
         return cor;
     }
+    public ArrayList<Peca> getPecasComProblema() {
+        return pecasComProblema;
+    }
 
     /**
      * Comentário geral para os setters
@@ -103,6 +106,16 @@ public class Veiculo {
     }
 
     /**
+     * Adiciona peças com problemas à lista do veículo.
+     * 
+     * @param pecasComProblema Lista de peças a serem associadas ao veículo.
+     */
+    public void setPecasComProblema(ArrayList<Peca> pecasComProblema) {
+        for (Peca par : pecasComProblema)
+            this.pecasComProblema.add(par);
+    }
+    
+    /**
      * Retorna a representação do veículo como uma String (placa do veículo).
      * 
      * @return Placa do veículo.
@@ -117,20 +130,6 @@ public class Veiculo {
      * 
      * @return Lista de peças com problemas.
      */
-    public ArrayList<Peca> getPecasComProblema() {
-        return pecasComProblema;
-    }
-
-    /**
-     * Adiciona peças com problemas à lista do veículo.
-     * 
-     * @param pecasComProblema Lista de peças a serem associadas ao veículo.
-     */
-    public void setPecasComProblema(ArrayList<Peca> pecasComProblema) {
-        for (Peca par : pecasComProblema)
-            this.pecasComProblema.add(par);
-    }
-
     /**
      * Esvazia a lista de peças com problemas associadas ao veículo.
      */

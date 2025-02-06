@@ -189,14 +189,14 @@ public class Objetos {
         Random random = new Random();
 
         // Arrays de tipos e marcas pré-definidos para gerar peças aleatórias
-        String[] tipos = {"Parafuso", "Porca", "Arruela", "Prego", "Chave"};
-        String[] marcas = {"ACME", "Tramontina", "Vonder", "Bosch", "3M"};
+        String[] tipos = {"Motor", "Roda", "Freio", "Bateria", "Amortecedor", "Radiador", "Correia Dentada", "Filtro de Óleo", "Vela de Ignição", "Pastilha de Freio"};
+        String[] marcas = {"ACME", "Bosch", "Valeo", "Continental", "Denso", "NGK", "Brembo", "TRW", "Febi Bilstein", "Mobil"};
 
         for (int i = 0; i < 20; i++) {
             // Gera valores aleatórios para tipo, marca e preço
             String tipo = tipos[random.nextInt(tipos.length)];
             String marca = marcas[random.nextInt(marcas.length)];
-            double preco = 1.0 + (100.0 - 1.0) * random.nextDouble(); // Preço entre 1.0 e 100.0
+            double preco = 50.0 + (1000.0 - 50.0) * random.nextDouble(); // Preço entre 50.0 e 1000.0
 
             // Cria um novo TipoDePeca com os valores aleatórios
             TipoDePeca tipoDePeca = new TipoDePeca(tipo, marca, preco);

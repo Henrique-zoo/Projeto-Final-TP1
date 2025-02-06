@@ -33,6 +33,15 @@ public class Servico {
     private Funcionario funcionario;
 
     /**
+     * Construtor padrão da classe Servico.
+     */
+    public Servico() {
+        this.id = IDGenerator.generateServicoID();
+        this.pago = false;
+        this.consertado = false;
+    }
+
+    /**
      * Construtor principal para criar um novo serviço.
      * 
      * @param cliente Cliente associado ao serviço.
