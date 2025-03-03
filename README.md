@@ -2,15 +2,15 @@
 
 ## Sumário
 1. [Descrição do Projeto](#descrição-do-projeto)
-    - [Motivação](#motivação)
+    1. [Motivação](#motivação)
 2. [Regras de Negócio](#regras-de-negócio)
 3. [Diagrama de Classes](#diagrama-de-classes)
-   - [Classes do Sistema](#classes-do-sistema)
-   - [Classes Auxiliares](#classes-auxiliares)
+   1. [Classes do Sistema](#classes-do-sistema)
+   2. [Classes Auxiliares](#classes-auxiliares)
 4. [Telas](#telas)
-   - [Telas de Início](#telas-de-início)
-   - [Telas de Cadastro e Criação](#telas-de-cadastro-e-criação)
-   - [Telas de Gerenciamento](#telas-de-gerenciamento)
+   1. [Telas de Início](#telas-de-início)
+   2. [Telas de Cadastro e Criação](#telas-de-cadastro-e-criação)
+   3. [Telas de Gerenciamento](#telas-de-gerenciamento)
 
 ---
 
